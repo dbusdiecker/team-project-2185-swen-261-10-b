@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Montgomery Watts
-- MEMBER2
+- Paul Adler
 - MEMBER3
 - MEMBER4
 
