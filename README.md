@@ -8,8 +8,9 @@ a web micro-framework.
 
 - Montgomery Watts
 - Paul Adler
-- MEMBER3
+- Danny Murray
 - MEMBER4
+- MEMBER5
 
 
 ## Prerequisites
