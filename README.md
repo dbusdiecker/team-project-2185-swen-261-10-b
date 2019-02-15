@@ -9,7 +9,7 @@ a web micro-framework.
 - Montgomery Watts
 - Paul Adler
 - Danny Murray
-- Drake Busdiecker
+- Jessica Brock-Schlageter
 - MEMBER5
 
 
