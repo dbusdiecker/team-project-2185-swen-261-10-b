@@ -20,6 +20,21 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl">
 
+    <#if currentUser??>
+      <#list player_list as player>
+        <#if currentUser != player>
+          <p>
+            ${player.name}
+          </p>
+        </#if>
+      </#list>
+      <#else>
+        <p>
+          ${num_players_message} ${player_list?size}
+        </p>
+    </#if>
+
+
     <!-- TODO: future content on the Home:
             to start games,
             spectating active games,

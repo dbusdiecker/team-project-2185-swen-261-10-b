@@ -25,4 +25,8 @@ public class PlayerLobby {
             return false;
         return username.matches("[a-zA-Z0-9 ]*");
     }
+
+    public Iterable<Player> getOnlinePlayers() {
+        return onlinePlayers;
+    }
 }
