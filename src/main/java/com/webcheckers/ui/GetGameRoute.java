@@ -11,25 +11,8 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class GetGameRoute implements Route {
-    private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
     private final TemplateEngine templateEngine;
-
-    private Player currentUser;
-    private enum viewMode{
-        PLAY,
-        SPECTATOR,
-        REPLAY
-    }
-
-    private Map<String,Object> modeOptionsAsJSON;
-    private Player redPlayer;
-    private Player whitePlayer;
-    private enum ActiveColor{
-        RED,
-        WHITE
-    }
-    BoardView board;
-    private Message message;
 
 
     public GetGameRoute(final TemplateEngine templateEngine) {
@@ -43,6 +26,11 @@ public class GetGameRoute implements Route {
         //
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Let's Play Checkers!");
+
+       final Session httpSession = request.session();
+       String InitPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
+       response.redirect(WebServer.GAME_URL);
+
 
 
         // render the View
