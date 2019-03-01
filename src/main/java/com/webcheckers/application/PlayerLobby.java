@@ -16,6 +16,10 @@ public class PlayerLobby {
         return onlinePlayers.contains(player);
     }
 
+    public void addPlayer(Player player){
+        onlinePlayers.add(player);
+    }
+
     public boolean nameIsValid(String username){
         if ( (username == null) || username.length() == 0)
             return false;
