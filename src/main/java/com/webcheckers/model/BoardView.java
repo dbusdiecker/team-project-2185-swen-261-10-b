@@ -2,7 +2,7 @@ package com.webcheckers.model;
 
 import java.util.Iterator;
 
-public class boardView implements Iterable{
+public class BoardView implements Iterable{
     /**
      * Returns an iterator over elements of type {@code T}.
      *
