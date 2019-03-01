@@ -15,6 +15,8 @@
   <#include "nav-bar.ftl">
 
     <div class="body">
+        <!-- Provide a message to the user, if supplied. -->
+        <#include "message.ftl">
 
         <form id="signin" action="/signin" method="post">
             <input type="text" name="name">
