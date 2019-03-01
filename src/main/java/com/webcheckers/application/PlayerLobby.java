@@ -15,4 +15,10 @@ public class PlayerLobby {
     public boolean usernameAlreadyInUse(Player player){
         return onlinePlayers.contains(player);
     }
+
+    public boolean nameIsValid(String username){
+        if ( (username == null) || username.length() == 0)
+            return false;
+        return username.matches("[a-zA-Z0-9 ]*");
+    }
 }

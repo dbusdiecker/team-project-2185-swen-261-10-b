@@ -22,4 +22,9 @@ public class Player {
         }
         return false;
     }
+
+    @Override
+    public int hashCode(){
+        return this.name.hashCode() + 787;
+    }
 }
