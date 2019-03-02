@@ -26,8 +26,6 @@ public class GetGameRoute implements Route {
 
        final Session httpSession = request.session();
        String InitPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
-       response.redirect(WebServer.GAME_URL);
-
 
 
         // render the View
