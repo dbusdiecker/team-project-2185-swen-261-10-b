@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 public class Player {
     private String name;
+    private boolean inGame;
 
     public Player(String name){
         this.name = name;
@@ -10,6 +11,11 @@ public class Player {
     public String getName() {
         return name;
     }
+    public boolean isInGame() {return inGame;}
+
+    public void startGame(){inGame = true;}
+
+    public void endGame(){inGame = true;}
 
     @Override
     public boolean equals(Object obj){
