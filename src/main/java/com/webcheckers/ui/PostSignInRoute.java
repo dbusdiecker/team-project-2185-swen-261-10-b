@@ -33,11 +33,11 @@ public class PostSignInRoute implements Route {
         String username = request.queryParams("name");
 
         if( playerLobby.nameIsValid( username ) ){
-            Player player = new Player(username);
-            if ( playerLobby.usernameAlreadyInUse(player)){
+            if ( playerLobby.usernameAlreadyInUse(username)){
                 vm.put("message", ERROR_MSG);
                 return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
             } else { //Username not in use
+                Player player = new Player(username);
                 playerLobby.addPlayer(player);
                 httpSession.attribute(GetHomeRoute.PLAYER_ATTR, player); //Add the player to the user's session
                 response.redirect(WebServer.HOME_URL);
