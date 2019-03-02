@@ -59,6 +59,7 @@ public class GetHomeRoute implements Route {
     final Player currentUser = httpSession.attribute(PLAYER_ATTR);
     if( currentUser != null){
       vm.put(PLAYER_ATTR, currentUser);
+      response.redirect(WebServer.GAME_URL);
     }
 
 
