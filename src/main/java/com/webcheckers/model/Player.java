@@ -11,11 +11,12 @@ public class Player {
     public String getName() {
         return name;
     }
+
     public boolean isInGame() {return inGame;}
 
     public void startGame(){inGame = true;}
 
-    public void endGame(){inGame = true;}
+    public void endGame(){inGame = false;}
 
     @Override
     public boolean equals(Object obj){
