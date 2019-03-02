@@ -21,6 +21,15 @@ public class PlayerLobby {
         onlinePlayers.add(player);
     }
 
+    public Player getPlayerByUsername(String username){
+        Player dummyPlayer = new Player(username);
+        for( Player player: onlinePlayers){
+            if( player.equals(dummyPlayer))
+                return player;
+        }
+        return null;
+    }
+
     public boolean nameIsValid(String username){
         if ( (username == null) || username.length() == 0)
             return false;
