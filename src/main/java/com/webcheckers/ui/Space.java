@@ -1,8 +1,9 @@
-package com.webcheckers.model;
+package com.webcheckers.ui;
 
 public class Space {
 
     private int cellIndex;
+
 
 
     public int getCellIndex(){
