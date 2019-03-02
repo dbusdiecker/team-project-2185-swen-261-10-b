@@ -19,4 +19,8 @@ public class Board {
             }
         }
     }
+
+    public ModelSpace[][] getSpaces(){
+        return spaces;
+    }
 }

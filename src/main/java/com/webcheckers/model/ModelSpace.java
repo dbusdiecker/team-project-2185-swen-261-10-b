@@ -16,4 +16,8 @@ public class ModelSpace {
         this.hasPiece = false;
 
     }
+
+    public spaceColor getColor(){
+        return Color;
+    }
 }
