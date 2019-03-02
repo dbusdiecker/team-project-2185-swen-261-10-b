@@ -12,8 +12,9 @@ public class PlayerLobby {
         onlinePlayers = new HashSet<>();
     }
 
-    public boolean usernameAlreadyInUse(Player player){
-        return onlinePlayers.contains(player);
+    public boolean usernameAlreadyInUse(String username){
+        Player dummyPlayer = new Player(username);
+        return onlinePlayers.contains(dummyPlayer);
     }
 
     public void addPlayer(Player player){
