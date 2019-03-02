@@ -1,8 +1,5 @@
 package com.webcheckers.ui;
 
-import com.webcheckers.model.BoardView;
-import com.webcheckers.model.Player;
-import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.HashMap;
