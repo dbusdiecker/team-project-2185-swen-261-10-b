@@ -11,9 +11,15 @@ public class ModelSpace {
 
     private boolean hasPiece;
 
+    private ModelPiece piece = null;
+
     public ModelSpace(spaceColor color){
         this.Color = color;
         this.hasPiece = false;
+    }
+
+    public void addPiece(ModelPiece piece){
+        this.piece = piece;
 
     }
 }
