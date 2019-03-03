@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.PlayerLobby;
 import spark.*;
 
 import java.util.HashMap;
@@ -10,10 +11,12 @@ import java.util.logging.Logger;
 public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
     private final TemplateEngine templateEngine;
+    private final PlayerLobby playerLobby;
 
 
-    public GetGameRoute(final TemplateEngine templateEngine) {
+    public GetGameRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required.");
         //
         LOG.config("GetGameRoute is initialized.");
     }
