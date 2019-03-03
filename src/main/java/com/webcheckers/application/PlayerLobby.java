@@ -12,6 +12,14 @@ public class PlayerLobby {
         onlinePlayers = new HashSet<>();
     }
 
+    public boolean playerAvailable(String username){
+        if (!usernameAlreadyInUse(username)) {
+            return false;
+        }
+        Player thePlayer = getPlayerByUsername(username);
+        return (!thePlayer.isInGame());
+    }
+
     public boolean usernameAlreadyInUse(String username){
         Player dummyPlayer = new Player(username);
         return onlinePlayers.contains(dummyPlayer);
@@ -19,6 +27,15 @@ public class PlayerLobby {
 
     public void addPlayer(Player player){
         onlinePlayers.add(player);
+    }
+
+    public Player getPlayerByUsername(String username){
+        Player dummyPlayer = new Player(username);
+        for( Player player: onlinePlayers){
+            if( player.equals(dummyPlayer))
+                return player;
+        }
+        return null;
     }
 
     public boolean nameIsValid(String username){
