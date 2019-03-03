@@ -7,14 +7,9 @@ import com.webcheckers.model.ModelPiece;
  */
 public class Piece implements com.webcheckers.Piece{
 
-    private type type;
+    public type type;
 
-    //The colors for a piece
-    private enum color{
-        RED, WHITE;
-    }
-
-    private color color;
+    public color color;
 
     /**
      * Create a piece with the given model piece
@@ -23,6 +18,7 @@ public class Piece implements com.webcheckers.Piece{
      */
     public Piece(ModelPiece modelPiece){
         this.type = modelPiece.getType();
+        this.color = modelPiece.getColor();
     }
 
     /**

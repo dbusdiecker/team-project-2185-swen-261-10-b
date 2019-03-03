@@ -37,7 +37,7 @@ public class BoardView implements Iterable{
 
             @Override
             public boolean hasNext() {
-                return currentIndex < 7 && rows != null;
+                return currentIndex < 8 && rows != null;
             }
 
             @Override

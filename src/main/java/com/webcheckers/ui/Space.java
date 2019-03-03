@@ -9,7 +9,7 @@ public class Space {
 
     private int cellIdx;
     private boolean valid;
-    private Piece piece;
+    public Piece piece;
 
     /**
      * Creates a new space with the given cellIndex and valid
@@ -18,11 +18,13 @@ public class Space {
      *
      * @param valid Whether or not a piece can land on the space
      */
+    /*
     public Space(int cellIndex, boolean valid){
         this.cellIdx = cellIndex;
         this.valid = valid;
         this.piece = null;
     }
+    */
 
     /**
      * Creates a new space with the given cellIndex and modelSpace

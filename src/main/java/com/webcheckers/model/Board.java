@@ -24,11 +24,11 @@ public class Board {
         for (int row = 0; row < 8; row++){
             for (int col = 0; col < 8; col++){
                 spaces[row][col] = new ModelSpace(currentColor);
-                if (row < 3 && currentColor == ModelSpace.spaceColor.DARK){
-                    spaces[row][col].addPiece(new ModelPiece(this, redPlayer));
+                if (row > 4 && currentColor == ModelSpace.spaceColor.DARK){
+                    spaces[row][col].addPiece(new ModelPiece(this, redPlayer, "red"));
                 }
-                else if (row > 4 && currentColor == ModelSpace.spaceColor.DARK){
-                    spaces[row][col].addPiece(new ModelPiece(this, whitePlayer));
+                else if (row < 3 && currentColor == ModelSpace.spaceColor.DARK){
+                    spaces[row][col].addPiece(new ModelPiece(this, whitePlayer, "white"));
                 }
                 if (currentColor == ModelSpace.spaceColor.LIGHT){
                     currentColor = ModelSpace.spaceColor.DARK;
@@ -36,6 +36,12 @@ public class Board {
                 else{
                     currentColor = ModelSpace.spaceColor.LIGHT;
                 }
+            }
+            if (currentColor == ModelSpace.spaceColor.LIGHT){
+                currentColor = ModelSpace.spaceColor.DARK;
+            }
+            else{
+                currentColor = ModelSpace.spaceColor.LIGHT;
             }
         }
         boardView = new BoardView(this);

@@ -20,7 +20,7 @@ public class ModelSpace {
 
     public void addPiece(ModelPiece piece){
         this.piece = piece;
-
+        this.hasPiece = true;
     }
 
     public spaceColor getColor(){

@@ -17,6 +17,7 @@ public class Row implements Iterable{
      *
      * @param index The index of the row
      */
+    /*
     public Row(int index){
         this.index = index;
         this.spaces = new Space[8];
@@ -24,6 +25,7 @@ public class Row implements Iterable{
             this.spaces[x] = (new Space(x, false));
         }
     }
+    */
 
     /**
      * Creates a new row with the given index and model space array
@@ -61,7 +63,7 @@ public class Row implements Iterable{
 
             @Override
             public boolean hasNext() {
-                return currentIndex < 7 && spaces != null;
+                return currentIndex < 8 && spaces != null;
             }
 
             @Override
