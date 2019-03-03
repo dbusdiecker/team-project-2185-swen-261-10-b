@@ -4,26 +4,26 @@ import com.webcheckers.model.ModelSpace;
 
 public class Space {
 
-    private int cellIndex;
+    private int cellIdx;
     private boolean valid;
     private Piece piece;
 
     public Space(int cellIndex, boolean valid){
-        this.cellIndex = cellIndex;
+        this.cellIdx = cellIndex;
         this.valid = valid;
         this.piece = null;
     }
 
     public Space(int cellIndex, ModelSpace modelSpace){
-        this.cellIndex = cellIndex;
+        this.cellIdx = cellIndex;
         this.valid = modelSpace.getColor() == ModelSpace.spaceColor.DARK;
         if(modelSpace.isHasPiece()){
             this.piece = new Piece(modelSpace.getPiece());
         }
     }
 
-    public int getCellIndex(){
-        return cellIndex;
+    public int getCellIdx(){
+        return cellIdx;
     }
 
     public boolean isValid(){

@@ -3,14 +3,19 @@ package com.webcheckers.model;
 public class Player {
     private String name;
     private boolean inGame;
+    private CheckersGame current_game;
 
     public Player(String name){
         this.name = name;
+        this.current_game = null;
+        boolean inGame = false;
     }
 
     public String getName() {
         return name;
     }
+
+    public CheckersGame getCurrent_game;
 
     public boolean isInGame() {return inGame;}
 

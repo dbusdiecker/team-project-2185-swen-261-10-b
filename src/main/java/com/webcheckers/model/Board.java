@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.ui.BoardView;
+
 public class Board {
 
     private ModelSpace spaces[][];
@@ -7,6 +9,12 @@ public class Board {
     private Player redPlayer;
 
     private Player whitePlayer;
+
+    private BoardView boardView;
+
+    public BoardView getBoardView() {
+        return boardView;
+    }
 
     public Board(Player red, Player white){
         this.redPlayer = red;
@@ -30,6 +38,7 @@ public class Board {
                 }
             }
         }
+        boardView = new BoardView(this);
     }
 
     public ModelSpace[][] getSpaces(){

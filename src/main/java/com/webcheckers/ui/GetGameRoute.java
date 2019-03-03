@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -13,14 +14,11 @@ public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
-    private enum viewMode{
+
+    private enum viewMode {
         PLAY,
         SPECTATOR,
         REPLAY
-    }
-    private enum activeColor{
-        RED,
-        WHITE
     }
 
 
@@ -40,46 +38,46 @@ public class GetGameRoute implements Route {
         final String opponentName = request.queryParams("player");
         Player opponent = playerLobby.getPlayerByUsername(opponentName);
         Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
-        if ( opponent != null && thisPlayer != null){ // Both players are online, opponent is null if not online, player is null if user not logged in
-            if (opponent.isInGame()){
+        if (opponent != null && thisPlayer != null) { // Both players are online, opponent is null if not online, player is null if user not logged in
+            if (opponent.isInGame()) {
                 // See if this player is the opponent's opponent
-                // Make a GameCenter Application Class?
-                // GameCenter would need function that takes two players,
-                // determines if they are in a game against one another
-                /* Pseudocode
-                if thisPlayer is opponent's opponent
-                    set attrs, viewMode = PLAY
-                    render game.ftl
-                else
-                    redirect to home, don't worry about spectate mode yet
+                if ((thisPlayer.getCurrent_game.getWhitePlayer()).equals(thisPlayer)) {
+                    vm.put("title", "Let's Play Checkers!");
+                    vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
+                    vm.put("viewMode", viewMode.PLAY);
+                    // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
+                    vm.put("redPlayer", thisPlayer);
+                    vm.put("whitePlayer", opponent);
+                    vm.put("activeColor", thisPlayer.getCurrent_game.whoseTurn());
+                    vm.put("board", thisPlayer.getCurrent_game.getBoard().getBoardView());
+                    vm.put("message", "Welcome back to your game against: " + opponentName);
 
-`                */
-            } else { //Opponent not in game
-                // Create the game with GameCenter class
-                // GameCenter can use CheckersGame model Class
-                // Assign thisPlayer to be red, opponent to be white
-                opponent.startGame(); //These can be called by GameCenter
-                thisPlayer.startGame();
+                    //TODO MAKE CHANGE TO GETHOMEROUTE TO CHECK IF PLAYER HAS BEEN ASSIGNED TO A GAME UPON LOADING, REDIRECT TO /GAME IF SO
+
+                    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+                } else {
+                    response.redirect(WebServer.HOME_URL);
+                }
+            } else {
+
+                CheckersGame game = new CheckersGame(thisPlayer, opponent, thisPlayer);
                 // Put all attrs, viewMode = PLAY
-                // vm.put("title", "Let's Play Checkers!");
-                // vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
-                // vm.put("viewMode",viewMode.PLAY);
+                vm.put("title", "Let's Play Checkers!");
+                vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
+                vm.put("viewMode", viewMode.PLAY);
                 // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
-                // vm.put("redPlayer", thisPlayer);
-                // vm.put("whitePlayer", opponent);
-                // vm.put("activeColor",activeColor.RED);
+                vm.put("redPlayer", thisPlayer);
+                vm.put("whitePlayer", opponent);
+                vm.put("activeColor", CheckersGame.activeColor.RED);
+                vm.put("board", game.getBoard().getBoardView());
+
 
                 //TODO MAKE CHANGE TO GETHOMEROUTE TO CHECK IF PLAYER HAS BEEN ASSIGNED TO A GAME UPON LOADING, REDIRECT TO /GAME IF SO
 
-                // Render game.ftl
+                return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+
             }
         }
-
-
-
-
-        // render the View
-        return templateEngine.render(new ModelAndView(vm , "game.ftl"));
+        return null;
     }
-
 }

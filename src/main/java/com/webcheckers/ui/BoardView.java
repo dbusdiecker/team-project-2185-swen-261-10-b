@@ -8,6 +8,7 @@ import java.util.Iterator;
 public class BoardView implements Iterable{
 
     private Row rows[];
+    public Iterator<Row> iterator;
 
     public BoardView(Board board){
         this.rows = new Row[8];
@@ -23,7 +24,7 @@ public class BoardView implements Iterable{
      */
     @Override
     public Iterator<Row> iterator() {
-        return new Iterator<Row>() {
+        iterator = new Iterator<Row>() {
 
             private int currentIndex = 0;
 
@@ -37,5 +38,6 @@ public class BoardView implements Iterable{
                 return rows[currentIndex++];
             }
         };
+        return iterator;
     }
 }
