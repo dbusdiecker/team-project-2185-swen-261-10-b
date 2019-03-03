@@ -24,7 +24,9 @@
       <#list player_list as player>
         <#if currentUser != player>
           <p>
-            ${player.name}
+              <a href="/game?player=${player.name}">
+                  ${player.name}
+              </a>
           </p>
         </#if>
       </#list>

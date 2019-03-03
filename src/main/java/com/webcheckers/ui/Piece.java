@@ -1,10 +1,6 @@
 package com.webcheckers.ui;
 
-public class Piece {
-
-    private enum type{
-        SINGLE, KING;
-    }
+public class Piece implements com.webcheckers.Piece{
 
     private type type;
 
