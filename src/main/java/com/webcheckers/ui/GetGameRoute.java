@@ -34,18 +34,47 @@ public class GetGameRoute implements Route {
     public Object handle(Request request, Response response) {
         LOG.finer("GetGameRoute is invoked.");
         //
-        final Session httpSession = request.session();
-        final Object opposing_player = request.params("player");
-        Player init_player = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
-        //
         Map<String, Object> vm = new HashMap<>();
-        vm.put("title", "Let's Play Checkers!");
-        vm.put(GetHomeRoute.PLAYER_ATTR, init_player);
-        vm.put("viewMode",viewMode.PLAY);
-            //modeOptionsAsJSON is skipped for Sprint 1 - Insert here
-        vm.put("redPlayer", init_player.getName());
-        vm.put("whitePlayer", opposing_player);
-        vm.put("activeColor",activeColor.RED);
+
+        final Session httpSession = request.session();
+        final String opponentName = request.queryParams("player");
+        Player opponent = playerLobby.getPlayerByUsername(opponentName);
+        Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
+        if ( opponent != null && thisPlayer != null){ // Both players are online, opponent is null if not online, player is null if user not logged in
+            if (opponent.isInGame()){
+                // See if this player is the opponent's opponent
+                // Make a GameCenter Application Class?
+                // GameCenter would need function that takes two players,
+                // determines if they are in a game against one another
+                /* Pseudocode
+                if thisPlayer is opponent's opponent
+                    set attrs, viewMode = PLAY
+                    render game.ftl
+                else
+                    redirect to home, don't worry about spectate mode yet
+
+`                */
+            } else { //Opponent not in game
+                // Create the game with GameCenter class
+                // GameCenter can use CheckersGame model Class
+                // Assign thisPlayer to be red, opponent to be white
+                opponent.startGame(); //These can be called by GameCenter
+                thisPlayer.startGame();
+                // Put all attrs, viewMode = PLAY
+                // vm.put("title", "Let's Play Checkers!");
+                // vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
+                // vm.put("viewMode",viewMode.PLAY);
+                // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
+                // vm.put("redPlayer", thisPlayer);
+                // vm.put("whitePlayer", opponent);
+                // vm.put("activeColor",activeColor.RED);
+
+                //TODO MAKE CHANGE TO GETHOMEROUTE TO CHECK IF PLAYER HAS BEEN ASSIGNED TO A GAME UPON LOADING, REDIRECT TO /GAME IF SO
+
+                // Render game.ftl
+            }
+        }
+
 
 
 
