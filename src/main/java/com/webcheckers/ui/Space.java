@@ -17,6 +17,9 @@ public class Space {
     public Space(int cellIndex, ModelSpace modelSpace){
         this.cellIndex = cellIndex;
         this.valid = modelSpace.getColor() == ModelSpace.spaceColor.DARK;
+        if(modelSpace.isHasPiece()){
+            this.piece = new Piece(modelSpace.getPiece());
+        }
     }
 
     public int getCellIndex(){

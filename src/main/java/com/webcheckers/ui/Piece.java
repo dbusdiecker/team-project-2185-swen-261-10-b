@@ -1,5 +1,7 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.model.ModelPiece;
+
 public class Piece implements com.webcheckers.Piece{
 
     private type type;
@@ -9,6 +11,10 @@ public class Piece implements com.webcheckers.Piece{
     }
 
     private color color;
+
+    public Piece(ModelPiece modelPiece){
+        this.type = modelPiece.getType();
+    }
 
     public color getColor(){
         return this.color;

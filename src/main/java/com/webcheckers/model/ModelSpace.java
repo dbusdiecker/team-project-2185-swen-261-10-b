@@ -26,4 +26,12 @@ public class ModelSpace {
     public spaceColor getColor(){
         return Color;
     }
+
+    public boolean isHasPiece(){
+        return hasPiece;
+    }
+
+    public ModelPiece getPiece(){
+        return piece;
+    }
 }

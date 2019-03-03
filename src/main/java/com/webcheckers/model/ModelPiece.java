@@ -19,4 +19,8 @@ public class ModelPiece implements Piece{
     public void king(){
         this.type = Piece.type.KING;
     }
+
+    public Piece.type getType(){
+        return type;
+    }
 }
