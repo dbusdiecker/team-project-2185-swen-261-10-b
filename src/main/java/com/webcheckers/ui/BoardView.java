@@ -2,13 +2,20 @@ package com.webcheckers.ui;
 
 import com.webcheckers.model.Board;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * The object to handle the ui game board
+ */
 public class BoardView implements Iterable{
 
     private Row rows[];
 
+    /**
+     * Creates a Board View with the given board
+     *
+     * @param board The board to be simulated
+     */
     public BoardView(Board board){
         this.rows = new Row[8];
         for(int row = 0; row < 8; row++){
@@ -17,9 +24,9 @@ public class BoardView implements Iterable{
     }
 
     /**
-     * Returns an iterator over elements of type {@code T}.
+     * Creates a Java iterator of the rows on a checkers board
      *
-     * @return an Iterator.
+     * @return Iterator of rows
      */
     @Override
     public Iterator<Row> iterator() {
