@@ -18,11 +18,20 @@ public class Row implements Iterable{
      * @param index The index of the row
      * @param modelRow The model spaces to be simulated
      */
-    public Row(int index, ModelSpace modelRow[]){
+    public Row(int index, ModelSpace modelRow[], String playerColor){
         this.index = index;
         this.spaces = new Space[8];
-        for(int col = 0; col < 8; col++){
-            this.spaces[col] = new Space(col, modelRow[col]);
+        if(playerColor.equals("red")) {
+            for (int col = 0; col < 8; col++) {
+                this.spaces[col] = new Space(col, modelRow[col]);
+            }
+        }
+        else if(playerColor.equals("white")) {
+            int colIndex = 0;
+            for (int col = 7; col >= 0; col--){
+                this.spaces[colIndex] = new Space(col, modelRow[col]);
+                colIndex++;
+            }
         }
     }
 

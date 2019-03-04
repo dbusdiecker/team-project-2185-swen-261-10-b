@@ -22,13 +22,13 @@ public class BoardView implements Iterable{
         this.rows = new Row[8];
         if (playerColor.equals(board.getRedPlayer())){
             for(int row = 0; row < 8; row++) {
-                this.rows[row] = new Row(row, board.getSpaces()[row]);
+                this.rows[row] = new Row(row, board.getSpaces()[row], "red");
             }
         }
         else{
             int index = 0;
             for (int row = 7; row >= 0; row--){
-                this.rows[index] = new Row(row, board.getSpaces()[row]);
+                this.rows[index] = new Row(row, board.getSpaces()[row], "white");
                 index++;
             }
         }
