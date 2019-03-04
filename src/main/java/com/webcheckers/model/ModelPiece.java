@@ -22,7 +22,6 @@ public class ModelPiece implements Piece{
      * @param board Board the piece is on
      * @param owner Player who controls the piece
      */
-
     public ModelPiece(Board board, Player owner, String colorStr){
         this.board = board;
         this.owner = owner;
@@ -36,7 +35,7 @@ public class ModelPiece implements Piece{
     }
 
     /**
-     * Makes the piece a king piece
+     * Makes this piece a king piece
      */
     public void king(){
         this.type = Piece.type.KING;

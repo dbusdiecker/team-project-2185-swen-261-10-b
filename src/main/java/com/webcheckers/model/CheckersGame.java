@@ -36,6 +36,11 @@ public class CheckersGame{
         return board;
     }
 
+    /**
+     * @param red
+     * @param white
+     * @param currentUser
+     */
     public CheckersGame(Player red, Player white, Player currentUser){
         redPlayer = red;
         whitePlayer = white;

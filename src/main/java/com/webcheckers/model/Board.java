@@ -26,8 +26,10 @@ public class Board {
     }
 
     /**
+     * Gets the board view for the player's side.
      *
-     * @return this.boardView
+     * @param player Player object to get color value from.
+     * @return Red board view for red player, white for a white player.
      */
     public BoardView getBoardView(Player player) {
         if (player.equals(redPlayer)){

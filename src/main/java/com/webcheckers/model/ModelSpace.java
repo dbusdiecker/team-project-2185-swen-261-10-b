@@ -11,7 +11,8 @@ public class ModelSpace {
         DARK
     }
 
-    private spaceColor Color;
+
+    private spaceColor color;
 
     private boolean hasPiece;
 
@@ -23,7 +24,7 @@ public class ModelSpace {
      * @param color Color of the space
      */
     public ModelSpace(spaceColor color){
-        this.Color = color;
+        this.color = color;
         this.hasPiece = false;
     }
 
@@ -42,7 +43,7 @@ public class ModelSpace {
      * @return this.color
      */
     public spaceColor getColor(){
-        return Color;
+        return color;
     }
 
     /**

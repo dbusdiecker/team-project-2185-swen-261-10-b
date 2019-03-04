@@ -28,8 +28,7 @@ public class GetHomeRoute implements Route {
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
-   * @param templateEngine
-   *   the HTML template rendering engine
+   * @param templateEngine The HTML template rendering engine.
    */
   public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
@@ -41,13 +40,10 @@ public class GetHomeRoute implements Route {
   /**
    * Render the WebCheckers Home page.
    *
-   * @param request
-   *   the HTTP request
-   * @param response
-   *   the HTTP response
+   * @param request The HTTP request.
+   * @param response The HTTP response.
    *
-   * @return
-   *   the rendered HTML for the Home page
+   * @return The rendered HTML for the Home page
    */
   @Override
   public Object handle(Request request, Response response) {
