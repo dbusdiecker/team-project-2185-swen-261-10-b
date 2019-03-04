@@ -51,10 +51,6 @@ public class PlayerLobby {
     }
 
     public Iterable<Player> getOnlinePlayers() {
-        List<Player> availablePlayers = new ArrayList<>();
-        for (Player player: onlinePlayers)
-            if (!player.isInGame())
-                availablePlayers.add(player);
-        return availablePlayers;
+        return onlinePlayers;
     }
 }
