@@ -2,7 +2,9 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PlayerLobby {
@@ -44,7 +46,15 @@ public class PlayerLobby {
         return username.matches("[a-zA-Z0-9 ]*");
     }
 
+    public int getNumOnlinePlayers(){
+        return onlinePlayers.size();
+    }
+
     public Iterable<Player> getOnlinePlayers() {
-        return onlinePlayers;
+        List<Player> availablePlayers = new ArrayList<>();
+        for (Player player: onlinePlayers)
+            if (!player.isInGame())
+                availablePlayers.add(player);
+        return availablePlayers;
     }
 }

@@ -59,6 +59,9 @@ public class GetHomeRoute implements Route {
     final Player currentUser = httpSession.attribute(PLAYER_ATTR);
     if( currentUser != null){
       vm.put(PLAYER_ATTR, currentUser);
+      vm.put("player_list", playerLobby.getOnlinePlayers()); // display online players to challenge
+    } else {
+      vm.put("num_online", playerLobby.getNumOnlinePlayers());
     }
 
 
@@ -67,9 +70,6 @@ public class GetHomeRoute implements Route {
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
-    // display online players to challenge
-    vm.put("num_players_message", "Players online:");
-    vm.put("player_list", playerLobby.getOnlinePlayers());
 
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
