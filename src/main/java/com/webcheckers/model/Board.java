@@ -2,6 +2,9 @@ package com.webcheckers.model;
 
 import com.webcheckers.ui.BoardView;
 
+/**
+ * Object for the model of a checkers board
+ */
 public class Board {
 
     private ModelSpace spaces[][];
@@ -12,10 +15,20 @@ public class Board {
 
     private BoardView boardView;
 
+    /**
+     *
+     * @return this.boardView
+     */
     public BoardView getBoardView() {
         return boardView;
     }
 
+    /**
+     * Creates a new checkers board with the given red and white players
+     *
+     * @param red The player for the red pieces
+     * @param white The player for the white pieces
+     */
     public Board(Player red, Player white){
         this.redPlayer = red;
         this.whitePlayer = white;
@@ -47,6 +60,10 @@ public class Board {
         boardView = new BoardView(this);
     }
 
+    /**
+     *
+     * @return this.spaces
+     */
     public ModelSpace[][] getSpaces(){
         return spaces;
     }

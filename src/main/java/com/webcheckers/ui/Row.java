@@ -13,25 +13,9 @@ public class Row implements Iterable{
     private Space spaces[];
 
     /**
-     * Creates a new row with the given index
-     *
-     * @param index The index of the row
-     */
-    /*
-    public Row(int index){
-        this.index = index;
-        this.spaces = new Space[8];
-        for(int x = 0; x < 8; x++){
-            this.spaces[x] = (new Space(x, false));
-        }
-    }
-    */
-
-    /**
      * Creates a new row with the given index and model space array
      *
      * @param index The index of the row
-     *
      * @param modelRow The model spaces to be simulated
      */
     public Row(int index, ModelSpace modelRow[]){

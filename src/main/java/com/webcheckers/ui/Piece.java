@@ -8,7 +8,6 @@ import com.webcheckers.model.ModelPiece;
 public class Piece implements com.webcheckers.Piece{
 
     public type type;
-
     public color color;
 
     /**
