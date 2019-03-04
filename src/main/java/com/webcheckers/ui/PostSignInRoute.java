@@ -16,6 +16,11 @@ public class PostSignInRoute implements Route {
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
 
+    /**
+     * 
+     * @param playerLobby PlayerLobby to hold player list.
+     * @param templateEngine The HTML template rendering engine.
+     */
     public PostSignInRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
@@ -23,6 +28,14 @@ public class PostSignInRoute implements Route {
         LOG.config("PostSignInRoute is initialized.");
     }
 
+    /**
+     * Accept sign-ins from players
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return the rendered HTML for the SignIn page
+     */
     public Object handle(Request request, Response response) {
         LOG.finer("PostSignInRoute is invoked.");
 

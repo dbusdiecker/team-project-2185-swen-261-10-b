@@ -11,12 +11,25 @@ public class GetSignInRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
 
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code GET /signin} HTTP requests.
+     *
+     * @param templateEngine The HTML template rendering engine.
+     */
     public GetSignInRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
         LOG.config("GetSignInRoute is initialized.");
     }
 
+    /**
+     * Render the WebCheckers SignIn page.
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return the rendered HTML for the SignIn page
+     */
     public Object handle(Request request, Response response) {
         LOG.finer("GetSignInRoute is invoked.");
         //

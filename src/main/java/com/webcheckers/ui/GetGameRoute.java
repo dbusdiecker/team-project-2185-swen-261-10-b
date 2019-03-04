@@ -22,6 +22,12 @@ public class GetGameRoute implements Route {
     }
 
 
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code GET /game} HTTP requests.
+     *
+     * @param playerLobby PlayerLobby to track online players.
+     * @param templateEngine The HTML template rendering engine.
+     */
     public GetGameRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required.");
@@ -29,6 +35,14 @@ public class GetGameRoute implements Route {
         LOG.config("GetGameRoute is initialized.");
     }
 
+    /**
+     * Render the WebCheckers Game page.
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return the rendered HTML for the Game page
+     */
     public Object handle(Request request, Response response) {
         LOG.finer("GetGameRoute is invoked.");
         //
