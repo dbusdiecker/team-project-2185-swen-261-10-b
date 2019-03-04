@@ -2,14 +2,32 @@ package com.webcheckers.model;
 
 public class Player {
     private String name;
+    private boolean inGame;
+    private CheckersGame current_game;
 
     public Player(String name){
         this.name = name;
+        this.current_game = null;
+        boolean inGame = false;
     }
 
     public String getName() {
         return name;
     }
+
+    public CheckersGame getCurrent_game() {
+        return current_game;
+    }
+
+    public void setCurrent_game(CheckersGame current_game) {
+        this.current_game = current_game;
+    }
+
+    public boolean isInGame() {return inGame;}
+
+    public void startGame(){inGame = true;}
+
+    public void endGame(){inGame = false;}
 
     @Override
     public boolean equals(Object obj){

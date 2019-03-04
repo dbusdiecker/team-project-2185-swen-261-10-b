@@ -2,7 +2,9 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PlayerLobby {
@@ -10,6 +12,14 @@ public class PlayerLobby {
 
     public PlayerLobby(){
         onlinePlayers = new HashSet<>();
+    }
+
+    public boolean playerAvailable(String username){
+        if (!usernameAlreadyInUse(username)) {
+            return false;
+        }
+        Player thePlayer = getPlayerByUsername(username);
+        return (!thePlayer.isInGame());
     }
 
     public boolean usernameAlreadyInUse(String username){
@@ -34,6 +44,10 @@ public class PlayerLobby {
         if ( (username == null) || username.length() == 0)
             return false;
         return username.matches("[a-zA-Z0-9 ]*");
+    }
+
+    public int getNumOnlinePlayers(){
+        return onlinePlayers.size();
     }
 
     public Iterable<Player> getOnlinePlayers() {

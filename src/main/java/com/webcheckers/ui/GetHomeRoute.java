@@ -59,7 +59,22 @@ public class GetHomeRoute implements Route {
     final Player currentUser = httpSession.attribute(PLAYER_ATTR);
     if( currentUser != null){
       vm.put(PLAYER_ATTR, currentUser);
+        if(currentUser.getCurrent_game() != null){
+            String opponent;
+            if(!(currentUser.getCurrent_game().getRedPlayer() == currentUser)){
+                opponent = currentUser.getCurrent_game().getRedPlayer().getName();
+            }
+            else{
+                opponent = currentUser.getCurrent_game().getWhitePlayer().getName();
+            }
+            String URL = WebServer.GAME_URL +"?player=" + opponent;
+            response.redirect(URL);
+        }
+      vm.put("player_list", playerLobby.getOnlinePlayers()); // display online players to challenge
+    } else {
+      vm.put("num_online", playerLobby.getNumOnlinePlayers());
     }
+
 
 
     vm.put("title", "Welcome!");
@@ -67,9 +82,6 @@ public class GetHomeRoute implements Route {
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
-    // display online players to challenge
-    vm.put("num_players_message", "Players online:");
-    vm.put("player_list", playerLobby.getOnlinePlayers());
 
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));

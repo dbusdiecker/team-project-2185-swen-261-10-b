@@ -20,17 +20,23 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl">
 
+
     <#if currentUser??>
-      <#list player_list as player>
-        <#if currentUser != player>
+      <#if player_list??>
+
+          <#list player_list as player>
+              <#if currentUser != player>
           <p>
-            ${player.name}
+              <a href="/game?player=${player.name}">
+                  ${player.name}
+              </a>
           </p>
-        </#if>
-      </#list>
+              </#if>
+          </#list>
+      </#if>
       <#else>
         <p>
-          ${num_players_message} ${player_list?size}
+            Players online: ${num_online}
         </p>
     </#if>
 
