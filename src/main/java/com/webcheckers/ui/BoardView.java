@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.model.Board;
+import com.webcheckers.model.Player;
 
 import java.util.Iterator;
 
@@ -17,10 +18,18 @@ public class BoardView implements Iterable{
      *
      * @param board The board to be simulated
      */
-    public BoardView(Board board){
+    public BoardView(Board board, Player playerColor){
         this.rows = new Row[8];
-        for(int row = 0; row < 8; row++){
-            this.rows[row] = new Row(row, board.getSpaces()[row]);
+        if (playerColor.equals(board.getRedPlayer())){
+            for(int row = 0; row < 8; row++) {
+                this.rows[row] = new Row(row, board.getSpaces()[row]);
+            }
+        }
+        else{
+            int index = 0;
+            for (int row = 7; row >= 0; row--){
+                this.rows[index] = new Row(row, board.getSpaces()[row]);
+            }
         }
     }
 

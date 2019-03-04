@@ -13,14 +13,29 @@ public class Board {
 
     private Player whitePlayer;
 
-    private BoardView boardView;
+    private BoardView redBoardView;
+
+    private BoardView whiteBoardView;
+
+    public Player getRedPlayer() {
+        return redPlayer;
+    }
+
+    public Player getWhitePlayer() {
+        return whitePlayer;
+    }
 
     /**
      *
      * @return this.boardView
      */
-    public BoardView getBoardView() {
-        return boardView;
+    public BoardView getBoardView(Player player) {
+        if (player.equals(redPlayer)){
+            return redBoardView;
+        }
+        else{
+            return whiteBoardView;
+        }
     }
 
     /**
@@ -57,7 +72,8 @@ public class Board {
                 currentColor = ModelSpace.spaceColor.LIGHT;
             }
         }
-        boardView = new BoardView(this);
+        whiteBoardView = new BoardView(this, whitePlayer);
+        redBoardView = new BoardView(this, redPlayer);
     }
 
     /**
