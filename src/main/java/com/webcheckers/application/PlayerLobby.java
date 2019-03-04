@@ -78,6 +78,11 @@ public class PlayerLobby {
     public boolean nameIsValid(String username){
         if ( (username == null) || username.length() == 0)
             return false;
+        String trimmedUsername = username.trim();
+        if (!username.equals(trimmedUsername) || trimmedUsername.length() == 0){ //Username has leading or trailing backspaces
+            return false;
+        }
+
         return username.matches("[a-zA-Z0-9 ]*");
     }
 
