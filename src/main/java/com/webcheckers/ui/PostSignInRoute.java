@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI Controller to POST the sign in route
+ */
 public class PostSignInRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
     private static final Message ERROR_MSG = Message.error("Username is invalid or already in use.");

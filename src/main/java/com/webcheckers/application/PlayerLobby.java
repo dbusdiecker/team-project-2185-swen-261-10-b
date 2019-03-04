@@ -7,9 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The object for the online players
+ */
 public class PlayerLobby {
+
     private Set<Player> onlinePlayers;
 
+    /**
+     * Create a new player lobby
+     */
     public PlayerLobby(){
         onlinePlayers = new HashSet<>();
     }
@@ -39,6 +46,9 @@ public class PlayerLobby {
         return onlinePlayers.contains(dummyPlayer);
     }
 
+    /**
+     * Add new player to lobby
+     */
     public void addPlayer(Player player){
         onlinePlayers.add(player);
     }

@@ -1,34 +1,71 @@
 package com.webcheckers.model;
 
+/**
+ * Object for a single player
+ */
 public class Player {
+
     private String name;
     private boolean inGame;
     private CheckersGame current_game;
 
+    /**
+     * Create a new player
+     *
+     * @param name Name of player
+     */
     public Player(String name){
         this.name = name;
         this.current_game = null;
         boolean inGame = false;
     }
 
+    /**
+     *
+     * @return this.name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return this.current_game
+     */
     public CheckersGame getCurrent_game() {
         return current_game;
     }
 
+    /**
+     *
+     * @param current_game New current game
+     */
     public void setCurrent_game(CheckersGame current_game) {
         this.current_game = current_game;
     }
 
+    /**
+     *
+     * @return this.inGame
+     */
     public boolean isInGame() {return inGame;}
 
+    /**
+     * Set inGame to true
+     */
     public void startGame(){inGame = true;}
 
+    /**
+     * Set inGame to false
+     */
     public void endGame(){inGame = false;}
 
+    /**
+     * Determine if two players are equal
+     *
+     * @param obj Second object for comparison
+     * @return True if they are equal; false otherwise
+     */
     @Override
     public boolean equals(Object obj){
         if( obj == this) {
@@ -41,6 +78,11 @@ public class Player {
         return false;
     }
 
+    /**
+     * Creates a hash code for the player
+     *
+     * @return Int to represent player
+     */
     @Override
     public int hashCode(){
         return this.name.hashCode() + 787;

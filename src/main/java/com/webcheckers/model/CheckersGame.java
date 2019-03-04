@@ -5,6 +5,9 @@ import com.webcheckers.util.Message;
 
 import java.util.Map;
 
+/**
+ * Object for a single checkers game
+ */
 public class CheckersGame{
 
     private Player redPlayer;
@@ -15,31 +18,50 @@ public class CheckersGame{
     private Message message = null;
     private activeColor activeTurnColor;
 
+    //Colored pieces that can be moved
     public enum activeColor {
         RED,
         WHITE
     }
 
+    /**
+     *
+     * @return this.redPlayer
+     */
     public Player getRedPlayer() {
         return redPlayer;
     }
 
+    /**
+     *
+     * @return this.whitePlayer
+     */
     public Player getWhitePlayer() {
         return whitePlayer;
     }
 
+    /**
+     *
+     * @return this.activeTurnColor
+     */
     public activeColor whoseTurn(){
         return activeTurnColor;
     }
 
+    /**
+     *
+     * @return this.board
+     */
     public Board getBoard() {
         return board;
     }
 
     /**
-     * @param red
-     * @param white
-     * @param currentUser
+     * Create a new checkers game
+     *
+     * @param red Player controlling the red pieces
+     * @param white Player controlling the white pieces
+     * @param currentUser Current view of the game
      */
     public CheckersGame(Player red, Player white, Player currentUser){
         redPlayer = red;
@@ -51,12 +73,30 @@ public class CheckersGame{
         activeTurnColor = activeColor.RED;
     }
 
+    /**
+     * Create a new checkers game
+     *
+     * @param red Player controlling the red pieces
+     * @param white Player controlling the white pieces
+     * @param currentUser Current view of the game
+     * @param board Board of the game
+     */
     public CheckersGame(Player red, Player white, Player currentUser, Board board){
         redPlayer = red;
         whitePlayer = white;
         this.currentUser = currentUser;
         this.board = board;
     }
+
+    /**
+     * Creates a new checkers game
+     *
+     * @param red Player controlling the red pieces
+     * @param white Player controlling the white pieces
+     * @param currentUser Current view of the game
+     * @param board Board of the game
+     * @param message Message for the user
+     */
     public CheckersGame(Player red, Player white, Player currentUser, Board board, Message message){
         redPlayer = red;
         whitePlayer = white;
@@ -65,6 +105,9 @@ public class CheckersGame{
         this.message = message;
     }
 
+    /**
+     * Changes who's turn it is
+     */
     public void ChangeTurn() {
         if(activeTurnColor == activeColor.RED){
             activeTurnColor = activeColor.WHITE;
