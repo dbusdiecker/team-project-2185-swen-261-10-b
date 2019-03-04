@@ -59,7 +59,19 @@ public class GetHomeRoute implements Route {
     final Player currentUser = httpSession.attribute(PLAYER_ATTR);
     if( currentUser != null){
       vm.put(PLAYER_ATTR, currentUser);
+      if(currentUser.getCurrent_game() != null){
+        String opponent;
+        if(!(currentUser.getCurrent_game().getRedPlayer() == currentUser)){
+          opponent = currentUser.getCurrent_game().getRedPlayer().getName();
+        }
+        else{
+          opponent = currentUser.getCurrent_game().getWhitePlayer().getName();
+        }
+        String URL = WebServer.GAME_URL +"?player=" + opponent;
+        response.redirect(URL);
+      }
     }
+
 
 
     vm.put("title", "Welcome!");

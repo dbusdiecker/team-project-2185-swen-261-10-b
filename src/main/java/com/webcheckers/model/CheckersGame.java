@@ -43,6 +43,7 @@ public class CheckersGame{
         redPlayer.startGame();
         whitePlayer.startGame();
         this.board = new Board(redPlayer,whitePlayer);
+        activeTurnColor = activeColor.RED;
     }
 
     public CheckersGame(Player red, Player white, Player currentUser, Board board){

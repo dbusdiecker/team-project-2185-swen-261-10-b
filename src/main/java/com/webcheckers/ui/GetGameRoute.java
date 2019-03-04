@@ -41,16 +41,15 @@ public class GetGameRoute implements Route {
         if (opponent != null && thisPlayer != null) { // Both players are online, opponent is null if not online, player is null if user not logged in
             if (opponent.isInGame()) {
                 // See if this player is the opponent's opponent
-                if ((thisPlayer.getCurrent_game.getWhitePlayer()).equals(thisPlayer)) {
+                if (((thisPlayer.getCurrent_game().getWhitePlayer().equals(opponent))|| (thisPlayer.getCurrent_game().getRedPlayer().equals(opponent)))) {
                     vm.put("title", "Let's Play Checkers!");
                     vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
                     vm.put("viewMode", viewMode.PLAY);
                     // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
-                    vm.put("redPlayer", thisPlayer);
-                    vm.put("whitePlayer", opponent);
-                    vm.put("activeColor", thisPlayer.getCurrent_game.whoseTurn());
-                    vm.put("board", thisPlayer.getCurrent_game.getBoard().getBoardView());
-                    vm.put("message", "Welcome back to your game against: " + opponentName);
+                    vm.put("redPlayer", thisPlayer.getCurrent_game().getRedPlayer());
+                    vm.put("whitePlayer", thisPlayer.getCurrent_game().getWhitePlayer());
+                    vm.put("activeColor", thisPlayer.getCurrent_game().whoseTurn());
+                    vm.put("board", thisPlayer.getCurrent_game().getBoard().getBoardView());
 
                     //TODO MAKE CHANGE TO GETHOMEROUTE TO CHECK IF PLAYER HAS BEEN ASSIGNED TO A GAME UPON LOADING, REDIRECT TO /GAME IF SO
 
@@ -61,6 +60,8 @@ public class GetGameRoute implements Route {
             } else {
 
                 CheckersGame game = new CheckersGame(thisPlayer, opponent, thisPlayer);
+                thisPlayer.setCurrent_game(game);
+                opponent.setCurrent_game(game);
                 // Put all attrs, viewMode = PLAY
                 vm.put("title", "Let's Play Checkers!");
                 vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);

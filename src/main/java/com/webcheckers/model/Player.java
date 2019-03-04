@@ -15,7 +15,13 @@ public class Player {
         return name;
     }
 
-    public CheckersGame getCurrent_game;
+    public CheckersGame getCurrent_game() {
+        return current_game;
+    }
+
+    public void setCurrent_game(CheckersGame current_game) {
+        this.current_game = current_game;
+    }
 
     public boolean isInGame() {return inGame;}
 
