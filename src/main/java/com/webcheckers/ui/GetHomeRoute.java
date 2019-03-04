@@ -80,7 +80,13 @@ public class GetHomeRoute implements Route {
     vm.put("title", "Welcome!");
 
     // display a user message in the Home page
-    vm.put("message", WELCOME_MSG);
+    if(httpSession.attribute("message") != null){
+        vm.put("message", httpSession.attribute("message"));
+        httpSession.removeAttribute("message");
+    }
+    else{
+        vm.put("message", WELCOME_MSG);
+    }
 
 
     // render the View
