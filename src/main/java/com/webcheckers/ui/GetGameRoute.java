@@ -49,7 +49,7 @@ public class GetGameRoute implements Route {
                     vm.put("redPlayer", thisPlayer.getCurrent_game().getRedPlayer());
                     vm.put("whitePlayer", thisPlayer.getCurrent_game().getWhitePlayer());
                     vm.put("activeColor", thisPlayer.getCurrent_game().whoseTurn());
-                    vm.put("board", thisPlayer.getCurrent_game().getBoard().getBoardView());
+                    vm.put("board", thisPlayer.getCurrent_game().getBoard().getBoardView(thisPlayer));
 
                     //TODO MAKE CHANGE TO GETHOMEROUTE TO CHECK IF PLAYER HAS BEEN ASSIGNED TO A GAME UPON LOADING, REDIRECT TO /GAME IF SO
 
@@ -70,7 +70,7 @@ public class GetGameRoute implements Route {
                 vm.put("redPlayer", thisPlayer);
                 vm.put("whitePlayer", opponent);
                 vm.put("activeColor", CheckersGame.activeColor.RED);
-                vm.put("board", game.getBoard().getBoardView());
+                vm.put("board", game.getBoard().getBoardView(thisPlayer));
 
 
                 //TODO MAKE CHANGE TO GETHOMEROUTE TO CHECK IF PLAYER HAS BEEN ASSIGNED TO A GAME UPON LOADING, REDIRECT TO /GAME IF SO

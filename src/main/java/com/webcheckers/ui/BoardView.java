@@ -29,6 +29,7 @@ public class BoardView implements Iterable{
             int index = 0;
             for (int row = 7; row >= 0; row--){
                 this.rows[index] = new Row(row, board.getSpaces()[row]);
+                index++;
             }
         }
     }
