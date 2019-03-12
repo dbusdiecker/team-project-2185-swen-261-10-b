@@ -1,9 +1,11 @@
 package com.webcheckers.model;
 
+import com.webcheckers.Space;
+
 /**
  * Object for the model of a space on a checkers board
  */
-public class ModelSpace {
+public class ModelSpace implements Space {
 
     //Colors of the spaces
     public enum spaceColor{

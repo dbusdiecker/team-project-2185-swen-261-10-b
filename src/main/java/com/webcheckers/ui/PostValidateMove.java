@@ -45,6 +45,13 @@ public class PostValidateMove implements Route {
             //move invalid
         }
 
+        if(true
+                //piece start id is larger than piece end id
+        ){
+            //only allow if a piece is a king piece
+        }
+
+
 
 
 

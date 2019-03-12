@@ -5,7 +5,7 @@ import com.webcheckers.model.ModelSpace;
 /**
  * The object to handle the ui spaces
  */
-public class Space {
+public class Space implements com.webcheckers.Space {
 
     private int cellIdx;
     private boolean valid;
