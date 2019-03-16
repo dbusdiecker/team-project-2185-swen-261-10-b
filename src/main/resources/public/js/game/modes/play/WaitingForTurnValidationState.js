@@ -67,9 +67,10 @@ define(function(require){
     // handle error message
     // there are valid error conditions, such as not completing a jump sequence.
     else {
-      this._controller.displayMessage(message);
-      // put the turn state back
-      this._controller.putTurnBackAfterFailedSubmit();
+        this._controller.displayMessage(message);
+        // put the turn state back
+        this._controller.putTurnBackAfterFailedSubmit();
+        this._controller.setState(PlayModeConstants.STABLE_TURN);
     }
   }
 
