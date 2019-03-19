@@ -102,4 +102,8 @@ public class PlayerLobby {
     public Iterable<Player> getOnlinePlayers() {
         return onlinePlayers;
     }
+
+    public void removePlayer(Player player){
+        onlinePlayers.remove(player);
+    }
 }
