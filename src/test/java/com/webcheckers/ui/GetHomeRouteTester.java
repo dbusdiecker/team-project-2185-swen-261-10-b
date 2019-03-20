@@ -21,7 +21,7 @@ public class GetHomeRouteTester {
     Response mockResponse;
     Session mockSession;
 
-    //@BeforeEach
+    @BeforeEach
     public void setup(){
         mockPlayerLobby = mock(PlayerLobby.class);
         mockTemplateEngine = mock(TemplateEngine.class);
