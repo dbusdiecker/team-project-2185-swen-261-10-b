@@ -101,6 +101,33 @@ public class GetGameRouteTest {
         assertNull(result);
     }
 
+    @Test
+    public void create_new_game_redirect(){
+
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        playerLobby.addPlayer(playerServices1);
+        playerLobby.addPlayer(playerServices2);
+
+        Object first = CuT.handle(request,response);
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("board", playerServices1.getCurrent_game().getBoard().getBoardView(playerServices1));
+
+
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices2);
+
+        when(request.queryParams(eq("player"))).thenReturn(playerServices1.getName());
+
+        Object second = CuT.handle(request,response);
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("board", playerServices2.getCurrent_game().getBoard().getBoardView(playerServices2));
+
+        testHelper.assertViewModelAttributeIsAbsent("message");
+    }
+
 
 
 
