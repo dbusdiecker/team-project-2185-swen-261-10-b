@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Tag("UI-tier")
-public class GetGameRouteTester {
+public class GetGameRouteTest {
 
     private GetGameRoute CuT;
 
@@ -96,11 +96,9 @@ public class GetGameRouteTester {
         when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices3);
         when(request.queryParams(eq("player"))).thenReturn(playerServices1.getName());
 
-
-        CuT.handle(request,response);
-
-        testHelper.assertViewModelAttribute("message", GetGameRoute.getGAME_CREATION_ERROR_MSG());
-
+        Object result;
+        result = CuT.handle(request,response);
+        assertNull(result);
     }
 
 
