@@ -3,33 +3,27 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
-> _The following template provides the headings for your Design
-> Documentation.  As you edit each section make sure you remove these
-> commentary 'blockquotes'; the lines that start with a > character
-> and appear in the generated PDF in italics._
-
 ## Team Information
-* Team name: TEAMNAME
+* Team name: The B Team
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Jessica Brock-Schlageter
+  * Drake Busdiecker
+  * Paul Adler
+  * Montgomery Watts
+  * Daniel Murray
 
 ## Executive Summary
 
-This is a summary of the project.
-
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+The goal of this project is to allow checkers players to connect with one another through online games using this
+web application, and for the online experience to be just as good as checkers in the real world.
 
 ### Glossary and Acronyms
-> _Provide a table of terms and acronyms._
+(All classes, methods and variables are self explanatory so far)
 
 | Term | Definition |
 |------|------------|
-| VO | Value Object |
+|  |  |
 
 
 ## Requirements
@@ -54,7 +48,7 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](domain-model-placeholder.png)
+![The WebCheckers Domain Model](domain-model.png)
 
 > _Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
@@ -87,7 +81,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
+![The WebCheckers Web Interface Statechart](web-interface.png)
 
 > _Provide a summary of the application's user interface.  Describe, from
 > the user's perspective, the flow of the pages in the web application._
