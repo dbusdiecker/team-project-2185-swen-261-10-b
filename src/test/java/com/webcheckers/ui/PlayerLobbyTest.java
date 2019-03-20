@@ -6,7 +6,7 @@ import com.webcheckers.model.Player;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-public class PlayerLobbyTester {
+public class PlayerLobbyTest {
     final PlayerLobby CuT = new PlayerLobby();
     final String invalidNameBlank = "";
     final String invalidNameWhitespace = " ";
