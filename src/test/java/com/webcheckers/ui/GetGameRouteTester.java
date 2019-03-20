@@ -78,6 +78,28 @@ public class GetGameRouteTester {
         testHelper.assertViewModelAttribute("activeColor",CheckersGame.activeColor.RED);
         testHelper.assertViewModelAttribute("board", playerServices1.getCurrent_game().getBoard().getBoardView(playerServices1));
         testHelper.assertViewModelAttribute("viewMode", GetGameRoute.viewMode.PLAY);
+        testHelper.assertViewModelAttribute("title", "Let's Play Checkers!");
+    }
+
+    @Test
+    public void create_new_game_failure(){
+
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+
+        playerLobby.addPlayer(playerServices1);
+        playerLobby.addPlayer(playerServices2);
+
+        CuT.handle(request,response);
+
+        Player playerServices3 = new Player("PLAYER3");
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices3);
+        when(request.queryParams(eq("player"))).thenReturn(playerServices1.getName());
+
+
+        CuT.handle(request,response);
+
+        testHelper.assertViewModelAttribute("message", GetGameRoute.getGAME_CREATION_ERROR_MSG());
 
     }
 
