@@ -11,6 +11,8 @@ import java.util.logging.Logger;
  * The UI Controller to GET the sign in page
  */
 public class GetSignInRoute implements Route {
+    static final String TITLE = "Sign in!";
+
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
     private final TemplateEngine templateEngine;
 
@@ -37,7 +39,7 @@ public class GetSignInRoute implements Route {
         LOG.finer("GetSignInRoute is invoked.");
         //
         Map<String, Object> vm = new HashMap<>();
-        vm.put("title", "Sign in!");
+        vm.put("title", TITLE);
 
 
         // render the View
