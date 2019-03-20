@@ -20,7 +20,7 @@ public class GetGameRoute implements Route {
     private final PlayerLobby playerLobby;
     private static final Message GAME_CREATION_ERROR_MSG = Message.error("Game Creation Error: Cannot create a game with a player that is currently in a game.");
 
-    private enum viewMode {
+    public enum viewMode {
         PLAY,
         SPECTATOR,
         REPLAY

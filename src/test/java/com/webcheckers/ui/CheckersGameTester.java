@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 @Tag("Model-tier")
-public class CheckersGameTest {
+public class CheckersGameTester {
 
     private Player player1;
     private Player player2;
