@@ -2,9 +2,10 @@ package com.webcheckers.ui;
 
 import com.webcheckers.model.Board;
 import com.webcheckers.model.CheckersGame;
-import com.webcheckers.model.ModelSpace;
+import com.webcheckers.model.Move;
 import com.webcheckers.util.Message;
 import spark.*;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +19,12 @@ public class PostValidateMove implements Route {
     private Board board;
     private Message messageToPlayer = null;
     private CheckersGame.activeColor activeTurn;
+    private Gson gson = new Gson();
 
-    public PostValidateMove(final TemplateEngine templateEngine, CheckersGame game){
+    public PostValidateMove(final TemplateEngine templateEngine){
 
         //One is created PER GAME
         this.templateEngine = templateEngine;
-        this.board = game.getBoard();
-        this.activeTurn = game.whoseTurn();
         LOG.config("PostValidateMove is initialized.");
 
 
@@ -38,19 +38,8 @@ public class PostValidateMove implements Route {
 
         //a vm must be put in when this is called for the coordinates the piece lies at, as well as the piece it landed on
         final Session httpSession = request.session();
-        ModelSpace pieceStart = httpSession.attribute("pieceStart");
-        ModelSpace pieceEnd = httpSession.attribute("pieceEnd");
-
-        if(pieceEnd.isHasPiece()){
-            //move invalid
-        }
-
-        if(true
-                //piece start id is larger than piece end id
-        ){
-            //only allow if a piece is a king piece
-        }
-
+        String moveAsJson = request.queryParams("actionData");
+        Move move = gson.fromJson(moveAsJson, Move.class);
 
 
 
