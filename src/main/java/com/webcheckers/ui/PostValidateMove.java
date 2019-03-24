@@ -42,7 +42,7 @@ public class PostValidateMove implements Route {
         final Session httpSession = request.session();
 
         Player thisPlayer = httpSession.attribute("currentUser");
-        Board board = thisPlayer.getCurrent_game().getBoard();
+        CheckersGame game = thisPlayer.getCurrent_game();
 
         vm.put("title", "Let's Play Checkers!");
         vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
@@ -55,7 +55,7 @@ public class PostValidateMove implements Route {
 
         String moveAsJson = request.queryParams("actionData");
         Move move = gson.fromJson(moveAsJson, Move.class);
-        MoveValidation moveValidation = new MoveValidation(move, board);
+        MoveValidation moveValidation = new MoveValidation(move, game);
         if(!moveValidation.validMove()){
             vm.put("message", Message.error("Invalid Move"));
             //httpSession.attribute("message", Message.error("Invalid Move"));
