@@ -41,6 +41,24 @@ public class Move {
     }
 
     /**
+     * Finds the vertical movement
+     *
+     * @return absolute value of the difference in rows index
+     */
+    public int rowMovement(){
+        return Math.abs(end.getRow() - start.getRow());
+    }
+
+    /**
+     * Finds the horizontal movement
+     *
+     * @return absolute value of the difference in cell index
+     */
+    public int cellMovement(){
+        return Math.abs(end.getCell() - start.getCell());
+    }
+
+    /**
      * Creates a string representation of the move
      *
      * @return string of move

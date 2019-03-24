@@ -11,7 +11,7 @@ import java.util.Iterator;
 public class BoardView implements Iterable{
 
     private Row rows[];
-    public Iterator<Row> iterator;
+    private Iterator<Row> iterator;
 
     /**
      * Creates a Board View with the given board
