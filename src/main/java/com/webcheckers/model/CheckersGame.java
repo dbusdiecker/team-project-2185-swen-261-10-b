@@ -56,6 +56,10 @@ public class CheckersGame{
         return board;
     }
 
+    public boolean hasPlayer(Player player){
+        return player.equals(redPlayer) || player.equals(whitePlayer);
+    }
+
     /**
      * Create a new checkers game
      *
