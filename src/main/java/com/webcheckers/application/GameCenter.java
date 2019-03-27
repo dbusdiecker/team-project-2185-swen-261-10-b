@@ -37,7 +37,20 @@ public class GameCenter {
         return gameID;
     }
 
-    public CheckersGame getGame(Integer gameID){
+    public CheckersGame getGameByID(Integer gameID){
         return games.get(gameID);
+    }
+
+
+    public Integer getIDByPlayer(Player player){
+        // This is operating under the assumption that
+        // a player is only in one game.
+
+        for (Integer id: games.keySet()){
+            CheckersGame game = games.get(id);
+            if (game.hasPlayer(player))
+                return id;
+        }
+        return null;
     }
 }

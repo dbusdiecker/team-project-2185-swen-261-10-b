@@ -62,7 +62,7 @@ public class GetGameRoute implements Route {
         String gameIDAsString = request.queryParams("gameID");
         if (gameIDAsString != null){
             Integer gameID = Integer.parseInt(gameIDAsString);
-            CheckersGame game = gameCenter.getGame(gameID);
+            CheckersGame game = gameCenter.getGameByID(gameID);
 
             if (game != null){
                 final Session httpSession = request.session();
@@ -92,55 +92,6 @@ public class GetGameRoute implements Route {
 
         response.redirect(WebServer.HOME_URL);
         return null;
-
-
-
-        /*
-        if (opponent != null && thisPlayer != null) { // Both players are online, opponent is null if not online, player is null if user not logged in
-            if (opponent.isInGame()) {
-                // See if this player is the opponent's opponent
-                if(thisPlayer.getCurrent_game() == null){
-                    httpSession.attribute("message", GAME_CREATION_ERROR_MSG);
-                    response.redirect(WebServer.HOME_URL);
-                }
-                else if (((thisPlayer.getCurrent_game().getWhitePlayer().equals(opponent))|| (thisPlayer.getCurrent_game().getRedPlayer().equals(opponent)))) {
-                    vm.put("title", "Let's Play Checkers!");
-                    vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
-                    vm.put("viewMode", viewMode.PLAY);
-                    // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
-                    vm.put("redPlayer", thisPlayer.getCurrent_game().getRedPlayer());
-                    vm.put("whitePlayer", thisPlayer.getCurrent_game().getWhitePlayer());
-                    vm.put("activeColor", thisPlayer.getCurrent_game().whoseTurn());
-                    vm.put("board", thisPlayer.getCurrent_game().getBoard().getBoardView(thisPlayer));
-
-                    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-                } else {
-                    httpSession.attribute("message", GAME_CREATION_ERROR_MSG);
-                    response.redirect(WebServer.HOME_URL);
-                }
-            } else {
-
-                CheckersGame game = new CheckersGame(thisPlayer, opponent, thisPlayer);
-                thisPlayer.setCurrent_game(game);
-                thisPlayer.startGame();
-                opponent.setCurrent_game(game);
-                opponent.startGame();
-                // Put all attrs, viewMode = PLAY
-                vm.put("title", "Let's Play Checkers!");
-                vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
-                vm.put("viewMode", viewMode.PLAY);
-                // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
-                vm.put("redPlayer", thisPlayer);
-                vm.put("whitePlayer", opponent);
-                vm.put("activeColor", CheckersGame.activeColor.RED);
-                vm.put("board", game.getBoard().getBoardView(thisPlayer));
-
-                return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-
-            }
-        }
-        return null;
-        */
     }
 
 }
