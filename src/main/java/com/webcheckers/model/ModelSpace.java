@@ -41,6 +41,14 @@ public class ModelSpace implements Space {
     }
 
     /**
+     * Removes the piece on the space
+     */
+    public void removePiece(){
+        this.piece = null;
+        this.hasPiece = false;
+    }
+
+    /**
      *
      * @return this.color
      */

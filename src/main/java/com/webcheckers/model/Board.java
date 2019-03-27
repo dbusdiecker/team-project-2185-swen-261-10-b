@@ -85,4 +85,17 @@ public class Board {
     public ModelSpace[][] getSpaces(){
         return spaces;
     }
+
+    /**
+     * Moves a piece from one space to another
+     *
+     * @param startRow row of starting space
+     * @param startCol column of starting space
+     * @param endRow row of ending space
+     * @param endCol column of ending space
+     */
+    public void movePiece(int startRow, int startCol, int endRow, int endCol) {
+        ModelPiece piece = spaces[startRow][startCol].getPiece();
+        spaces[endRow][endCol].addPiece(piece);
+    }
 }

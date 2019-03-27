@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class PostValidateMove implements Route {
 
-    private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger(PostValidateMove.class.getName());
 
     private final TemplateEngine templateEngine;
     private Board board;
@@ -33,7 +33,7 @@ public class PostValidateMove implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response){
+    public String handle(Request request, Response response){
 
         LOG.finer("PostValidateMove is invoked.");
         Map<String, Object> vm = new HashMap<>();
@@ -44,31 +44,16 @@ public class PostValidateMove implements Route {
         Player thisPlayer = httpSession.attribute("currentUser");
         CheckersGame game = thisPlayer.getCurrent_game();
 
-        vm.put("title", "Let's Play Checkers!");
-        vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
-        vm.put("viewMode", GetGameRoute.viewMode.PLAY);
-        // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
-        vm.put("redPlayer", thisPlayer.getCurrent_game().getRedPlayer());
-        vm.put("whitePlayer", thisPlayer.getCurrent_game().getWhitePlayer());
-        vm.put("activeColor", thisPlayer.getCurrent_game().whoseTurn());
-        vm.put("board", thisPlayer.getCurrent_game().getBoard().getBoardView(thisPlayer));
-
         String moveAsJson = request.queryParams("actionData");
         Move move = gson.fromJson(moveAsJson, Move.class);
         MoveValidation moveValidation = new MoveValidation(move, game);
-        if(!moveValidation.validMove()){
-            vm.put("message", Message.error("Invalid Move"));
-            //httpSession.attribute("message", Message.error("Invalid Move"));
+        if(moveValidation.validMove()){
+            moveValidation.movePiece();
+            return gson.toJson(Message.info("Valid Move"));
         }
         else{
-            vm.put("message", Message.error("Valid Move"));
-            //httpSession.attribute("message", Message.info("Valid Move"));
+            return gson.toJson(Message.error("Invalid Move"));
+
         }
-
-
-
-
-
-        return templateEngine.render(new ModelAndView(vm,"game.ftl"));
     }
 }

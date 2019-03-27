@@ -193,6 +193,15 @@ public class MoveValidation {
         return false;
     }
 
+    public void movePiece(){
+        Board board = game.getBoard();
+        int startRow = move.getStart().getRow();
+        int startCol = move.getStart().getCell();
+        int endRow = move.getEnd().getRow();
+        int endCol = move.getEnd().getCell();
+        board.movePiece(startRow, startCol, endRow, endCol);
+    }
+
     public Boolean canMultiJump(){
         return false;
     }
