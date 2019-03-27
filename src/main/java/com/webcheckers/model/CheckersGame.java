@@ -17,7 +17,6 @@ public class CheckersGame{
     Board board;
     private Message message = null;
     private activeColor activeTurnColor;
-    private Integer ID;
 
     //Colored pieces that can be moved
     public enum activeColor {
@@ -74,7 +73,7 @@ public class CheckersGame{
         activeTurnColor = activeColor.RED;
     }
 
-    public CheckersGame(Player red, Player white, Integer ID){
+    public CheckersGame(Player red, Player white){
         redPlayer = red;
         whitePlayer = white;
         redPlayer.startGame();

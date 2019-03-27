@@ -22,7 +22,7 @@ public class GameCenter {
 
     public void createGame(Player redPlayer, Player whitePlayer){
         Integer new_ID = last_game_ID + 1;
-        CheckersGame game = new CheckersGame(redPlayer,whitePlayer, new_ID);
+        CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
         games.put(new_ID,game);
         last_game_ID = new_ID;
 
@@ -46,5 +46,6 @@ public class GameCenter {
         return current_game.getBoard();
     }
 
+    //endGame()
 
 }
