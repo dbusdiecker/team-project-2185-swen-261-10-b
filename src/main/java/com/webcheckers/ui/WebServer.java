@@ -57,6 +57,7 @@ public class WebServer {
   public static final String SIGN_OUT_URL = "/signout";
   public static final String SIGN_IN_URL = "/signin";
   public static final String GAME_URL = "/game";
+  public static final String CHECK_TURN_URL = "/checkTurn";
 
   //
   // Attributes
@@ -149,6 +150,7 @@ public class WebServer {
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
     get(GAME_URL, new GetGameRoute(playerLobby, templateEngine));
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
+    post(CHECK_TURN_URL, new PostCheckTurnRoute((gson)));
     post("/validateMove", new PostValidateMove(templateEngine));
     post("/submitTurn", new PostSubmitTurn(templateEngine));
 
