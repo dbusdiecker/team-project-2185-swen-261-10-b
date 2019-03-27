@@ -19,7 +19,6 @@ public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
     private final TemplateEngine templateEngine;
     private final GameCenter gameCenter;
-    private final PlayerLobby playerLobby;
     private static final Message GAME_CREATION_ERROR_MSG = Message.error("Game Creation Error: Cannot create a game with a player that is currently in a game.");
 
     public enum viewMode {
@@ -35,12 +34,10 @@ public class GetGameRoute implements Route {
     /**
      * Create the Spark Route (UI controller) to handle all {@code GET /game} HTTP requests.
      *
-     * @param playerLobby PlayerLobby to track online players.
      * @param templateEngine The HTML template rendering engine.
      */
-    public GetGameRoute(final PlayerLobby playerLobby, final GameCenter gameCenter, final TemplateEngine templateEngine) {
+    public GetGameRoute(final GameCenter gameCenter, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
-        this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required.");
         this.gameCenter = Objects.requireNonNull(gameCenter, "gameCenter is required.");
         LOG.config("GetGameRoute is initialized.");
     }
