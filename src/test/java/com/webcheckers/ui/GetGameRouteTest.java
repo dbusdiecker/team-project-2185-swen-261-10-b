@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Tag("UI-tier")
-public class GetGameRouteTester {
+public class GetGameRouteTest {
 
     private GetGameRoute CuT;
 
@@ -96,11 +96,36 @@ public class GetGameRouteTester {
         when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices3);
         when(request.queryParams(eq("player"))).thenReturn(playerServices1.getName());
 
+        Object result;
+        result = CuT.handle(request,response);
+        assertNull(result);
+    }
 
-        CuT.handle(request,response);
+    @Test
+    public void create_new_game_redirect(){
 
-        testHelper.assertViewModelAttribute("message", GetGameRoute.getGAME_CREATION_ERROR_MSG());
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
 
+        playerLobby.addPlayer(playerServices1);
+        playerLobby.addPlayer(playerServices2);
+
+        Object first = CuT.handle(request,response);
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("board", playerServices1.getCurrent_game().getBoard().getBoardView(playerServices1));
+
+
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices2);
+
+        when(request.queryParams(eq("player"))).thenReturn(playerServices1.getName());
+
+        Object second = CuT.handle(request,response);
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("board", playerServices2.getCurrent_game().getBoard().getBoardView(playerServices2));
+
+        testHelper.assertViewModelAttributeIsAbsent("message");
     }
 
 

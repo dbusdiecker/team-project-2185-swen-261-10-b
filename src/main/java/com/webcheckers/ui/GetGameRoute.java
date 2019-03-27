@@ -86,7 +86,9 @@ public class GetGameRoute implements Route {
 
                 CheckersGame game = new CheckersGame(thisPlayer, opponent, thisPlayer);
                 thisPlayer.setCurrent_game(game);
+                thisPlayer.startGame();
                 opponent.setCurrent_game(game);
+                opponent.startGame();
                 // Put all attrs, viewMode = PLAY
                 vm.put("title", "Let's Play Checkers!");
                 vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);

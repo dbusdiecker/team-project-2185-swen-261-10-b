@@ -73,14 +73,20 @@ public class CheckersGame{
         activeTurnColor = activeColor.RED;
     }
 
+    /*
     /**
      * Create a new checkers game
+     *
+     * Currently unused
      *
      * @param red Player controlling the red pieces
      * @param white Player controlling the white pieces
      * @param currentUser Current view of the game
      * @param board Board of the game
      */
+
+    /*
+
     public CheckersGame(Player red, Player white, Player currentUser, Board board){
         redPlayer = red;
         whitePlayer = white;
@@ -88,8 +94,11 @@ public class CheckersGame{
         this.board = board;
     }
 
+
     /**
      * Creates a new checkers game
+     *
+     * Currently unused
      *
      * @param red Player controlling the red pieces
      * @param white Player controlling the white pieces
@@ -97,6 +106,8 @@ public class CheckersGame{
      * @param board Board of the game
      * @param message Message for the user
      */
+
+    /*
     public CheckersGame(Player red, Player white, Player currentUser, Board board, Message message){
         redPlayer = red;
         whitePlayer = white;
@@ -104,6 +115,7 @@ public class CheckersGame{
         this.board = board;
         this.message = message;
     }
+    */
 
     /**
      * Changes who's turn it is
