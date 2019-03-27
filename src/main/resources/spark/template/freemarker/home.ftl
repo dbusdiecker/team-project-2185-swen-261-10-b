@@ -26,11 +26,10 @@
 
           <#list player_list as player>
               <#if currentUser != player>
-          <p>
-              <a href="/game?player=${player.name}">
-                  ${player.name}
-              </a>
-          </p>
+              <form action="/game" method="POST">
+                  <input type="hidden" value="${player.name}" name="opponent">
+                  <input type="submit" value="${player.name}">
+              </form>
               </#if>
           </#list>
       </#if>

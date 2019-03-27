@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
     private final TemplateEngine templateEngine;
+    private final GameCenter gameCenter;
     private final PlayerLobby playerLobby;
     private static final Message GAME_CREATION_ERROR_MSG = Message.error("Game Creation Error: Cannot create a game with a player that is currently in a game.");
 
@@ -36,10 +38,10 @@ public class GetGameRoute implements Route {
      * @param playerLobby PlayerLobby to track online players.
      * @param templateEngine The HTML template rendering engine.
      */
-    public GetGameRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    public GetGameRoute(final PlayerLobby playerLobby, final GameCenter gameCenter, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required.");
-        //
+        this.gameCenter = Objects.requireNonNull(gameCenter, "gameCenter is required.");
         LOG.config("GetGameRoute is initialized.");
     }
 
@@ -56,10 +58,44 @@ public class GetGameRoute implements Route {
         //
         Map<String, Object> vm = new HashMap<>();
 
-        final Session httpSession = request.session();
-        final String opponentName = request.queryParams("player");
-        Player opponent = playerLobby.getPlayerByUsername(opponentName);
-        Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
+
+        String gameIDAsString = request.queryParams("gameID");
+        if (gameIDAsString != null){
+            Integer gameID = Integer.parseInt(gameIDAsString);
+            CheckersGame game = gameCenter.getGame(gameID);
+
+            if (game != null){
+                final Session httpSession = request.session();
+                Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
+
+                if (thisPlayer != null){
+                    if (game.hasPlayer(thisPlayer)){
+
+                        vm.put("title", "Let's Play Checkers!");
+                        vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
+                        vm.put("viewMode", viewMode.PLAY);
+                        // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
+                        vm.put("redPlayer", game.getRedPlayer());
+                        vm.put("whitePlayer",game.getWhitePlayer());
+                        vm.put("activeColor", game.whoseTurn());
+
+                        //Maybe look into removing the chaining here.
+                        vm.put("board", game.getBoard().getBoardView(thisPlayer));
+
+                        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+                    }
+                }
+            }
+
+
+        }
+
+        response.redirect(WebServer.HOME_URL);
+        return null;
+
+
+
+        /*
         if (opponent != null && thisPlayer != null) { // Both players are online, opponent is null if not online, player is null if user not logged in
             if (opponent.isInGame()) {
                 // See if this player is the opponent's opponent
@@ -104,5 +140,7 @@ public class GetGameRoute implements Route {
             }
         }
         return null;
+        */
     }
+
 }
