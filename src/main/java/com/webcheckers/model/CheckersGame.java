@@ -17,6 +17,7 @@ public class CheckersGame{
     Board board;
     private Message message = null;
     private activeColor activeTurnColor;
+    private Integer ID;
 
     //Colored pieces that can be moved
     public enum activeColor {
@@ -73,49 +74,15 @@ public class CheckersGame{
         activeTurnColor = activeColor.RED;
     }
 
-    /*
-    /**
-     * Create a new checkers game
-     *
-     * Currently unused
-     *
-     * @param red Player controlling the red pieces
-     * @param white Player controlling the white pieces
-     * @param currentUser Current view of the game
-     * @param board Board of the game
-     */
-
-    /*
-
-    public CheckersGame(Player red, Player white, Player currentUser, Board board){
+    public CheckersGame(Player red, Player white, Integer ID){
         redPlayer = red;
         whitePlayer = white;
-        this.currentUser = currentUser;
-        this.board = board;
+        redPlayer.startGame();
+        whitePlayer.startGame();
+        this.board = new Board(redPlayer,whitePlayer);
+        activeTurnColor = activeColor.RED;
     }
 
-
-    /**
-     * Creates a new checkers game
-     *
-     * Currently unused
-     *
-     * @param red Player controlling the red pieces
-     * @param white Player controlling the white pieces
-     * @param currentUser Current view of the game
-     * @param board Board of the game
-     * @param message Message for the user
-     */
-
-    /*
-    public CheckersGame(Player red, Player white, Player currentUser, Board board, Message message){
-        redPlayer = red;
-        whitePlayer = white;
-        this.currentUser = currentUser;
-        this.board = board;
-        this.message = message;
-    }
-    */
 
     /**
      * Changes who's turn it is
