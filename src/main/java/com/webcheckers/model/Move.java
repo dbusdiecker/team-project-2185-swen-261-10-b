@@ -46,7 +46,7 @@ public class Move {
      * @return absolute value of the difference in rows index
      */
     public int rowMovement(){
-        return Math.abs(end.getRow() - start.getRow());
+        return end.getRow() - start.getRow();
     }
 
     /**
@@ -55,7 +55,7 @@ public class Move {
      * @return absolute value of the difference in cell index
      */
     public int cellMovement(){
-        return Math.abs(end.getCell() - start.getCell());
+        return end.getCell() - start.getCell();
     }
 
     /**

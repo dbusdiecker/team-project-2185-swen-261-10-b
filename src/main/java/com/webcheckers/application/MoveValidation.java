@@ -37,8 +37,8 @@ public class MoveValidation {
      * @return true if the move is 1 or 2 spaces diagonally; false otherwise
      */
     public Boolean validRange(){
-        return (move.cellMovement() == move.rowMovement()) &&
-                move.cellMovement() <=2 && move.cellMovement() > 0;
+        return (Math.abs(move.cellMovement()) == Math.abs(move.rowMovement())) &&
+                Math.abs(move.cellMovement()) <=2; //&& move.cellMovement() > 0;
     }
 
     /**
@@ -191,6 +191,58 @@ public class MoveValidation {
             }
         }
         return false;
+    }
+
+    /**
+     * Determines if the move is in a valid direction
+     *
+     * @return true if the piece being moved is a king or the piece goes in forward;
+     *         false if the piece is a single and moving backwards
+     */
+    public Boolean validDirection(){
+        ModelSpace[][] spaces = game.getBoard().getSpaces();
+        int startRow = move.getStart().getRow();
+        int startCel = move.getStart().getCell();
+        ModelPiece piece = spaces[startRow][startCel].getPiece();
+        if(piece.getType().equals(Piece.type.KING)){
+            return true;
+        }
+
+        Piece.color activeColor = Piece.color.WHITE;
+        if(game.whoseTurn().equals(CheckersGame.activeColor.RED)){
+            activeColor = Piece.color.RED;
+        }
+        if(activeColor.equals(Piece.color.RED)){
+            return move.rowMovement() < 0;
+        }
+        else{
+            return move.rowMovement() > 0;
+        }
+    }
+
+    /**
+     * Checks if the move is a jump and whether the jump is valid
+     *
+     * @return true if it is not a jump or is a valid jump; false otherwise
+     */
+    public Boolean checkJump(){
+        if(move.cellMovement() < 2){
+            return true;
+        }
+        ModelSpace[][] spaces = game.getBoard().getSpaces();
+        int middleRow = (move.getStart().getRow() + move.getEnd().getRow())/2;
+        int middleCel = (move.getStart().getCell() + move.getEnd().getCell())/2;
+
+        if(!spaces[middleRow][middleCel].isHasPiece()){
+            return false;
+        }
+
+        ModelPiece piece = spaces[middleRow][middleCel].getPiece();
+        Piece.color activeColor = Piece.color.WHITE;
+        if(game.whoseTurn().equals(CheckersGame.activeColor.RED)){
+            activeColor = Piece.color.RED;
+        }
+        return !piece.getColor().equals(activeColor);
     }
 
     public void movePiece(){
