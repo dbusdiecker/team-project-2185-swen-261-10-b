@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.MoveValidation;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.CheckersGame;
@@ -14,6 +15,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI Controller to POST validation move
+ */
 public class PostValidateMove implements Route {
 
     private static final Logger LOG = Logger.getLogger(PostValidateMove.class.getName());
@@ -22,20 +26,34 @@ public class PostValidateMove implements Route {
     private static final Message BACKWARDS_MOVE_MSG = Message.error("Piece cannot move backwards");
     private static final Message INVALID_JUMP_MSG = Message.error("Piece cannot jump here");
 
-    private final TemplateEngine templateEngine;
-    private Board board;
-    private Message messageToPlayer = null;
-    private CheckersGame.activeColor activeTurn;
-    private Gson gson = new Gson();
+    //private final TemplateEngine templateEngine;
+    private final GameCenter gameCenter;
+    private final Gson gson;
 
-    public PostValidateMove(final TemplateEngine templateEngine){
-        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+    /**
+     * Construct a new PostCheckTurnRoute
+     *
+     * @param gameCenter gameCenter to hold games
+     * @param gson Gson to handle JSON objects
+     */
+    public PostValidateMove(final GameCenter gameCenter, final Gson gson){
+        //this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        this.gson = Objects.requireNonNull(gson, "gson is required");
+        this.gameCenter = Objects.requireNonNull(gameCenter, "gameCenter is required");
         //
         LOG.config("PostValidateMove is initialized.");
 
 
     }
 
+    /**
+     * Check the proposed move to see if it is valid
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return info Message if the move is valid; error Message saying why the move is invalid otherwise
+     */
     @Override
     public String handle(Request request, Response response){
 
@@ -45,8 +63,9 @@ public class PostValidateMove implements Route {
         //a vm must be put in when this is called for the coordinates the piece lies at, as well as the piece it landed on
         final Session httpSession = request.session();
 
+
         Player thisPlayer = httpSession.attribute("currentUser");
-        CheckersGame game = thisPlayer.getCurrent_game();
+        CheckersGame game = gameCenter.getGameByID(httpSession.attribute("gameID"));
 
         String moveAsJson = request.queryParams("actionData");
         Move move = gson.fromJson(moveAsJson, Move.class);
@@ -64,14 +83,5 @@ public class PostValidateMove implements Route {
             return gson.toJson(INVALID_JUMP_MSG);
         }
         return gson.toJson(Message.info(""));
-
-        /*
-        if(moveValidation.validMove()){
-            return gson.toJson(Message.info("Valid Move"));
-        }
-        else{
-            return gson.toJson(Message.error("Invalid Move"));
-        }
-        */
     }
 }

@@ -157,8 +157,8 @@ public class WebServer {
     get(GAME_URL, new GetGameRoute(gameCenter, templateEngine));
     post(GAME_URL, new PostGameRoute(playerLobby, gameCenter));
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
-    post(CHECK_TURN_URL, new PostCheckTurnRoute((gson)));
-    post("/validateMove", new PostValidateMove(templateEngine));
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
+    post("/validateMove", new PostValidateMove(gameCenter, gson));
     post("/submitTurn", new PostSubmitTurn(templateEngine));
 
 

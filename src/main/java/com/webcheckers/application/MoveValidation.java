@@ -80,6 +80,7 @@ public class MoveValidation {
      * @param spaces 2D array of the board
      * @param row row of the piece being checked
      * @param col column of the piece bing checked
+     *
      * @return true if the piece can jump; false otherwise
      */
     private Boolean checkNormalJump(ModelSpace[][] spaces, int row, int col){
@@ -138,6 +139,7 @@ public class MoveValidation {
      * @param spaces 2D array of the board
      * @param row row of the piece being checked
      * @param col column of the piece bing checked
+     *
      * @return true if the piece can jump; false otherwise
      */
     private Boolean checkKingJump(ModelSpace[][] spaces, int row, int col){

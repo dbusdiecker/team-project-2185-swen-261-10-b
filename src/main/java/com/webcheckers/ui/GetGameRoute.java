@@ -67,6 +67,7 @@ public class GetGameRoute implements Route {
 
                 if (thisPlayer != null){
                     if (game.hasPlayer(thisPlayer)){
+                        httpSession.attribute("gameID", gameID);
 
                         vm.put("title", "Let's Play Checkers!");
                         vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
