@@ -57,13 +57,15 @@ public class GetHomeRoute implements Route {
     final Session httpSession = request.session();
     final Player currentUser = httpSession.attribute(PLAYER_ATTR);
     if( currentUser != null){
-        vm.put(PLAYER_ATTR, currentUser);
         Integer gameId = gameCenter.getIDByPlayer(currentUser);
         if (gameId != null){
             String URL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
             response.redirect(URL);
+            return null;
         }
-      vm.put("player_list", playerLobby.getOnlinePlayers()); // display online players to challenge
+
+        vm.put(PLAYER_ATTR, currentUser);
+        vm.put("player_list", playerLobby.getOnlinePlayers()); // display online players to challenge
     } else {
       vm.put("num_online", playerLobby.getNumOnlinePlayers());
     }

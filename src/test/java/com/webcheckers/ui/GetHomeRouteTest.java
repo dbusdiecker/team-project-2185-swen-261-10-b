@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import java.util.Map;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.Player;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -19,33 +20,38 @@ public class GetHomeRouteTest {
 
     private GetHomeRoute CuT;
 
-    // mock objects
-    PlayerLobby mockPlayerLobby;
-    TemplateEngine mockTemplateEngine;
-    Session mockSession;
-    Player user = new Player("PLAYER");
+    private Request request;
+    private Response response;
+    private Session session;
+    private TemplateEngine engine;
+
+    private PlayerLobby playerLobby;
+    private GameCenter gameCenter;
+
+
+    @BeforeEach
+    public void setup(){
+        request = mock(Request.class);
+        response = mock(Response.class);
+        session = mock(Session.class);
+        engine = mock(TemplateEngine.class);
+
+        playerLobby = new PlayerLobby();
+        gameCenter = new GameCenter();
+
+        when(request.session()).thenReturn(session);
+
+        CuT = new GetHomeRoute(playerLobby, gameCenter, engine);
+    }
 
     @Test
-    public void testRequest(){
-        mockPlayerLobby = mock(PlayerLobby.class);
-        mockTemplateEngine = mock(TemplateEngine.class);
-        Request mockRequest = mock(Request.class);
-        Response mockResponse = mock(Response.class);
-        mockSession = mock(Session.class);
-        when(mockRequest.session()).thenReturn(mockSession);
+    public void redirectUserToGame(){
+        Player thisPlayer = new Player("Consuela");
+        Player thatPlayer = new Player("Nikolai");
 
-        CuT = new GetHomeRoute(mockPlayerLobby, mockTemplateEngine);
+        gameCenter.createGame(thisPlayer, thatPlayer);
 
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(mockTemplateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-        CuT.handle(mockRequest, mockResponse);
-//        when(mockSession.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(GetHomeRoute.class.getName());
-
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
-//        testHelper.assertViewModelAttribute("currentUser", GetHomeRoute.PLAYER_ATTR);
-//        Test is not working, will revise by the end of the sprint
-        testHelper.assertViewName("home.ftl");
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(thisPlayer);
+        assertNull(CuT.handle(request, response));
     }
 }
