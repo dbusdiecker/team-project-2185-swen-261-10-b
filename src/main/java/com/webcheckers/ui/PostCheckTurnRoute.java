@@ -50,8 +50,11 @@ public class PostCheckTurnRoute implements Route {
 
         final Session httpSession = request.session();
         Player player = httpSession.attribute("currentUser");
-        CheckersGame game = gameCenter.getGameByID(httpSession.attribute("gameID"));
-        //CheckersGame game = player.getCurrent_game();
+
+        String gameIDAsString = request.queryParams("gameID");
+        Integer gameID = Integer.parseInt(gameIDAsString);
+        CheckersGame game = gameCenter.getGameByID(gameID);
+
         activeColor activeColor = game.whoseTurn();
         
         if(activeColor.equals(CheckersGame.activeColor.RED)){

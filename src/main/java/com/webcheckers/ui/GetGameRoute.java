@@ -67,8 +67,6 @@ public class GetGameRoute implements Route {
 
                 if (thisPlayer != null){
                     if (game.hasPlayer(thisPlayer)){
-                        httpSession.attribute("gameID", gameID);
-
                         vm.put("title", "Let's Play Checkers!");
                         vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
                         vm.put("viewMode", viewMode.PLAY);
@@ -77,7 +75,7 @@ public class GetGameRoute implements Route {
                         vm.put("whitePlayer",game.getWhitePlayer());
                         vm.put("activeColor", game.whoseTurn());
 
-                        //Maybe look into removing the chaining here.
+                        // Look into removing the chaining here.
                         vm.put("board", game.getBoard().getBoardView(thisPlayer));
 
                         return templateEngine.render(new ModelAndView(vm, "game.ftl"));

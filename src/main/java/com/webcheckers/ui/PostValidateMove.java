@@ -25,6 +25,7 @@ public class PostValidateMove implements Route {
     private static final Message INVALID_RANGE_MSG = Message.error("Move must be diagonal and 1 or 2 spaces");
     private static final Message BACKWARDS_MOVE_MSG = Message.error("Piece cannot move backwards");
     private static final Message INVALID_JUMP_MSG = Message.error("Piece cannot jump here");
+    private static final Message VALID_MOVE_MSG = Message.info("Move is valid");
 
     //private final TemplateEngine templateEngine;
     private final GameCenter gameCenter;
@@ -65,7 +66,10 @@ public class PostValidateMove implements Route {
 
 
         Player thisPlayer = httpSession.attribute("currentUser");
-        CheckersGame game = gameCenter.getGameByID(httpSession.attribute("gameID"));
+
+        String gameIDAsString = request.queryParams("gameID");
+        Integer gameID = Integer.parseInt(gameIDAsString);
+        CheckersGame game = gameCenter.getGameByID(gameID);
 
         String moveAsJson = request.queryParams("actionData");
         Move move = gson.fromJson(moveAsJson, Move.class);
@@ -82,6 +86,6 @@ public class PostValidateMove implements Route {
         if(!moveValidation.checkJump()){
             return gson.toJson(INVALID_JUMP_MSG);
         }
-        return gson.toJson(Message.info(""));
+        return gson.toJson(VALID_MOVE_MSG);
     }
 }
