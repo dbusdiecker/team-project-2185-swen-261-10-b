@@ -4,6 +4,7 @@ import com.webcheckers.ui.BoardView;
 import com.webcheckers.util.Message;
 
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * Object for a single checkers game
@@ -17,6 +18,8 @@ public class CheckersGame{
     Board board;
     private Message message = null;
     private activeColor activeTurnColor;
+
+    public Stack<Board> boardStates;
 
     //Colored pieces that can be moved
     public enum activeColor {
@@ -56,6 +59,8 @@ public class CheckersGame{
         return board;
     }
 
+    public void setBoard(Board newBoard){ board = newBoard;}
+
     public boolean hasPlayer(Player player){
         return player.equals(redPlayer) || player.equals(whitePlayer);
     }
@@ -75,6 +80,7 @@ public class CheckersGame{
         whitePlayer.startGame();
         this.board = new Board(redPlayer,whitePlayer);
         activeTurnColor = activeColor.RED;
+        boardStates = new Stack<Board>();
     }
 
     public CheckersGame(Player red, Player white){
@@ -84,6 +90,8 @@ public class CheckersGame{
         whitePlayer.startGame();
         this.board = new Board(redPlayer,whitePlayer);
         activeTurnColor = activeColor.RED;
+        boardStates = new Stack<Board>();
+
     }
 
 

@@ -24,13 +24,15 @@ public class PostSubmitTurnRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response){
+
         LOG.finer("PostSubmitTurnRoute is invoked.");
 
         String gameIDAsString = request.queryParams("gameID");
         Integer gameID = Integer.parseInt(gameIDAsString);
         CheckersGame game = gameCenter.getGameByID(gameID);
         game.ChangeTurn();
-
+        game.setBoard(game.boardStates.peek());
+        game.boardStates.empty();
         return gson.toJson(Message.info("Submit successful"));
     }
 }

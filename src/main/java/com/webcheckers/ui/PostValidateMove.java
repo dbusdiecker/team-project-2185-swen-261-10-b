@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Stack;
 import java.util.logging.Logger;
 
 /**
@@ -75,17 +76,28 @@ public class PostValidateMove implements Route {
         Move move = gson.fromJson(moveAsJson, Move.class);
         MoveValidation moveValidation = new MoveValidation(move, game);
 
-        if(!moveValidation.validRange()){
-            return gson.toJson(INVALID_RANGE_MSG);
-        }
+        if(game.boardStates.empty()) {
+            if (!moveValidation.validRange()) {
+                return gson.toJson(INVALID_RANGE_MSG);
+            }
         /*
         if(!moveValidation.validDirection()){
             return gson.toJson(BACKWARDS_MOVE_MSG);
         }
         */
-        if(!moveValidation.checkJump()){
-            return gson.toJson(INVALID_JUMP_MSG);
+            if (!moveValidation.checkJump()) {
+                return gson.toJson(INVALID_JUMP_MSG);
+            }
+            Board new_board = game.getBoard();
+            moveValidation.movePiece(new_board);
+            game.boardStates.push(new_board);
+            return gson.toJson(VALID_MOVE_MSG);
         }
-        return gson.toJson(VALID_MOVE_MSG);
+        else{
+            // CASE WHERE THERE ARE PAST MOVES MADE
+        }
+        return gson.toJson(VALID_MOVE_MSG); // TO FILL IN
+
+
     }
 }

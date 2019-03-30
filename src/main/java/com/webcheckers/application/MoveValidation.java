@@ -247,8 +247,7 @@ public class MoveValidation {
         return !piece.getColor().equals(activeColor);
     }
 
-    public void movePiece(){
-        Board board = game.getBoard();
+    public void movePiece(Board board){
         int startRow = move.getStart().getRow();
         int startCol = move.getStart().getCell();
         int endRow = move.getEnd().getRow();

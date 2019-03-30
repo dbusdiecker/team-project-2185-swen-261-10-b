@@ -40,6 +40,13 @@ public class Board {
         }
     }
 
+    public Board(Board board){
+        this.redPlayer = board.redPlayer;
+        this.whitePlayer = board.whitePlayer;
+        this.redBoardView = board.redBoardView;
+        this.whiteBoardView = board.whiteBoardView;
+    }
+
     /**
      * Creates a new checkers board with the given red and white players
      *
