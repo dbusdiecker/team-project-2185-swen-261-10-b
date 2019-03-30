@@ -116,5 +116,7 @@ public class Board {
         ModelPiece piece = spaces[startRow][startCol].getPiece();
         spaces[endRow][endCol].addPiece(piece);
         spaces[startRow][startCol].removePiece();
+        this.redBoardView = new BoardView(this, redPlayer);
+        this.whiteBoardView = new BoardView(this, whitePlayer);
     }
 }

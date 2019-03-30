@@ -82,9 +82,9 @@ public class PostValidateMove implements Route {
             if (!moveValidation.checkJump()) {
                 return gson.toJson(INVALID_JUMP_MSG);
             }
-            Board new_board = new Board(game.getBoard());
-            moveValidation.movePiece(new_board);
-            game.boardStates.push(new_board);
+            Board newBoard = new Board(game.getBoard());
+            moveValidation.movePiece(newBoard);
+            game.boardStates.push(newBoard);
             return gson.toJson(VALID_MOVE_MSG);
         }
         else{
