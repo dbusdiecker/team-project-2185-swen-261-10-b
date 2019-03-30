@@ -26,6 +26,7 @@ public class PostValidateMove implements Route {
     private static final Message INVALID_RANGE_MSG = Message.error("Move must be diagonal and 1 or 2 spaces");
     private static final Message BACKWARDS_MOVE_MSG = Message.error("Piece cannot move backwards");
     private static final Message INVALID_JUMP_MSG = Message.error("Piece cannot jump here");
+    private static final Message JUMP_POSSIBLE_MSG = Message.error("Cannot make single move when a jump is possible");
     private static final Message VALID_MOVE_MSG = Message.info("Move is valid");
 
     //private final TemplateEngine templateEngine;
@@ -71,6 +72,12 @@ public class PostValidateMove implements Route {
         MoveValidation moveValidation = new MoveValidation(move, game);
 
         //if(game.boardStates.empty()) {
+            if(!move.isJumpMove()){
+                if(moveValidation.jumpPossible()){
+                    return gson.toJson(JUMP_POSSIBLE_MSG);
+                }
+            }
+
             if (!moveValidation.validRange()) {
                 return gson.toJson(INVALID_RANGE_MSG);
             }

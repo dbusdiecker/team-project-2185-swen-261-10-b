@@ -52,7 +52,15 @@ public class MoveValidation {
             activeColor = Piece.color.RED;
         }
 
-        ModelSpace[][] spaces = game.getBoard().getSpaces();
+        ModelSpace[][] spaces;
+        if(game.boardStates.empty()) {
+            spaces = game.getBoard().getSpaces();
+        }
+        else{
+            spaces = game.boardStates.peek().getSpaces();
+        }
+
+        //ModelSpace[][] spaces = game.getBoard().getSpaces();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 if(spaces[row][col].isHasPiece() &&
@@ -88,20 +96,20 @@ public class MoveValidation {
             if(row <= 1){
                 return false;
             }
-            if(col < 6) {
+            if(col > 1) {
                 if (spaces[row - 1][col - 1].isHasPiece()) {
                     if(spaces[row - 1][col - 1].getPiece().getColor()
                             .equals(Piece.color.WHITE) &&
-                            spaces[row - 1][col - 2].isHasPiece()){
+                            !spaces[row - 2][col - 2].isHasPiece()){
                         return true;
                     }
                 }
             }
-            if(col > 1) {
+            if(col < 6) {
                 if (spaces[row - 1][col + 1].isHasPiece()) {
                     if(spaces[row - 1][col + 1].getPiece().getColor()
                             .equals(Piece.color.WHITE)&&
-                            spaces[row - 1][col + 2].isHasPiece()){
+                            !spaces[row - 2][col + 2].isHasPiece()){
                         return true;
                     }
                 }
@@ -111,20 +119,20 @@ public class MoveValidation {
             if(row >= 6){
                 return false;
             }
-            if(col < 6) {
+            if(col > 1) {
                 if (spaces[row + 1][col - 1].isHasPiece()) {
                     if(spaces[row + 1][col - 1].getPiece().getColor()
                             .equals(Piece.color.RED) &&
-                            spaces[row - 1][col - 2].isHasPiece()){
+                            !spaces[row + 2][col - 2].isHasPiece()){
                         return true;
                     }
                 }
             }
-            if(col > 1) {
+            if(col < 6) {
                 if (spaces[row + 1][col + 1].isHasPiece()) {
                     if(spaces[row + 1][col + 1].getPiece().getColor()
                             .equals(Piece.color.RED)&&
-                            spaces[row - 1][col + 2].isHasPiece()){
+                            !spaces[row + 2][col + 2].isHasPiece()){
                         return true;
                     }
                 }
@@ -150,20 +158,20 @@ public class MoveValidation {
             if(row <= 1){
                 return false;
             }
-            if(col < 6) {
+            if(col > 1) {
                 if (spaces[row - 1][col - 1].isHasPiece()) {
                     if(spaces[row - 1][col - 1].getPiece().getColor()
                             .equals(Piece.color.RED) &&
-                            spaces[row - 1][col - 2].isHasPiece()){
+                            !spaces[row - 2][col - 2].isHasPiece()){
                         return true;
                     }
                 }
             }
-            if(col > 1) {
+            if(col < 6) {
                 if (spaces[row - 1][col + 1].isHasPiece()) {
                     if(spaces[row - 1][col + 1].getPiece().getColor()
                             .equals(Piece.color.RED)&&
-                            spaces[row - 1][col + 2].isHasPiece()){
+                            !spaces[row - 2][col + 2].isHasPiece()){
                         return true;
                     }
                 }
@@ -173,20 +181,20 @@ public class MoveValidation {
             if(row >= 6){
                 return false;
             }
-            if(col < 6) {
+            if(col > 1) {
                 if (spaces[row + 1][col - 1].isHasPiece()) {
                     if(spaces[row + 1][col - 1].getPiece().getColor()
                             .equals(Piece.color.WHITE) &&
-                            spaces[row - 1][col - 2].isHasPiece()){
+                            !spaces[row + 2][col - 2].isHasPiece()){
                         return true;
                     }
                 }
             }
-            if(col > 1) {
+            if(col < 6) {
                 if (spaces[row + 1][col + 1].isHasPiece()) {
                     if(spaces[row + 1][col + 1].getPiece().getColor()
                             .equals(Piece.color.WHITE)&&
-                            spaces[row - 1][col + 2].isHasPiece()){
+                            !spaces[row + 2][col + 2].isHasPiece()){
                         return true;
                     }
                 }
@@ -260,6 +268,12 @@ public class MoveValidation {
         return !piece.getColor().equals(activeColor);
     }
 
+    /**
+     * Move a piece on the board from one space to another and remove a piece
+     * if the move is a jump
+     *
+     * @param board board being changed
+     */
     public void movePiece(Board board){
         int startRow = move.getStart().getRow();
         int startCol = move.getStart().getCell();
