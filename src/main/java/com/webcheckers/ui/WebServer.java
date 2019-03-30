@@ -159,7 +159,7 @@ public class WebServer {
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
     post("/validateMove", new PostValidateMove(gameCenter, gson));
-    post("/submitTurn", new PostSubmitTurn(templateEngine));
+    post("/submitTurn", new PostSubmitTurnRoute(gameCenter, gson));
 
 
     //
