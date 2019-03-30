@@ -202,7 +202,14 @@ public class MoveValidation {
      *         false if the piece is a single and moving backwards
      */
     public Boolean validDirection(){
-        ModelSpace[][] spaces = game.getBoard().getSpaces();
+        ModelSpace[][] spaces;
+        if(game.boardStates.empty()){
+            spaces = game.getBoard().getSpaces();
+        }
+        else{
+            spaces = game.boardStates.peek().getSpaces();
+        }
+        //ModelSpace[][] spaces = game.getBoard().getSpaces();
         int startRow = move.getStart().getRow();
         int startCel = move.getStart().getCell();
         ModelPiece piece = spaces[startRow][startCel].getPiece();
@@ -231,7 +238,13 @@ public class MoveValidation {
         if(move.cellMovement() < 2){
             return true;
         }
-        ModelSpace[][] spaces = game.getBoard().getSpaces();
+        ModelSpace[][] spaces;
+        if(game.boardStates.empty()) {
+            spaces = game.getBoard().getSpaces();
+        }
+        else{
+            spaces = game.boardStates.peek().getSpaces();
+        }
         int middleRow = (move.getStart().getRow() + move.getEnd().getRow())/2;
         int middleCel = (move.getStart().getCell() + move.getEnd().getCell())/2;
 
@@ -252,6 +265,9 @@ public class MoveValidation {
         int startCol = move.getStart().getCell();
         int endRow = move.getEnd().getRow();
         int endCol = move.getEnd().getCell();
+        if(move.isJumpMove()){
+            board.removePiece((startRow + endRow)/2 ,(startCol + endCol) / 2);
+        }
         board.movePiece(startRow, startCol, endRow, endCol);
     }
 

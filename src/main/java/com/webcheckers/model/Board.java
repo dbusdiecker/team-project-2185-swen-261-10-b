@@ -119,4 +119,14 @@ public class Board {
         this.redBoardView = new BoardView(this, redPlayer);
         this.whiteBoardView = new BoardView(this, whitePlayer);
     }
+
+    /**
+     * Removes a piece from the board
+     *
+     * @param row row of the space of the piece to be removed
+     * @param cell cell of the space of the piece to be removed
+     */
+    public void removePiece(int row, int cell){
+        spaces[row][cell].removePiece();
+    }
 }

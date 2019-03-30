@@ -66,4 +66,13 @@ public class Move {
     public String toString(){
         return "start:(" + start.toString() + ") end:(" + end.toString() + ")";
     }
+
+    /**
+     * Tells whether the move is a jump move or not
+     *
+     * @return true if the piece move 2 spaces; false otherwise
+     */
+    public boolean isJumpMove(){
+        return Math.abs(cellMovement()) == 2;
+    }
 }

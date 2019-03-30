@@ -70,15 +70,15 @@ public class PostValidateMove implements Route {
         Move move = gson.fromJson(moveAsJson, Move.class);
         MoveValidation moveValidation = new MoveValidation(move, game);
 
-        if(game.boardStates.empty()) {
+        //if(game.boardStates.empty()) {
             if (!moveValidation.validRange()) {
                 return gson.toJson(INVALID_RANGE_MSG);
             }
-        /*
-        if(!moveValidation.validDirection()){
-            return gson.toJson(BACKWARDS_MOVE_MSG);
-        }
-        */
+
+            if(!moveValidation.validDirection()){
+                return gson.toJson(BACKWARDS_MOVE_MSG);
+            }
+
             if (!moveValidation.checkJump()) {
                 return gson.toJson(INVALID_JUMP_MSG);
             }
@@ -86,11 +86,13 @@ public class PostValidateMove implements Route {
             moveValidation.movePiece(newBoard);
             game.boardStates.push(newBoard);
             return gson.toJson(VALID_MOVE_MSG);
+            /*
         }
         else{
             // CASE WHERE THERE ARE PAST MOVES MADE
         }
         return gson.toJson(VALID_MOVE_MSG); // TO FILL IN
+        */
 
 
     }
