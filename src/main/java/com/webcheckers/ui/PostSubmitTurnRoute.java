@@ -30,9 +30,12 @@ public class PostSubmitTurnRoute implements Route {
         String gameIDAsString = request.queryParams("gameID");
         Integer gameID = Integer.parseInt(gameIDAsString);
         CheckersGame game = gameCenter.getGameByID(gameID);
+
         game.ChangeTurn();
-        game.setBoard(game.boardStates.peek());
-        game.boardStates.empty();
+        game.setBoard(game.boardStates.pop());
+        while(!game.boardStates.empty()){
+            game.boardStates.pop();
+        }
         return gson.toJson(Message.info("Submit successful"));
     }
 }

@@ -7,6 +7,8 @@ import com.webcheckers.ui.BoardView;
  */
 public class Board {
 
+    private final int BOARD_SIZE = 8;
+
     private ModelSpace spaces[][];
 
     private Player redPlayer;
@@ -43,8 +45,17 @@ public class Board {
     public Board(Board board){
         this.redPlayer = board.redPlayer;
         this.whitePlayer = board.whitePlayer;
-        this.redBoardView = board.redBoardView;
-        this.whiteBoardView = board.whiteBoardView;
+
+        this.spaces = new ModelSpace[BOARD_SIZE][BOARD_SIZE];
+        ModelSpace[][] otherSpaces = board.getSpaces();
+        for (int row = 0; row < BOARD_SIZE; row++){
+            for ( int col = 0; col < BOARD_SIZE; col++ ){
+                this.spaces[row][col] = otherSpaces[row][col];
+            }
+        }
+
+        this.redBoardView = new BoardView(this, redPlayer);
+        this.whiteBoardView = new BoardView(this, whitePlayer);
     }
 
     /**
@@ -56,10 +67,10 @@ public class Board {
     public Board(Player red, Player white){
         this.redPlayer = red;
         this.whitePlayer = white;
-        this.spaces = new ModelSpace[8][8];
+        this.spaces = new ModelSpace[BOARD_SIZE][BOARD_SIZE];
         ModelSpace.spaceColor currentColor = ModelSpace.spaceColor.LIGHT;
-        for (int row = 0; row < 8; row++){
-            for (int col = 0; col < 8; col++){
+        for (int row = 0; row < BOARD_SIZE; row++){
+            for (int col = 0; col < BOARD_SIZE; col++){
                 spaces[row][col] = new ModelSpace(currentColor);
                 if (row > 4 && currentColor == ModelSpace.spaceColor.DARK){
                     spaces[row][col].addPiece(new ModelPiece(this, redPlayer, "red"));
@@ -104,5 +115,6 @@ public class Board {
     public void movePiece(int startRow, int startCol, int endRow, int endCol) {
         ModelPiece piece = spaces[startRow][startCol].getPiece();
         spaces[endRow][endCol].addPiece(piece);
+        spaces[startRow][startCol].removePiece();
     }
 }

@@ -60,13 +60,7 @@ public class PostValidateMove implements Route {
     public String handle(Request request, Response response){
 
         LOG.finer("PostValidateMove is invoked.");
-        Map<String, Object> vm = new HashMap<>();
 
-        //a vm must be put in when this is called for the coordinates the piece lies at, as well as the piece it landed on
-        final Session httpSession = request.session();
-
-
-        Player thisPlayer = httpSession.attribute("currentUser");
 
         String gameIDAsString = request.queryParams("gameID");
         Integer gameID = Integer.parseInt(gameIDAsString);
@@ -88,7 +82,7 @@ public class PostValidateMove implements Route {
             if (!moveValidation.checkJump()) {
                 return gson.toJson(INVALID_JUMP_MSG);
             }
-            Board new_board = game.getBoard();
+            Board new_board = new Board(game.getBoard());
             moveValidation.movePiece(new_board);
             game.boardStates.push(new_board);
             return gson.toJson(VALID_MOVE_MSG);

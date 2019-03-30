@@ -80,7 +80,7 @@ public class CheckersGame{
         whitePlayer.startGame();
         this.board = new Board(redPlayer,whitePlayer);
         activeTurnColor = activeColor.RED;
-        boardStates = new Stack<Board>();
+        boardStates = new Stack<>();
     }
 
     public CheckersGame(Player red, Player white){
@@ -90,7 +90,7 @@ public class CheckersGame{
         whitePlayer.startGame();
         this.board = new Board(redPlayer,whitePlayer);
         activeTurnColor = activeColor.RED;
-        boardStates = new Stack<Board>();
+        boardStates = new Stack<>();
 
     }
 
