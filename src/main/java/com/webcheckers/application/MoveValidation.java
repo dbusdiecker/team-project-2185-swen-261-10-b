@@ -285,7 +285,23 @@ public class MoveValidation {
         board.movePiece(startRow, startCol, endRow, endCol);
     }
 
-    public Boolean canMultiJump(){
-        return false;
+    /**
+     * Determines if the move is an initial move or if it is a valid non-initial move
+     *
+     * @return true if it is the first move or is a valid non-initial move; false otherwise
+     */
+    public boolean validSecondMoveCheck(){
+        int pieces = game.getBoard().numberOfPieces();
+        if(game.boardStates.empty()){
+            return true;
+        }
+        int startPieces = game.getBoard().numberOfPieces();
+        int currentPieces = game.boardStates.peek().numberOfPieces();
+        if(startPieces == currentPieces){
+            return false;
+        }
+        else{
+            return move.isJumpMove();
+        }
     }
 }

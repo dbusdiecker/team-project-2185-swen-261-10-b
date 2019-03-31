@@ -42,6 +42,11 @@ public class Board {
         }
     }
 
+    /**
+     * Creates a new board to match the given board
+     *
+     * @param board board to be copied
+     */
     public Board(Board board){
         this.redPlayer = board.redPlayer;
         this.whitePlayer = board.whitePlayer;
@@ -50,7 +55,7 @@ public class Board {
         ModelSpace[][] otherSpaces = board.getSpaces();
         for (int row = 0; row < BOARD_SIZE; row++){
             for ( int col = 0; col < BOARD_SIZE; col++ ){
-                this.spaces[row][col] = otherSpaces[row][col];
+                this.spaces[row][col] = new ModelSpace(otherSpaces[row][col]);
             }
         }
 
@@ -128,5 +133,43 @@ public class Board {
      */
     public void removePiece(int row, int cell){
         spaces[row][cell].removePiece();
+    }
+
+    /**
+     * Checks how many pieces are on the board
+     *
+     * @return current number of pieces
+     */
+    public int numberOfPieces(){
+        int result = 0;
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                if(spaces[row][col].isHasPiece()){
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Creates a string representation of the board
+     *
+     * @return string with a P where there is a piece and a space otherwise
+     */
+    public String toString(){
+        String result = "";
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                if(spaces[row][col].isHasPiece()){
+                    result += "P";
+                }
+                else{
+                    result += " ";
+                }
+            }
+            result += "\n";
+        }
+        return result;
     }
 }

@@ -31,6 +31,17 @@ public class ModelSpace implements Space {
     }
 
     /**
+     * Creates a new checkers space to match the given model space
+     *
+     * @param modelSpace space being matched
+     */
+    public ModelSpace(ModelSpace modelSpace){
+        this.color = modelSpace.getColor();
+        this.hasPiece = modelSpace.hasPiece;
+        this.piece = modelSpace.piece;
+    }
+
+    /**
      * Puts a piece on the space
      *
      * @param piece Piece being put on the space

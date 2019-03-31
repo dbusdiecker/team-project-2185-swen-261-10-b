@@ -71,36 +71,32 @@ public class PostValidateMove implements Route {
         Move move = gson.fromJson(moveAsJson, Move.class);
         MoveValidation moveValidation = new MoveValidation(move, game);
 
-        //if(game.boardStates.empty()) {
-            if(!move.isJumpMove()){
-                if(moveValidation.jumpPossible()){
-                    return gson.toJson(JUMP_POSSIBLE_MSG);
-                }
-            }
-
-            if (!moveValidation.validRange()) {
-                return gson.toJson(INVALID_RANGE_MSG);
-            }
-
-            if(!moveValidation.validDirection()){
-                return gson.toJson(BACKWARDS_MOVE_MSG);
-            }
-
-            if (!moveValidation.checkJump()) {
-                return gson.toJson(INVALID_JUMP_MSG);
-            }
-            Board newBoard = new Board(game.getBoard());
-            moveValidation.movePiece(newBoard);
-            game.boardStates.push(newBoard);
-            return gson.toJson(VALID_MOVE_MSG);
-            /*
+        if(!moveValidation.validSecondMoveCheck()){
+            return gson.toJson(Message.error("Not a valid second move"));
         }
-        else{
-            // CASE WHERE THERE ARE PAST MOVES MADE
+        if(!move.isJumpMove()){
+            if(moveValidation.jumpPossible()){
+                return gson.toJson(JUMP_POSSIBLE_MSG);
+            }
         }
-        return gson.toJson(VALID_MOVE_MSG); // TO FILL IN
-        */
 
+        if (!moveValidation.validRange()) {
+            return gson.toJson(INVALID_RANGE_MSG);
+        }
 
+        if(!moveValidation.validDirection()){
+            return gson.toJson(BACKWARDS_MOVE_MSG);
+        }
+
+        if (!moveValidation.checkJump()) {
+            return gson.toJson(INVALID_JUMP_MSG);
+        }
+        Board newBoard = new Board(game.getBoard());
+        if(!game.boardStates.empty()){
+            newBoard = new Board(game.boardStates.peek());
+        }
+        moveValidation.movePiece(newBoard);
+        game.boardStates.push(newBoard);
+        return gson.toJson(VALID_MOVE_MSG);
     }
 }
