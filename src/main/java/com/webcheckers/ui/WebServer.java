@@ -63,6 +63,7 @@ public class WebServer {
   public static final String BACKUP_URL = "/backupMove";
   public static final String MOVE_VALIDATION_URL = "/validateMove";
   public static final String SUBMIT_TURN_URL = "/submitTurn";
+  public static final String RESIGN_URL = "/";
 
 
   //
@@ -157,13 +158,14 @@ public class WebServer {
     get(HOME_URL, new GetHomeRoute(playerLobby, gameCenter, templateEngine));
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
-    get(GAME_URL, new GetGameRoute(gameCenter, templateEngine));
+    get(GAME_URL, new GetGameRoute(gameCenter, gson, templateEngine));
     post(GAME_URL, new PostGameRoute(playerLobby, gameCenter));
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
     post(BACKUP_URL, new PostBackupRoute(gameCenter, gson));
     post(MOVE_VALIDATION_URL, new PostValidateMove(gameCenter, gson));
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gameCenter, gson));
+    post(RESIGN_URL, new PostResignRoute(gameCenter, gson));
 
 
     //
