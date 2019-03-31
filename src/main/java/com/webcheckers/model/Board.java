@@ -130,18 +130,6 @@ public class Board {
                 piece.king();
         }
 
-        /*
-        int endRow = move.getEnd().getRow();
-        int endCol = move.getEnd().getCell();
-        ModelPiece piece = board.getSpaces()[endRow][endCol].getPiece();
-        if(piece.getColor().equals(Piece.color.WHITE) && endRow == 7){
-            piece.king();
-        }
-        else if(piece.getColor().equals(Piece.color.RED) && endRow == 0){
-            piece.king();
-        }
-         */
-
         this.redBoardView = new BoardView(this, redPlayer);
         this.whiteBoardView = new BoardView(this, whitePlayer);
     }

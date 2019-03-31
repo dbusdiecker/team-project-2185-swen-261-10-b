@@ -5,15 +5,11 @@ import com.webcheckers.application.MoveValidation;
 import com.webcheckers.model.Board;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Move;
-import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
 import com.google.gson.Gson;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Stack;
 import java.util.logging.Logger;
 
 /**
@@ -78,6 +74,11 @@ public class PostValidateMove implements Route {
             if(moveValidation.jumpPossible()){
                 return gson.toJson(JUMP_POSSIBLE_MSG);
             }
+
+        } else {
+            if (!moveValidation.jumpIsValid()) {
+                return gson.toJson(INVALID_JUMP_MSG);
+            }
         }
 
         if (!moveValidation.validRange()) {
@@ -88,9 +89,7 @@ public class PostValidateMove implements Route {
             return gson.toJson(BACKWARDS_MOVE_MSG);
         }
 
-        if (!moveValidation.checkJump()) {
-            return gson.toJson(INVALID_JUMP_MSG);
-        }
+
         Board newBoard = new Board(game.getBoard());
         if(!game.boardStates.empty()){
             newBoard = new Board(game.boardStates.peek());

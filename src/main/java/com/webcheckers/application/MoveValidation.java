@@ -60,7 +60,6 @@ public class MoveValidation {
             spaces = game.boardStates.peek().getSpaces();
         }
 
-        //ModelSpace[][] spaces = game.getBoard().getSpaces();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 if(spaces[row][col].isHasPiece() &&
@@ -107,9 +106,8 @@ public class MoveValidation {
             }
             if(col < 6) {
                 if (spaces[row - 1][col + 1].isHasPiece()) {
-                    if(spaces[row - 1][col + 1].getPiece().getColor()
-                            .equals(Piece.color.WHITE)&&
-                            !spaces[row - 2][col + 2].isHasPiece()){
+                    if(spaces[row - 1][col + 1].getPiece().getColor().equals(Piece.color.WHITE)
+                            && !spaces[row - 2][col + 2].isHasPiece()){
                         return true;
                     }
                 }
@@ -217,7 +215,7 @@ public class MoveValidation {
         else{
             spaces = game.boardStates.peek().getSpaces();
         }
-        //ModelSpace[][] spaces = game.getBoard().getSpaces();
+
         int startRow = move.getStart().getRow();
         int startCel = move.getStart().getCell();
         ModelPiece piece = spaces[startRow][startCel].getPiece();
@@ -240,12 +238,9 @@ public class MoveValidation {
     /**
      * Checks if the move is a jump and whether the jump is valid
      *
-     * @return true if it is not a jump or is a valid jump; false otherwise
+     * @return true if it is a valid jump; false otherwise
      */
-    public Boolean checkJump(){
-        if(move.cellMovement() < 2){
-            return true;
-        }
+    public Boolean jumpIsValid(){
         ModelSpace[][] spaces;
         if(game.boardStates.empty()) {
             spaces = game.getBoard().getSpaces();
@@ -261,11 +256,9 @@ public class MoveValidation {
         }
 
         ModelPiece piece = spaces[middleRow][middleCel].getPiece();
-        Piece.color activeColor = Piece.color.WHITE;
-        if(game.whoseTurn().equals(CheckersGame.activeColor.RED)){
-            activeColor = Piece.color.RED;
-        }
-        return !piece.getColor().equals(activeColor);
+        Piece.color pieceColor = piece.getColor();
+        CheckersGame.activeColor activeColor = game.whoseTurn();
+        return activeColor == CheckersGame.activeColor.RED ? pieceColor.equals(Piece.color.WHITE) : pieceColor.equals(Piece.color.RED);
     }
 
     /**
