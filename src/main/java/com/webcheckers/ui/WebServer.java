@@ -63,6 +63,7 @@ public class WebServer {
   public static final String BACKUP_URL = "/backupMove";
   public static final String MOVE_VALIDATION_URL = "/validateMove";
   public static final String SUBMIT_TURN_URL = "/submitTurn";
+  public static final String RESIGN_URL = "/";
 
 
   //
@@ -164,6 +165,7 @@ public class WebServer {
     post(BACKUP_URL, new PostBackupRoute(gameCenter, gson));
     post(MOVE_VALIDATION_URL, new PostValidateMove(gameCenter, gson));
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gameCenter, gson));
+    post(RESIGN_URL, new PostResignRoute(gameCenter, gson));
 
 
     //
