@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.ui.BoardView;
 import com.webcheckers.util.Message;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
@@ -78,6 +79,7 @@ public class CheckersGame{
         this.currentUser = currentUser;
         redPlayer.startGame();
         whitePlayer.startGame();
+        modeOptionsAsJSON = new HashMap<>(2);
         this.board = new Board(redPlayer,whitePlayer);
         activeTurnColor = activeColor.RED;
         boardStates = new Stack<>();
@@ -89,6 +91,7 @@ public class CheckersGame{
         redPlayer.startGame();
         whitePlayer.startGame();
         this.board = new Board(redPlayer,whitePlayer);
+        modeOptionsAsJSON = new HashMap<>(2);
         activeTurnColor = activeColor.RED;
         boardStates = new Stack<>();
 
@@ -105,6 +108,16 @@ public class CheckersGame{
         else{
             activeTurnColor = activeColor.RED;
         }
+    }
+
+    public Map<String, Object> getOptions(){
+        return modeOptionsAsJSON;
+    }
+
+    public void endGame(String gameOverMessage){
+        modeOptionsAsJSON.put("gameIsOver", true);
+        modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
+
     }
 
 

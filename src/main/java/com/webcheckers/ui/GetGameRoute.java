@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.CheckersGame;
@@ -19,6 +20,7 @@ public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
     private final TemplateEngine templateEngine;
     private final GameCenter gameCenter;
+    private final Gson gson;
     private static final Message GAME_CREATION_ERROR_MSG = Message.error("Game Creation Error: Cannot create a game with a player that is currently in a game.");
 
     public enum viewMode {
@@ -36,9 +38,10 @@ public class GetGameRoute implements Route {
      *
      * @param templateEngine The HTML template rendering engine.
      */
-    public GetGameRoute(final GameCenter gameCenter, final TemplateEngine templateEngine) {
+    public GetGameRoute(final GameCenter gameCenter, final Gson gson, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         this.gameCenter = Objects.requireNonNull(gameCenter, "gameCenter is required.");
+        this.gson = Objects.requireNonNull(gson, "gson is required");
         LOG.config("GetGameRoute is initialized.");
     }
 
@@ -70,7 +73,7 @@ public class GetGameRoute implements Route {
                         vm.put("title", "Let's Play Checkers!");
                         vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
                         vm.put("viewMode", viewMode.PLAY);
-                        // modeOptionsAsJSON is skipped for Sprint 1 - Insert here
+                        vm.put("modeOptionsAsJSON", gson.toJson(game.getOptions()));
                         vm.put("redPlayer", game.getRedPlayer());
                         vm.put("whitePlayer",game.getWhitePlayer());
                         vm.put("activeColor", game.whoseTurn());
