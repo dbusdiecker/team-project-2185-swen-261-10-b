@@ -161,6 +161,20 @@ public class Board {
         return result;
     }
 
+    public boolean playerHasPieces(Piece.color color){
+        ModelPiece piece;
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                piece = spaces[row][col].getPiece();
+                if( piece != null){
+                    if (piece.getColor().equals(color))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Creates a string representation of the board
      *
