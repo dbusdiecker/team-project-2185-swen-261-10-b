@@ -37,6 +37,14 @@ public class PostBackupRoute implements Route {
         LOG.config("PostBackupRoute is initialized.");
     }
 
+    /**
+     * Handle the request to back up a move
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return info Message if the move can be backed up; error Message saying the move cannot be backed up otherwise
+     */
     @Override
     public Object handle(Request request, Response response){
         LOG.finer("PostBackupRoute is invoked.");

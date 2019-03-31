@@ -13,6 +13,9 @@ import spark.*;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI Controller to submit a turn
+ */
 public class PostSubmitTurnRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
@@ -21,12 +24,26 @@ public class PostSubmitTurnRoute implements Route {
     private final GameCenter gameCenter;
     private final Gson gson;
 
+    /**
+     * Create a new PostSubmitTurnRoute
+     *
+     * @param gameCenter gameCenter holding the games
+     * @param gson Gson to handle JSON objects
+     */
     public PostSubmitTurnRoute(final GameCenter gameCenter, final Gson gson){
         LOG.config("PostSubmitTurnRoute is initialized.");
         this.gameCenter =  Objects.requireNonNull(gameCenter, "gameCenter is required");
         this.gson =  Objects.requireNonNull(gson, "gson is required");
     }
 
+    /**
+     * Check if the current state of the turn is valid
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return info Message if the turn is valid; error Message saying why the turn is invalid otherwise
+     */
     @Override
     public Object handle(Request request, Response response){
 
@@ -63,7 +80,7 @@ public class PostSubmitTurnRoute implements Route {
                             break;
                         }
                         else{
-                            if (jumpChecker.checkKingJump(currSpaces, row, col)){
+                            if (jumpChecker.checkKingJump(prevSpaces, row, col)){
                                 return gson.toJson(ADDITIONAL_JUMP_POSSIBLE);
                             }
                             check = true;

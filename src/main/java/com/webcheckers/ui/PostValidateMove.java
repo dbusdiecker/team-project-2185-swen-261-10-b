@@ -24,6 +24,7 @@ public class PostValidateMove implements Route {
     private static final Message INVALID_JUMP_MSG = Message.error("Piece cannot jump here");
     private static final Message JUMP_POSSIBLE_MSG = Message.error("Cannot make single move when a jump is possible");
     private static final Message VALID_MOVE_MSG = Message.info("Move is valid");
+    private static final Message INVALID_SECOND_MOVE_MSG = Message.error("Not a valid second move");
 
     //private final TemplateEngine templateEngine;
     private final GameCenter gameCenter;
@@ -68,7 +69,7 @@ public class PostValidateMove implements Route {
         MoveValidation moveValidation = new MoveValidation(move, game);
 
         if(!moveValidation.validSecondMoveCheck()){
-            return gson.toJson(Message.error("Not a valid second move"));
+            return gson.toJson(INVALID_SECOND_MOVE_MSG);
         }
         if(!move.isJumpMove()){
             if(moveValidation.jumpPossible()){
