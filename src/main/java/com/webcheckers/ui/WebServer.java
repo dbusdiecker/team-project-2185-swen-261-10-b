@@ -63,7 +63,7 @@ public class WebServer {
   public static final String BACKUP_URL = "/backupMove";
   public static final String MOVE_VALIDATION_URL = "/validateMove";
   public static final String SUBMIT_TURN_URL = "/submitTurn";
-  public static final String RESIGN_URL = "/";
+  public static final String RESIGN_URL = "/resignGame";
 
 
   //
