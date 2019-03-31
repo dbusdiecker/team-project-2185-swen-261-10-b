@@ -39,10 +39,7 @@ public class PostBackupRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response){
-        LOG.finer("PostCheckTurnRoute is invoked.");
-
-        final Session httpSession = request.session();
-        Player player = httpSession.attribute("currentUser");
+        LOG.finer("PostBackupRoute is invoked.");
 
         String gameIDAsString = request.queryParams("gameID");
         Integer gameID = Integer.parseInt(gameIDAsString);
