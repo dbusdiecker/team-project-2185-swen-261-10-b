@@ -283,6 +283,7 @@ public class MoveValidation {
             board.removePiece((startRow + endRow)/2 ,(startCol + endCol) / 2);
         }
         board.movePiece(startRow, startCol, endRow, endCol);
+        checkKinging(board);
     }
 
     /**
@@ -291,7 +292,6 @@ public class MoveValidation {
      * @return true if it is the first move or is a valid non-initial move; false otherwise
      */
     public boolean validSecondMoveCheck(){
-        int pieces = game.getBoard().numberOfPieces();
         if(game.boardStates.empty()){
             return true;
         }
@@ -302,6 +302,23 @@ public class MoveValidation {
         }
         else{
             return move.isJumpMove();
+        }
+    }
+
+    /**
+     * Checks if a piece has reached the other side of the board and kings them if they have
+     *
+     * @param board board with the piece to be checked
+     */
+    public void checkKinging(Board board){
+        int endRow = move.getEnd().getRow();
+        int endCol = move.getEnd().getCell();
+        ModelPiece piece = board.getSpaces()[endRow][endCol].getPiece();
+        if(piece.getColor().equals(Piece.color.WHITE) && endRow == 7){
+            piece.king();
+        }
+        else if(piece.getColor().equals(Piece.color.RED) && endRow == 0){
+            piece.king();
         }
     }
 }
