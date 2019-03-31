@@ -3,6 +3,10 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.CheckersGame;
+import com.webcheckers.application.MoveValidation;
+import com.webcheckers.model.ModelPiece;
+import com.webcheckers.model.ModelSpace;
+import com.webcheckers.model.Move;
 import com.webcheckers.util.Message;
 import spark.*;
 
@@ -13,6 +17,7 @@ public class PostSubmitTurnRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
+    private static final Message ADDITIONAL_JUMP_POSSIBLE = Message.error("Cannot end turn while a jump is still possible.");
     private final GameCenter gameCenter;
     private final Gson gson;
 
@@ -30,7 +35,47 @@ public class PostSubmitTurnRoute implements Route {
         String gameIDAsString = request.queryParams("gameID");
         Integer gameID = Integer.parseInt(gameIDAsString);
         CheckersGame game = gameCenter.getGameByID(gameID);
-
+        String moveAsJson = request.queryParams("actionData");
+        Move move = gson.fromJson(moveAsJson, Move.class);
+        MoveValidation jumpChecker = new MoveValidation(move, game);
+        int startNum = game.getBoard().numberOfPieces();
+        int endNum = game.boardStates.peek().numberOfPieces();
+        Piece.color activeColor = com.webcheckers.Piece.color.WHITE;
+        if(game.whoseTurn().equals(CheckersGame.activeColor.RED)){
+            activeColor = com.webcheckers.Piece.color.RED;
+        }
+        ModelSpace prevSpaces[][] = game.boardStates.peek().getSpaces();
+        ModelSpace currSpaces[][] = game.getBoard().getSpaces();
+        ModelPiece piece;
+        boolean check = false;
+        if (jumpChecker.jumpPossible() && (endNum < startNum)){
+            for (int row = 0; row < 8; row++){
+                for (int col = 0; col < 8; col++){
+                    if (!currSpaces[row][col].isHasPiece() &&
+                            prevSpaces[row][col].isHasPiece() &&
+                            prevSpaces[row][col].getPiece().getColor().equals(activeColor)){
+                        piece = prevSpaces[row][col].getPiece();
+                        if (piece.getType() == com.webcheckers.Piece.type.SINGLE){
+                            if(jumpChecker.checkNormalJump(prevSpaces, row, col)){
+                                return gson.toJson(ADDITIONAL_JUMP_POSSIBLE);
+                            }
+                            check = true;
+                            break;
+                        }
+                        else{
+                            if (jumpChecker.checkKingJump(currSpaces, row, col)){
+                                return gson.toJson(ADDITIONAL_JUMP_POSSIBLE);
+                            }
+                            check = true;
+                            break;
+                        }
+                    }
+                }
+                if (check){
+                    break;
+                }
+            }
+        }
         game.ChangeTurn();
         game.setBoard(game.boardStates.pop());
         while(!game.boardStates.empty()){

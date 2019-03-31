@@ -90,7 +90,7 @@ public class MoveValidation {
      *
      * @return true if the piece can jump; false otherwise
      */
-    private Boolean checkNormalJump(ModelSpace[][] spaces, int row, int col){
+    public Boolean checkNormalJump(ModelSpace[][] spaces, int row, int col){
         if(spaces[row][col].getPiece().getColor().equals(Piece.color.RED)){
             if(row <= 1){
                 return false;
@@ -148,7 +148,7 @@ public class MoveValidation {
      *
      * @return true if the piece can jump; false otherwise
      */
-    private Boolean checkKingJump(ModelSpace[][] spaces, int row, int col){
+    public Boolean checkKingJump(ModelSpace[][] spaces, int row, int col){
         if(checkNormalJump(spaces, row, col)){
             return true;
         }
