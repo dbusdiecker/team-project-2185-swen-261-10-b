@@ -47,8 +47,9 @@ public class PostBackupRoute implements Route {
 
         if (!game.boardStates.empty()){
             game.boardStates.pop();
+            return gson.toJson(Message.info("Move undone"));
+        } else {
+            return gson.toJson(Message.error("How did you get here?"));
         }
-
-        return gson.toJson(Message.info("Move undone"));
     }
 }
