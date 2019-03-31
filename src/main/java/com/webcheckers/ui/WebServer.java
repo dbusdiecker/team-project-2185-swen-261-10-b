@@ -60,6 +60,7 @@ public class WebServer {
   public static final String GAME_URL = "/game";
   public static final String GAME_WITH_ID_URL = "/game?gameID=%d";
   public static final String CHECK_TURN_URL = "/checkTurn";
+  public static final String BACKUP_URL = "/backupMove";
 
 
   //
@@ -158,6 +159,7 @@ public class WebServer {
     post(GAME_URL, new PostGameRoute(playerLobby, gameCenter));
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
+    post(BACKUP_URL, new PostBackupRoute(gameCenter, gson));
     post("/validateMove", new PostValidateMove(gameCenter, gson));
     post("/submitTurn", new PostSubmitTurnRoute(gameCenter, gson));
 
