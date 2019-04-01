@@ -3,9 +3,12 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.CheckersGame;
+import com.webcheckers.model.Player;
+import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Session;
 
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -36,7 +39,11 @@ public class PostResignRoute implements Route {
         Integer gameID = Integer.parseInt(gameIDAsString);
         CheckersGame game = gameCenter.getGameByID(gameID);
 
-        game.endGame("Player Resigns");
-        return null;
+        final Session httpSession = request.session();
+        Player player = httpSession.attribute("currentUser");
+
+        game.endGame(player.getName() + " Resigns");
+
+        return gson.toJson(Message.info("Game is over"));
     }
 }
