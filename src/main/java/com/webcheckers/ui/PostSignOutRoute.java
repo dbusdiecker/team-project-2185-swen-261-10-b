@@ -7,16 +7,31 @@ import spark.*;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI Controller to sign out a player
+ */
 public class PostSignOutRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostSignOutRoute.class.getName());
     private final PlayerLobby playerLobby;
 
-
+    /**
+     * Create a new PostSignOutRoute
+     *
+     * @param playerLobby playerLobby holding all the players
+     */
     public PostSignOutRoute(final PlayerLobby playerLobby) {
         this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
         LOG.config("PostSignOutRoute is initialized.");
     }
 
+    /**
+     * Function to handle the request to sign out
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return null
+     */
     public Object handle(Request request, Response response) {
         LOG.finer("PostSignOutRoute is invoked.");
 

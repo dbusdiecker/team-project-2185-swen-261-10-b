@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
@@ -23,6 +24,7 @@ public class GetHomeRoute implements Route {
   static final String PLAYER_ATTR = "currentUser";
 
   private final TemplateEngine templateEngine;
+  private final GameCenter gameCenter;
   private final PlayerLobby playerLobby;
 
   /**
@@ -30,9 +32,10 @@ public class GetHomeRoute implements Route {
    *
    * @param templateEngine The HTML template rendering engine.
    */
-  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+  public GetHomeRoute(final PlayerLobby playerLobby, final GameCenter gameCenter, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
+    this.gameCenter = Objects.requireNonNull(gameCenter, "playerLobby is required");
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -54,19 +57,15 @@ public class GetHomeRoute implements Route {
     final Session httpSession = request.session();
     final Player currentUser = httpSession.attribute(PLAYER_ATTR);
     if( currentUser != null){
-      vm.put(PLAYER_ATTR, currentUser);
-        if(currentUser.getCurrent_game() != null){
-            String opponent;
-            if(!(currentUser.getCurrent_game().getRedPlayer() == currentUser)){
-                opponent = currentUser.getCurrent_game().getRedPlayer().getName();
-            }
-            else{
-                opponent = currentUser.getCurrent_game().getWhitePlayer().getName();
-            }
-            String URL = WebServer.GAME_URL +"?player=" + opponent;
+        Integer gameId = gameCenter.getIDByPlayer(currentUser);
+        if (gameId != null){
+            String URL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
             response.redirect(URL);
+            return null;
         }
-      vm.put("player_list", playerLobby.getOnlinePlayers()); // display online players to challenge
+
+        vm.put(PLAYER_ATTR, currentUser);
+        vm.put("player_list", playerLobby.getOnlinePlayers()); // display online players to challenge
     } else {
       vm.put("num_online", playerLobby.getNumOnlinePlayers());
     }

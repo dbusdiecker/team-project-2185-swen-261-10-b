@@ -1,7 +1,7 @@
 package com.webcheckers.ui;
 
-import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Board;
+import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,16 +9,10 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import spark.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Logger;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Tag("UI-tier")
@@ -29,11 +23,13 @@ public class GetGameRouteTest {
     private Request request;
     private Session session;
     private TemplateEngine engine;
-    private PlayerLobby playerLobby;
+    private GameCenter gameCenter;
+    private Gson gson;
     private Response response;
 
-    private Player playerServices1;
-    private Player playerServices2;
+    private Player playerOne;
+    private Player playerTwo;
+    private Player playerThree;
 
 
     @BeforeEach
@@ -41,101 +37,90 @@ public class GetGameRouteTest {
         request = mock(Request.class);
         session = mock(Session.class);
         engine = mock(TemplateEngine.class);
-        playerLobby = new PlayerLobby();
+
+        gameCenter = new GameCenter();
+
         response = mock(Response.class);
+        gson = mock(Gson.class);
 
         //Player is a trusted class
-        playerServices1 = new Player("PLAYER1");
-        playerServices2 = new Player("PLAYER2");
-
+        playerOne = new Player("PLAYER1");
+        playerTwo = new Player("PLAYER2");
+        playerThree = new Player("PLAYER3");
 
         when(request.session()).thenReturn(session);
 
-        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices1);
-
-        when(request.queryParams(eq("player"))).thenReturn(playerServices2.getName());
-
-
-        CuT = new GetGameRoute(playerLobby,engine);
+        CuT = new GetGameRoute(gameCenter, gson, engine);
     }
 
     @Test
-    public void create_new_game_success(){
+    public void getGameSuccess(){
 
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerOne);
+        when(request.queryParams("gameID")).thenReturn("0");
 
-        playerLobby.addPlayer(playerServices1);
-        playerLobby.addPlayer(playerServices2);
+        Integer gameID = gameCenter.createGame(playerOne, playerTwo);
+        CheckersGame game = gameCenter.getGameByID(gameID);
 
         CuT.handle(request,response);
 
+        // Ensure getting the game is loaded properly for playerOne
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
-
-        testHelper.assertViewModelAttribute("redPlayer",playerServices1);
-        testHelper.assertViewModelAttribute("whitePlayer", playerServices2);
+        testHelper.assertViewModelAttribute("redPlayer", playerOne);
+        testHelper.assertViewModelAttribute("whitePlayer", playerTwo);
         testHelper.assertViewModelAttribute("activeColor",CheckersGame.activeColor.RED);
-        testHelper.assertViewModelAttribute("board", playerServices1.getCurrent_game().getBoard().getBoardView(playerServices1));
+        testHelper.assertViewModelAttribute("board", game.getBoard().getBoardView(playerOne));
+        testHelper.assertViewModelAttribute("viewMode", GetGameRoute.viewMode.PLAY);
+        testHelper.assertViewModelAttribute("title", "Let's Play Checkers!");
+
+
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerTwo);
+        CuT.handle(request,response);
+
+        // Ensure the view was successfully flipped to show playerTwo's perspective
+        // All other assertions are the same
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        testHelper.assertViewModelAttribute("redPlayer", playerOne);
+        testHelper.assertViewModelAttribute("whitePlayer", playerTwo);
+        testHelper.assertViewModelAttribute("activeColor",CheckersGame.activeColor.RED);
+        testHelper.assertViewModelAttribute("board", game.getBoard().getBoardView(playerTwo));
         testHelper.assertViewModelAttribute("viewMode", GetGameRoute.viewMode.PLAY);
         testHelper.assertViewModelAttribute("title", "Let's Play Checkers!");
     }
 
     @Test
-    public void create_new_game_failure(){
-
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-        playerLobby.addPlayer(playerServices1);
-        playerLobby.addPlayer(playerServices2);
-
-        CuT.handle(request,response);
-
-        Player playerServices3 = new Player("PLAYER3");
-        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices3);
-        when(request.queryParams(eq("player"))).thenReturn(playerServices1.getName());
-
-        Object result;
-        result = CuT.handle(request,response);
-        assertNull(result);
+    public void gameIDIsNull(){
+        when(request.queryParams("gameID")).thenReturn(null);
+        assertNull(CuT.handle(request, response));
     }
 
     @Test
-    public void create_new_game_redirect(){
-
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-
-        playerLobby.addPlayer(playerServices1);
-        playerLobby.addPlayer(playerServices2);
-
-        Object first = CuT.handle(request,response);
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
-        testHelper.assertViewModelAttribute("board", playerServices1.getCurrent_game().getBoard().getBoardView(playerServices1));
-
-
-        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerServices2);
-
-        when(request.queryParams(eq("player"))).thenReturn(playerServices1.getName());
-
-        Object second = CuT.handle(request,response);
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
-        testHelper.assertViewModelAttribute("board", playerServices2.getCurrent_game().getBoard().getBoardView(playerServices2));
-
-        testHelper.assertViewModelAttributeIsAbsent("message");
+    public void gameDoesntExist(){
+        when(request.queryParams("gameID")).thenReturn("0");
+        assertNull(CuT.handle(request, response));
     }
 
+    @Test
+    public void playerNotLoggedIn(){
+        when(request.queryParams("gameID")).thenReturn("0");
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(null);
 
+        gameCenter.createGame(playerOne, playerTwo);
 
+        assertNull(CuT.handle(request, response));
+    }
 
+    @Test
+    public void playerNotPartOfGame(){
+        when(request.queryParams("gameID")).thenReturn("0");
+        when(session.attribute(GetHomeRoute.PLAYER_ATTR)).thenReturn(playerThree);
 
+        gameCenter.createGame(playerOne, playerTwo);
 
-
-
-
-
-
+        assertNull(CuT.handle(request, response));
+    }
 }
