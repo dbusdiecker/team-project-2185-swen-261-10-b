@@ -41,7 +41,7 @@ public class GetGameRouteTest {
         gameCenter = new GameCenter();
 
         response = mock(Response.class);
-        gson = mock(Gson.class);
+        gson = new Gson();
 
         //Player is a trusted class
         playerOne = new Player("PLAYER1");

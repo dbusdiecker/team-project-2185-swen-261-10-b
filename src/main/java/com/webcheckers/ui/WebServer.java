@@ -167,7 +167,6 @@ public class WebServer {
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gameCenter, gson));
     post(RESIGN_URL, new PostResignRoute(gameCenter, gson));
 
-
     //
     LOG.config("WebServer is initialized.");
   }
