@@ -64,7 +64,26 @@ public class PostValidateMoveTest {
         CuT = new PostValidateMove(gameCenter,gson);
         String result = CuT.handle(request,response);
         assertEquals(gson.toJson(VALID_MOVE_MSG),result);
+    }
 
+    @Test
+    public void invalidMove(){
+
+        move = new Move(new Position(6,3),new Position(2,4));
+        when(request.queryParams("actionData")).thenReturn(gson.toJson(move));
+        CuT = new PostValidateMove(gameCenter,gson);
+        String result = CuT.handle(request,response);
+        assertEquals(gson.toJson(INVALID_RANGE_MSG),result);
+    }
+
+    @Test
+    public void invalidBackwardsMove(){
+
+        move = new Move(new Position(6,3),new Position(7,4));
+        when(request.queryParams("actionData")).thenReturn(gson.toJson(move));
+        CuT = new PostValidateMove(gameCenter,gson);
+        String result = CuT.handle(request,response);
+        assertEquals(gson.toJson(BACKWARDS_MOVE_MSG),result);
     }
 
 
