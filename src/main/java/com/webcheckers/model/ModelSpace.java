@@ -1,9 +1,11 @@
 package com.webcheckers.model;
 
+import com.webcheckers.Space;
+
 /**
  * Object for the model of a space on a checkers board
  */
-public class ModelSpace {
+public class ModelSpace implements Space {
 
     //Colors of the spaces
     public enum spaceColor{
@@ -29,6 +31,17 @@ public class ModelSpace {
     }
 
     /**
+     * Creates a new checkers space to match the given model space
+     *
+     * @param modelSpace space being matched
+     */
+    public ModelSpace(ModelSpace modelSpace){
+        this.color = modelSpace.getColor();
+        this.hasPiece = modelSpace.hasPiece;
+        this.piece = modelSpace.piece;
+    }
+
+    /**
      * Puts a piece on the space
      *
      * @param piece Piece being put on the space
@@ -36,6 +49,14 @@ public class ModelSpace {
     public void addPiece(ModelPiece piece){
         this.piece = piece;
         this.hasPiece = true;
+    }
+
+    /**
+     * Removes the piece on the space
+     */
+    public void removePiece(){
+        this.piece = null;
+        this.hasPiece = false;
     }
 
     /**
