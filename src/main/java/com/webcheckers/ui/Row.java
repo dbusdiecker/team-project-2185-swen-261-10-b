@@ -44,6 +44,13 @@ public class Row implements Iterable{
     }
 
     /**
+     *
+     * @return this.spaces
+     */
+    public Space[] getSpaces(){
+        return this.spaces;
+    }
+    /**
      * Creates a Java iterator of the spaces in a row
      *
      * @return Iterator of spaces

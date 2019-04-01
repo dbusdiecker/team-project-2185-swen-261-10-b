@@ -1,4 +1,4 @@
-package com.webcheckers.ui;
+package com.webcheckers.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.webcheckers.application.PlayerLobby;

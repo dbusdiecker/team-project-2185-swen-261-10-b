@@ -41,11 +41,38 @@ public class Move {
     }
 
     /**
+     * Finds the vertical movement
+     *
+     * @return absolute value of the difference in rows index
+     */
+    public int rowMovement(){
+        return end.getRow() - start.getRow();
+    }
+
+    /**
+     * Finds the horizontal movement
+     *
+     * @return absolute value of the difference in cell index
+     */
+    public int cellMovement(){
+        return end.getCell() - start.getCell();
+    }
+
+    /**
      * Creates a string representation of the move
      *
      * @return string of move
      */
     public String toString(){
         return "start:(" + start.toString() + ") end:(" + end.toString() + ")";
+    }
+
+    /**
+     * Tells whether the move is a jump move or not
+     *
+     * @return true if the piece move 2 spaces; false otherwise
+     */
+    public boolean isJumpMove(){
+        return Math.abs(cellMovement()) == 2;
     }
 }

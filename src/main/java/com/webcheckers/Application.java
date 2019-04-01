@@ -6,6 +6,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.ui.WebServer;
 
@@ -54,6 +55,7 @@ public final class Application {
 
 
     final PlayerLobby playerLobby = new PlayerLobby();
+    final GameCenter gameCenter = new GameCenter();
 
     // The application uses Gson to generate JSON representations of Java objects.
     // This should be used by your Ajax Routes to generate JSON for the HTTP
@@ -61,7 +63,7 @@ public final class Application {
     final Gson gson = new Gson();
 
     // inject the game center and freemarker engine into web server
-    final WebServer webServer = new WebServer(templateEngine, playerLobby, gson);
+    final WebServer webServer = new WebServer(templateEngine, playerLobby, gameCenter, gson);
 
     // inject web server into application
     final Application app = new Application(webServer);

@@ -7,7 +7,6 @@ public class Player {
 
     private String name;
     private boolean inGame;
-    private CheckersGame current_game;
 
     /**
      * Create a new player
@@ -16,8 +15,7 @@ public class Player {
      */
     public Player(String name){
         this.name = name;
-        this.current_game = null;
-        boolean inGame = false;
+        this.inGame = false;
     }
 
     /**
@@ -26,22 +24,6 @@ public class Player {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     *
-     * @return this.current_game
-     */
-    public CheckersGame getCurrent_game() {
-        return current_game;
-    }
-
-    /**
-     *
-     * @param current_game New current game
-     */
-    public void setCurrent_game(CheckersGame current_game) {
-        this.current_game = current_game;
     }
 
     /**
