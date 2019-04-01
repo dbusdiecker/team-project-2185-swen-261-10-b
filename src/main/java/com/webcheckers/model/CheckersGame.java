@@ -108,7 +108,7 @@ public class CheckersGame {
     }
 
     public void endGame(String gameOverMessage) {
-        modeOptionsAsJSON.put("gameIsOver", true);
+        modeOptionsAsJSON.put("isGameOver", true);
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }
 
