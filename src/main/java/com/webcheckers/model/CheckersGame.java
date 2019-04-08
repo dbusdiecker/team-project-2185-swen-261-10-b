@@ -111,6 +111,9 @@ public class CheckersGame {
         modeOptionsAsJSON.put("isGameOver", true);
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }
+    public boolean isGameOver(){
+        return (modeOptionsAsJSON.containsKey("isGameOver") && modeOptionsAsJSON.get("isGameOver").equals(true));
+    }
 
 
     public boolean playerHasLost() {

@@ -297,4 +297,25 @@ public class MoveValidation {
         }
     }
 
+    public boolean playerHasPieces(CheckersGame.activeColor playerColor){
+        Piece.color pColor;
+        if(playerColor == CheckersGame.activeColor.RED){
+            pColor = Piece.color.RED;
+        }
+        else{
+            pColor = Piece.color.WHITE;
+        }
+        ModelSpace[][] spaces;
+
+        spaces = game.boardStates.peek().getSpaces();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if(spaces[row][col].isHasPiece() && spaces[row][col].getPiece().getColor().equals(pColor)){
+                        return true;
+                    }
+                }
+            }
+            return false;
+    }
+
 }
