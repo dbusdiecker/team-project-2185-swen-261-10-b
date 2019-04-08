@@ -115,17 +115,4 @@ public class CheckersGame {
         return (modeOptionsAsJSON.containsKey("isGameOver") && modeOptionsAsJSON.get("isGameOver").equals(true));
     }
 
-
-    public boolean playerHasLost() {
-        boolean redHasPieces = board.playerHasPieces(Piece.color.RED);
-        boolean whiteHasPieces = board.playerHasPieces(Piece.color.WHITE);
-        if(!redHasPieces){
-            endGame( String.format(PIECES_CAPTURED_STRING, whitePlayer.getName()));
-            return true;
-        } else if (!whiteHasPieces) {
-            endGame( String.format(PIECES_CAPTURED_STRING, redPlayer.getName()));
-            return true;
-        }
-        return false;
-    }
 }
