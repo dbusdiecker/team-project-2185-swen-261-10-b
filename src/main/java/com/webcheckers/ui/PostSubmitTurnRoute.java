@@ -21,6 +21,7 @@ public class PostSubmitTurnRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostSubmitTurnRoute.class.getName());
 
     private static final Message ADDITIONAL_JUMP_POSSIBLE = Message.error("Cannot end turn while a jump is still possible.");
+    private static final String PIECES_CAPTURED_STRING = "%s has captured all of the pieces.";
     private final GameCenter gameCenter;
     private final Gson gson;
 
@@ -97,6 +98,17 @@ public class PostSubmitTurnRoute implements Route {
         game.setBoard(game.boardStates.pop());
         while(!game.boardStates.empty()){
             game.boardStates.pop();
+        }
+        String name;
+        if(!jumpChecker.playerHasPieces(CheckersGame.activeColor.RED) ||
+                !jumpChecker.playerHasPieces(CheckersGame.activeColor.WHITE)){
+            if (activeColor == com.webcheckers.Piece.color.WHITE){
+                name = game.getWhitePlayer().getName();
+            }
+            else{
+                name = game.getRedPlayer().getName();
+            }
+            game.endGame(String.format(PIECES_CAPTURED_STRING, name));
         }
         return gson.toJson(Message.info("Submit successful"));
     }

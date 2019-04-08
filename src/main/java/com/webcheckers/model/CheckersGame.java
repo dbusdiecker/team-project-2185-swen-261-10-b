@@ -18,7 +18,7 @@ public class CheckersGame {
     private activeColor activeTurnColor;
 
     public Stack<Board> boardStates;
-    private static final String PIECES_CAPTURED_STRING = "%s has captured all of the pieces.";
+
     //Colored pieces that can be moved
     public enum activeColor {
         RED,
@@ -111,6 +111,7 @@ public class CheckersGame {
         modeOptionsAsJSON.put("isGameOver", true);
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }
+
     public boolean isGameOver(){
         return (modeOptionsAsJSON.containsKey("isGameOver") && modeOptionsAsJSON.get("isGameOver").equals(true));
     }

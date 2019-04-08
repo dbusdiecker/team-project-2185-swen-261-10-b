@@ -307,7 +307,7 @@ public class MoveValidation {
         }
         ModelSpace[][] spaces;
 
-        spaces = game.boardStates.peek().getSpaces();
+        spaces = game.getBoard().getSpaces();
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 if(spaces[row][col].isHasPiece() && spaces[row][col].getPiece().getColor().equals(pColor)){
