@@ -64,28 +64,41 @@ public class GetGameRoute implements Route {
             Integer gameID = Integer.parseInt(gameIDAsString);
             CheckersGame game = gameCenter.getGameByID(gameID);
 
-            if (game != null){
-                final Session httpSession = request.session();
-                Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
+            if (game != null) {
 
-                if (thisPlayer != null){
-                    if (game.hasPlayer(thisPlayer)){
-                        vm.put("title", "Let's Play Checkers!");
-                        vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
-                        vm.put("viewMode", viewMode.PLAY);
-                        vm.put("modeOptionsAsJSON", gson.toJson(game.getOptions()));
-                        vm.put("redPlayer", game.getRedPlayer());
-                        vm.put("whitePlayer",game.getWhitePlayer());
-                        vm.put("activeColor", game.whoseTurn());
-
-                        // Look into removing the chaining here.
-                        vm.put("board", game.getBoard().getBoardView(thisPlayer));
-
-                        return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+                if (game.isGameOver()) {
+                    if(game.isEndState() < 2){
+                        game.addToEndState();
                     }
+                    else{
+                        gameCenter.endGame(gameID);
+                        response.redirect(WebServer.HOME_URL);
+                        return null;
+                    }
+                    //TODO - Make this better, it's very weak right now.
                 }
-            }
 
+                    final Session httpSession = request.session();
+                    Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
+
+                    if (thisPlayer != null) {
+                        if (game.hasPlayer(thisPlayer)) {
+                            vm.put("title", "Let's Play Checkers!");
+                            vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
+                            vm.put("viewMode", viewMode.PLAY);
+                            vm.put("modeOptionsAsJSON", gson.toJson(game.getOptions()));
+                            vm.put("redPlayer", game.getRedPlayer());
+                            vm.put("whitePlayer", game.getWhitePlayer());
+                            vm.put("activeColor", game.whoseTurn());
+
+                            // Look into removing the chaining here.
+                            vm.put("board", game.getBoard().getBoardView(thisPlayer));
+
+                            return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+                        }
+                    }
+
+            }
 
         }
 
