@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class PostResignRoute implements Route {
-    private static final Logger LOG = Logger.getLogger(PostBackupRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger(PostResignRoute.class.getName());
 
     private final Gson gson;
     private final GameCenter gameCenter;
@@ -32,6 +32,13 @@ public class PostResignRoute implements Route {
         LOG.config("PostBackupRoute is initialized.");
     }
 
+    /**
+     * Ends the game and sends a message to the game to show why the game has ended
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     public Object handle(Request request, Response response) {
         LOG.finer("PostResignRoute is invoked.");
 
@@ -42,7 +49,7 @@ public class PostResignRoute implements Route {
         final Session httpSession = request.session();
         Player player = httpSession.attribute("currentUser");
 
-        game.endGame(player.getName() + " has resigned");
+        game.endGame(player.getName() + " has resigned.");
 
         return gson.toJson(Message.info(player.getName() + " resigned"));
     }
