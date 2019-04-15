@@ -6,6 +6,10 @@ package com.webcheckers.model;
 public class Player {
 
     private String name;
+    private boolean inGame;
+    private double wins;
+    private double totalGames;
+    private double winRate = ((wins/totalGames)*100);
 
     /**
      * Create a new player
@@ -14,6 +18,7 @@ public class Player {
      */
     public Player(String name){
         this.name = name;
+        this.inGame = false;
     }
 
     /**
@@ -23,6 +28,22 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    /**
+     *
+     * @return this.inGame
+     */
+    public boolean isInGame() {return inGame;}
+
+    /**
+     * Set inGame to true
+     */
+    public void startGame(){inGame = true;}
+
+    /**
+     * Set inGame to false
+     */
+    public void endGame(){inGame = false;}
 
     /**
      * Determine if two players are equal
