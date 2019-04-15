@@ -19,19 +19,12 @@ public class GameCenter {
     }
 
     public void endGame(Integer gameID){
-        CheckersGame game = games.get(gameID);
-        Player red = game.getRedPlayer();
-        Player white = game.getWhitePlayer();
-        red.endGame();
-        white.endGame();
         games.remove(gameID);
     }
 
     public Integer createGame(Player redPlayer, Player whitePlayer){
         Integer gameID = lastGameID;
         CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
-        redPlayer.startGame();
-        whitePlayer.startGame();
         games.put(gameID,game);
         lastGameID++;
         return gameID;
@@ -48,8 +41,12 @@ public class GameCenter {
 
         for (Integer id: games.keySet()){
             CheckersGame game = games.get(id);
-            if (game.hasPlayer(player))
+            if (game.hasPlayer(player) && !game.isGameOver()) {
                 return id;
+            }
+            if(game.isGameOver()){
+                endGame(id);
+            }
         }
         return null;
     }

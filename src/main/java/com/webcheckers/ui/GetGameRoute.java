@@ -66,20 +66,9 @@ public class GetGameRoute implements Route {
 
             if (game != null) {
 
-                if (game.isGameOver()) {
-                    if(game.isEndState() < 2){
-                        game.addToEndState();
-                    }
-                    else{
-                        gameCenter.endGame(gameID);
-                        response.redirect(WebServer.HOME_URL);
-                        return null;
-                    }
-                    //TODO - Make this better, it's very weak right now.
-                }
+                final Session httpSession = request.session();
+                Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
 
-                    final Session httpSession = request.session();
-                    Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
 
                     if (thisPlayer != null) {
                         if (game.hasPlayer(thisPlayer)) {

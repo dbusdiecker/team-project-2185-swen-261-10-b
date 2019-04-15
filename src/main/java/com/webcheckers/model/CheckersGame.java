@@ -13,10 +13,13 @@ public class CheckersGame {
 
     private Player redPlayer;
     private Player whitePlayer;
+
     private Map<String, Object> modeOptionsAsJSON;
     Board board;
     private activeColor activeTurnColor;
-    int endState;
+
+
+
 
     public Stack<Board> boardStates;
 
@@ -26,13 +29,7 @@ public class CheckersGame {
         WHITE
     }
 
-    public int isEndState(){
-        return endState;
-    }
 
-    public void addToEndState(){
-        endState++;
-    }
     /**
      * @return this.redPlayer
      */
@@ -79,25 +76,19 @@ public class CheckersGame {
     public CheckersGame(Player red, Player white, Player currentUser) {
         redPlayer = red;
         whitePlayer = white;
-        redPlayer.startGame();
-        whitePlayer.startGame();
         modeOptionsAsJSON = new HashMap<>(2);
         this.board = new Board(redPlayer, whitePlayer);
         activeTurnColor = activeColor.RED;
         boardStates = new Stack<>();
-        endState = 0;
     }
 
     public CheckersGame(Player red, Player white) {
         redPlayer = red;
         whitePlayer = white;
-        redPlayer.startGame();
-        whitePlayer.startGame();
         this.board = new Board(redPlayer, whitePlayer);
         modeOptionsAsJSON = new HashMap<>(2);
         activeTurnColor = activeColor.RED;
         boardStates = new Stack<>();
-        endState = 0;
 
     }
 
