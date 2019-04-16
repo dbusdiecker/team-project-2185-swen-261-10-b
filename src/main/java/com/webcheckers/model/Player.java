@@ -1,5 +1,8 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Object for a single player
  */
@@ -10,6 +13,7 @@ public class Player {
     private double wins;
     private double totalGames;
     private double winRate = ((wins/totalGames)*100);
+    private List<Player> currentOpponents = new ArrayList<>();
 
     /**
      * Create a new player
@@ -34,6 +38,18 @@ public class Player {
      * @return this.inGame
      */
     public boolean isInGame() {return inGame;}
+
+    public List<Player> getCurrentOpponents(){
+        return currentOpponents;
+    }
+
+    public void addOponent(Player opponent){
+        currentOpponents.add(opponent);
+    }
+
+    public void removeOpponent(Player opponent){
+        currentOpponents.remove(opponent);
+    }
 
     /**
      * Set inGame to true

@@ -79,6 +79,7 @@ public class GetGameRoute implements Route {
                             vm.put("redPlayer", game.getRedPlayer());
                             vm.put("whitePlayer", game.getWhitePlayer());
                             vm.put("activeColor", game.whoseTurn());
+                            vm.put("opponent_list", thisPlayer.getCurrentOpponents());
 
                             // Look into removing the chaining here.
                             vm.put("board", game.getBoard().getBoardView(thisPlayer));

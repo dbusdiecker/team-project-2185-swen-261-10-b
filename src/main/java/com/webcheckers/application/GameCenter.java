@@ -50,4 +50,17 @@ public class GameCenter {
         }
         return null;
     }
+
+    public Integer getIDByOpponents(Player player1, Player player2){
+        for (Integer id: games.keySet()){
+            CheckersGame game = games.get(id);
+            if (game.hasPlayer(player1) && game.hasPlayer(player2) && !game.isGameOver()) {
+                return id;
+            }
+            if(game.isGameOver()){
+                endGame(id);
+            }
+        }
+        return null;
+    }
 }
