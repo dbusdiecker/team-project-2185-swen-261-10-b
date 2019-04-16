@@ -51,4 +51,10 @@
 </div>
 </body>
 
+<#if currentUser??>
+  <div class="sidenav">
+    <h2>Current Games</h2>
+  </div>
+</#if>
+
 </html>
