@@ -25,6 +25,8 @@ public class GameCenter {
     public Integer createGame(Player redPlayer, Player whitePlayer){
         Integer gameID = lastGameID;
         CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
+        redPlayer.startGame();
+        whitePlayer.startGame();
         games.put(gameID,game);
         lastGameID++;
         return gameID;

@@ -108,7 +108,15 @@ public class CheckersGame {
         return modeOptionsAsJSON;
     }
 
-    public void endGame(String gameOverMessage) {
+    public void endGame(String gameOverMessage, String winner) {
+        if(winner.equals(whitePlayer.getName())){
+            whitePlayer.endGame(true);
+            redPlayer.endGame(false);
+        }
+        else{
+            whitePlayer.endGame(false);
+            redPlayer.endGame(true);
+        }
         modeOptionsAsJSON.put("isGameOver", true);
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }

@@ -9,11 +9,12 @@ import java.util.List;
 public class Player {
 
     private String name;
-    private boolean inGame;
+    private int activeGames;
     private double wins;
     private double totalGames;
     private double winRate = ((wins/totalGames)*100);
     private List<Player> currentOpponents = new ArrayList<>();
+    private static int MAX_GAMES = 5;
 
     /**
      * Create a new player
@@ -22,7 +23,7 @@ public class Player {
      */
     public Player(String name){
         this.name = name;
-        this.inGame = false;
+        this.activeGames = 0;
     }
 
     /**
@@ -33,11 +34,14 @@ public class Player {
         return name;
     }
 
-    /**
-     *
-     * @return this.inGame
-     */
-    public boolean isInGame() {return inGame;}
+
+    public double getWinRate(){
+        return winRate;
+    }
+
+    public boolean canJoinNewGame(){
+        return(activeGames < MAX_GAMES);
+    }
 
     public List<Player> getCurrentOpponents(){
         return currentOpponents;
@@ -54,12 +58,20 @@ public class Player {
     /**
      * Set inGame to true
      */
-    public void startGame(){inGame = true;}
+    public void startGame(){
+        activeGames++;
+        totalGames++;
+    }
 
     /**
      * Set inGame to false
      */
-    public void endGame(){inGame = false;}
+    public void endGame(boolean won){
+        activeGames--;
+        if(won){
+            wins++;
+        }
+    }
 
     /**
      * Determine if two players are equal
