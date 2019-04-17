@@ -44,9 +44,11 @@ public class GameCenter {
             if (game.hasPlayer(player) && !game.isGameOver()) {
                 return id;
             }
+            /*
             if(game.isGameOver()){
                 endGame(id);
             }
+            */
         }
         return null;
     }

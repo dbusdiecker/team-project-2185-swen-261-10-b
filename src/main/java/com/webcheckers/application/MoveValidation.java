@@ -297,6 +297,13 @@ public class MoveValidation {
         }
     }
 
+    /**
+     * Checks to see if a player has any remaining pieces
+     *
+     * @param playerColor color to be checked for remaining pieces
+     *
+     * @return true if the player has a piece; false otherwise
+     */
     public boolean playerHasPieces(CheckersGame.activeColor playerColor){
         Piece.color pColor;
         if(playerColor == CheckersGame.activeColor.RED){
