@@ -46,5 +46,8 @@ public class ModelSpaceTest {
         CuT.addPiece(mock(ModelPiece.class));
         assertTrue(CuT.isHasPiece());
         assertNotNull(CuT.getPiece());
+        CuT.removePiece();
+        assertFalse(CuT.isHasPiece());
+        assertNull(CuT.getPiece());
     }
 }

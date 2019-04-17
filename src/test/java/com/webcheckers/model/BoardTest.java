@@ -66,4 +66,19 @@ public class BoardTest {
             }
         }
     }
+
+    @Test
+    public void test_number_of_pieces(){
+        assertEquals(CuT.numberOfPieces(), 24);
+        CuT.removePiece(0, 1);
+        assertFalse(CuT.getSpaces()[0][1].isHasPiece());
+        assertEquals(CuT.numberOfPieces(), 23);
+    }
+
+    @Test
+    public void test_movePiece(){
+        CuT.movePiece(2, 1, 3, 0);
+        assertFalse(CuT.getSpaces()[2][1].isHasPiece());
+        assertTrue(CuT.getSpaces()[3][0].isHasPiece());
+    }
 }
