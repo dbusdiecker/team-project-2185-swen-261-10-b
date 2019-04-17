@@ -71,17 +71,7 @@ public class CheckersGame {
      *
      * @param red         Player controlling the red pieces
      * @param white       Player controlling the white pieces
-     * @param currentUser Current view of the game
      */
-    public CheckersGame(Player red, Player white, Player currentUser) {
-        redPlayer = red;
-        whitePlayer = white;
-        modeOptionsAsJSON = new HashMap<>(2);
-        this.board = new Board(redPlayer, whitePlayer);
-        activeTurnColor = activeColor.RED;
-        boardStates = new Stack<>();
-    }
-
     public CheckersGame(Player red, Player white) {
         redPlayer = red;
         whitePlayer = white;
