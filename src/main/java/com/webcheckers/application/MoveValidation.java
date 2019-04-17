@@ -318,4 +318,58 @@ public class MoveValidation {
             return false;
     }
 
+    /**
+     * Checks if the current player can make any move
+     *
+     * @return true if they can; false otherwise
+     */
+    public boolean movePossible(){
+        if(jumpPossible()){
+            return true;
+        }
+        Piece.color activeColor = Piece.color.WHITE;
+        if(game.whoseTurn().equals(CheckersGame.activeColor.RED)){
+            activeColor = Piece.color.RED;
+        }
+        ModelSpace[][] spaces;
+        if(game.boardStates.empty()) {
+            spaces = game.getBoard().getSpaces();
+        }
+        else{
+            spaces = game.boardStates.peek().getSpaces();
+        }
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if(spaces[row][col].isHasPiece() &&
+                        spaces[row][col].getPiece().getColor().equals(activeColor)){
+                    if(activeColor.equals(Piece.color.RED) || spaces[row][col].getPiece().getType().equals(Piece.type.KING)) {
+                        if (col < 7 & row < 7) {
+                            if (!spaces[row + 1][col + 1].isHasPiece()) {
+                                return true;
+                            }
+                        }
+                        if (col < 7 & row > 0) {
+                            if (!spaces[row - 1][col + 1].isHasPiece()) {
+                                return true;
+                            }
+                        }
+                    }
+                    if(activeColor.equals(Piece.color.WHITE) || spaces[row][col].getPiece().getType().equals(Piece.type.KING)) {
+                        if (col > 0 & row < 7) {
+                            if (!spaces[row + 1][col - 1].isHasPiece()) {
+                                return true;
+                            }
+                        }
+                        if (col > 0 & row > 0) {
+                            if (!spaces[row - 1][col - 1].isHasPiece()) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
