@@ -88,8 +88,10 @@ public class CheckersGame {
      */
     public void ChangeTurn() {
         if (activeTurnColor == activeColor.RED) {
+            whitePlayer.changeOpponentPriority(redPlayer);
             activeTurnColor = activeColor.WHITE;
         } else {
+            redPlayer.changeOpponentPriority(whitePlayer);
             activeTurnColor = activeColor.RED;
         }
     }
