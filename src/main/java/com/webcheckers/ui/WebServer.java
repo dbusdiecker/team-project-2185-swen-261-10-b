@@ -57,6 +57,9 @@ public class WebServer {
   public static final String HOME_URL = "/";
   public static final String SIGN_OUT_URL = "/signout";
   public static final String SIGN_IN_URL = "/signin";
+  public static final String STOP_WATCHING_URL = "/spectator/stopWatching";
+  public static final String SPECTATOR_GAME_URL = "/spectator/game";
+  public static final String SPECTATOR_CHECK_TURN_URL = "/spectator/checkTurn";
   public static final String GAME_URL = "/game";
   public static final String GAME_WITH_ID_URL = "/game?gameID=%d";
   public static final String CHECK_TURN_URL = "/checkTurn";
@@ -157,11 +160,14 @@ public class WebServer {
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(playerLobby, gameCenter, templateEngine));
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
-    post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
     get(GAME_URL, new GetGameRoute(gameCenter, gson, templateEngine));
+    get(SPECTATOR_GAME_URL, new GetSpectatorGameRoute(gameCenter, gson, templateEngine));
+    get(STOP_WATCHING_URL, new GetStopWatchingRoute());
+    post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
     post(GAME_URL, new PostGameRoute(playerLobby, gameCenter));
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
+    post(SPECTATOR_CHECK_TURN_URL, new PostSpectatorCheckTurnRoute(gameCenter, gson));
     post(BACKUP_URL, new PostBackupRoute(gameCenter, gson));
     post(MOVE_VALIDATION_URL, new PostValidateMove(gameCenter, gson));
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gameCenter, gson));
