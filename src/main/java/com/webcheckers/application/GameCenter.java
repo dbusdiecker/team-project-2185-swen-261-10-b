@@ -53,4 +53,8 @@ public class GameCenter {
         }
         return null;
     }
+
+    public Iterable<CheckersGame> getCurrentGames() {
+        return games.values();
+    }
 }
