@@ -12,7 +12,7 @@ public class Player {
     private int activeGames;
     private double wins;
     private double totalGames;
-    private double winRate = ((wins/totalGames)*100);
+    private double winRate;
     private List<Player> currentOpponents = new ArrayList<>();
     private static int MAX_GAMES = 5;
 
@@ -24,6 +24,7 @@ public class Player {
     public Player(String name){
         this.name = name;
         this.activeGames = 0;
+        this.winRate = 0;
     }
 
     /**
@@ -71,6 +72,7 @@ public class Player {
         if(won){
             wins++;
         }
+        winRate = ((wins/totalGames)*100);
     }
 
     /**
