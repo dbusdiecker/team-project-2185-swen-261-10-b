@@ -34,6 +34,23 @@ public class GameCenter {
         return games.get(gameID);
     }
 
+    public void resignAllGames(Player player){
+        for (Integer id: games.keySet()){
+            CheckersGame game = games.get(id);
+            if (game.hasPlayer(player)) {
+                if (game.whoseTurn() == CheckersGame.activeColor.RED){
+                    if (game.getRedPlayer() == player){
+                        game.ChangeTurn();
+                    }
+                }
+                else if (game.getWhitePlayer() == player){
+                    game.ChangeTurn();
+                }
+                game.endGame(player.getName() + " has resigned.");
+            }
+        }
+    }
+
 
     public Integer getIDByPlayer(Player player){
         // This is operating under the assumption that
@@ -44,11 +61,6 @@ public class GameCenter {
             if (game.hasPlayer(player) && !game.isGameOver()) {
                 return id;
             }
-            /*
-            if(game.isGameOver()){
-                endGame(id);
-            }
-            */
         }
         return null;
     }

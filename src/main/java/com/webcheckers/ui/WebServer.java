@@ -160,7 +160,7 @@ public class WebServer {
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
     get(GAME_URL, new GetGameRoute(gameCenter, gson, templateEngine));
     post(GAME_URL, new PostGameRoute(playerLobby, gameCenter));
-    post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
+    post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby, gameCenter));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
     post(BACKUP_URL, new PostBackupRoute(gameCenter, gson));
     post(MOVE_VALIDATION_URL, new PostValidateMove(gameCenter, gson));
