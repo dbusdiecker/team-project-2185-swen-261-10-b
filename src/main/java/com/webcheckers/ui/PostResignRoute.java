@@ -3,15 +3,18 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.CheckersGame;
+import com.webcheckers.model.Player;
+import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Session;
 
 import java.util.Objects;
 import java.util.logging.Logger;
 
 public class PostResignRoute implements Route {
-    private static final Logger LOG = Logger.getLogger(PostBackupRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger(PostResignRoute.class.getName());
 
     private final Gson gson;
     private final GameCenter gameCenter;
@@ -29,6 +32,13 @@ public class PostResignRoute implements Route {
         LOG.config("PostBackupRoute is initialized.");
     }
 
+    /**
+     * Ends the game and sends a message to the game to show why the game has ended
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     public Object handle(Request request, Response response) {
         LOG.finer("PostResignRoute is invoked.");
 
@@ -36,7 +46,19 @@ public class PostResignRoute implements Route {
         Integer gameID = Integer.parseInt(gameIDAsString);
         CheckersGame game = gameCenter.getGameByID(gameID);
 
-        game.endGame("Player Resigns");
-        return null;
+        final Session httpSession = request.session();
+        Player player = httpSession.attribute("currentUser");
+
+        if (game.whoseTurn() == CheckersGame.activeColor.RED){
+            if (game.getRedPlayer() == player){
+                game.ChangeTurn();
+            }
+        }
+        else if (game.getWhitePlayer() == player){
+            game.ChangeTurn();
+        }
+        game.endGame(player.getName() + " has resigned.");
+
+        return gson.toJson(Message.info(player.getName() + " resigned"));
     }
 }

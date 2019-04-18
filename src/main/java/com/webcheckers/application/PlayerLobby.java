@@ -28,11 +28,7 @@ public class PlayerLobby {
      * @return True if player is available for a game, false if they don't exist or are in a game.
      */
     public boolean playerAvailable(String username){
-        if (!usernameAlreadyInUse(username)) {
-            return false;
-        }
-        Player thePlayer = getPlayerByUsername(username);
-        return (!thePlayer.isInGame());
+        return (!usernameAlreadyInUse(username));
     }
 
     /**

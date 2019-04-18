@@ -1,0 +1,3 @@
+1) run "mvn compile exec:java" to build project.
+2) To connect, open a browser and connect to localhost:4567.
+3) To test with two separate players, open an incognito window and repeat step 2.

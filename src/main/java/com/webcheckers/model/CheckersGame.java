@@ -13,17 +13,22 @@ public class CheckersGame {
 
     private Player redPlayer;
     private Player whitePlayer;
+
     private Map<String, Object> modeOptionsAsJSON;
     Board board;
     private activeColor activeTurnColor;
 
+
+
+
     public Stack<Board> boardStates;
-    private static final String PIECES_CAPTURED_STRING = "%s has captured all of the pieces.";
+
     //Colored pieces that can be moved
     public enum activeColor {
         RED,
         WHITE
     }
+
 
     /**
      * @return this.redPlayer
@@ -71,8 +76,6 @@ public class CheckersGame {
     public CheckersGame(Player red, Player white, Player currentUser) {
         redPlayer = red;
         whitePlayer = white;
-        redPlayer.startGame();
-        whitePlayer.startGame();
         modeOptionsAsJSON = new HashMap<>(2);
         this.board = new Board(redPlayer, whitePlayer);
         activeTurnColor = activeColor.RED;
@@ -82,8 +85,6 @@ public class CheckersGame {
     public CheckersGame(Player red, Player white) {
         redPlayer = red;
         whitePlayer = white;
-        redPlayer.startGame();
-        whitePlayer.startGame();
         this.board = new Board(redPlayer, whitePlayer);
         modeOptionsAsJSON = new HashMap<>(2);
         activeTurnColor = activeColor.RED;
@@ -112,17 +113,8 @@ public class CheckersGame {
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }
 
-
-    public boolean playerHasLost() {
-        boolean redHasPieces = board.playerHasPieces(Piece.color.RED);
-        boolean whiteHasPieces = board.playerHasPieces(Piece.color.WHITE);
-        if(!redHasPieces){
-            endGame( String.format(PIECES_CAPTURED_STRING, whitePlayer.getName()));
-            return true;
-        } else if (!whiteHasPieces) {
-            endGame( String.format(PIECES_CAPTURED_STRING, redPlayer.getName()));
-            return true;
-        }
-        return false;
+    public boolean isGameOver(){
+        return (modeOptionsAsJSON.containsKey("isGameOver") && modeOptionsAsJSON.get("isGameOver").equals(true));
     }
+
 }

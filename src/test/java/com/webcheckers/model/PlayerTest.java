@@ -30,15 +30,4 @@ public class PlayerTest {
         assertEquals(name, player.getName());
     }
 
-    @Test
-    public void testAvailability(){
-        Player player = new Player("Jordan");
-        assertFalse(player.isInGame());
-
-        player.startGame();
-        assertTrue(player.isInGame());
-
-        player.endGame();
-        assertFalse(player.isInGame());
-    }
 }

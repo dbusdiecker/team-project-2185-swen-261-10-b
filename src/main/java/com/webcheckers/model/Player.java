@@ -7,6 +7,9 @@ public class Player {
 
     private String name;
     private boolean inGame;
+    private double wins;
+    private double totalGames;
+    private double winRate = ((wins/totalGames)*100);
 
     /**
      * Create a new player

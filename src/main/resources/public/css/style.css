@@ -134,3 +134,15 @@ button.game {
   width: 100px;
   margin: 10px;
 }
+
+.sidenav {
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 3;
+  right: 0;
+  border: 1px solid #6ECCFF;
+  background-color: white;
+  overflow-x: hidden;
+  padding-top: 0px;
+}
