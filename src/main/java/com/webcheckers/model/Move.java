@@ -19,18 +19,21 @@ public class Move {
         this.end = end;
     }
 
+    /*
     /**
      * Creates a move with the position given in string form of "(x,y)"
      *
      * @param start start position of the move
      * @param end end position of the move
      */
+    /*
     public Move(String start, String end){
         this.start = new Position(Integer.parseInt(start.substring(1,2)),
                 Integer.parseInt(start.substring(3,4)));
         this.start = new Position(Integer.parseInt(end.substring(1,2)),
                 Integer.parseInt(end.substring(3,4)));
     }
+    */
 
     public Position getStart(){
         return start;
