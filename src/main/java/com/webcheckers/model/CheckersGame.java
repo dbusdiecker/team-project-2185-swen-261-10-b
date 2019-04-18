@@ -88,8 +88,10 @@ public class CheckersGame {
      */
     public void ChangeTurn() {
         if (activeTurnColor == activeColor.RED) {
+            whitePlayer.changeOpponentPriority(redPlayer);
             activeTurnColor = activeColor.WHITE;
         } else {
+            redPlayer.changeOpponentPriority(whitePlayer);
             activeTurnColor = activeColor.RED;
         }
     }
@@ -107,6 +109,8 @@ public class CheckersGame {
             whitePlayer.endGame(false);
             redPlayer.endGame(true);
         }
+        whitePlayer.removeOpponent(redPlayer);
+        redPlayer.removeOpponent(whitePlayer);
         modeOptionsAsJSON.put("isGameOver", true);
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }

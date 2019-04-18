@@ -57,6 +57,16 @@ public class Player {
     }
 
     /**
+     * Puts the given opponent at the end of the current opponents list
+     *
+     * @param opponent opponent to be removed
+     */
+    public void changeOpponentPriority(Player opponent){
+        currentOpponents.remove(opponent);
+        currentOpponents.add(currentOpponents.size(), opponent);
+    }
+
+    /**
      * Set inGame to true
      */
     public void startGame(){
