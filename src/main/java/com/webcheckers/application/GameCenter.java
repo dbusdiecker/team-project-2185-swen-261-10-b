@@ -4,6 +4,8 @@ import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class GameCenter {
@@ -65,7 +67,18 @@ public class GameCenter {
         return null;
     }
 
-    public Iterable<CheckersGame> getCurrentGames() {
-        return games.values();
+    public HashMap<Integer, CheckersGame> getCurrentGames() {
+        HashMap<Integer, CheckersGame> currentGames = games;
+        Iterator<HashMap.Entry<Integer, CheckersGame>> it = currentGames.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry<Integer, CheckersGame> entry = it.next();
+
+            // Remove entry if key is null or equals 0.
+            if (entry.getValue().isGameOver()) {
+                currentGames.remove(entry.getKey());
+            }
+        }
+        return currentGames;
     }
 }
