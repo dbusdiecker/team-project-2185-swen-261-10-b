@@ -1,8 +1,10 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.model.CheckersGame;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Session;
 
 import java.util.logging.Logger;
 
@@ -23,6 +25,10 @@ public class GetStopWatchingRoute implements Route {
      */
     public Object handle(Request request, Response response) {
         LOG.finer("GetStopWatchingRoute is invoked.");
+
+        final Session httpSession = request.session();
+        httpSession.removeAttribute(GetSpectatorGameRoute.SPECTATOR_ATTR);
+
         response.redirect(WebServer.HOME_URL);
         return null;
     }

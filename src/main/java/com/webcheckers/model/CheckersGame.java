@@ -117,4 +117,17 @@ public class CheckersGame {
         return (modeOptionsAsJSON.containsKey("isGameOver") && modeOptionsAsJSON.get("isGameOver").equals(true));
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CheckersGame){
+            CheckersGame other = (CheckersGame) obj;
+            return this.getBoard().equals(other.getBoard());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return redPlayer.hashCode() + whitePlayer.hashCode() + 143;
+    }
 }
