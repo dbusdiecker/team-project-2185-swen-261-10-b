@@ -5,7 +5,9 @@ import com.webcheckers.model.Player;
 
 import java.util.HashMap;
 
-
+/**
+ * Class to handle all the games
+ */
 public class GameCenter {
 
     private HashMap<Integer,CheckersGame> games;
@@ -36,7 +38,13 @@ public class GameCenter {
         return games.get(gameID);
     }
 
-
+    /**
+     * Get the id of a game with the given player
+     *
+     * @param player player whose game is being looked for
+     *
+     * @return id of game if it exist; null otherwise
+     */
     public Integer getIDByPlayer(Player player){
         // This is operating under the assumption that
         // a player is only in one game.
@@ -53,6 +61,14 @@ public class GameCenter {
         return null;
     }
 
+    /**
+     * Get the id of a game with the given players
+     *
+     * @param player1 first player in game
+     * @param player2 second player in game
+     *
+     * @return gameid if there is a game; null otherwise
+     */
     public Integer getIDByOpponents(Player player1, Player player2){
         for (Integer id: games.keySet()){
             CheckersGame game = games.get(id);
