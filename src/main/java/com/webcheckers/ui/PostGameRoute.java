@@ -33,10 +33,19 @@ public class PostGameRoute  implements Route {
         Player player = httpSession.attribute("currentUser");
 
         if (opponent != null && player != null){
-            int gameId = gameCenter.createGame(player, opponent);
-            String gameURL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
-            response.redirect(gameURL);
-            return null;
+            if((player.getCurrentOpponents().size() < 5) && opponent.getCurrentOpponents().size() < 5) {
+                int gameId;
+                if (gameCenter.getIDByOpponents(player, opponent) != null) {
+                    gameId = gameCenter.getIDByOpponents(player, opponent);
+                } else {
+                    gameId = gameCenter.createGame(player, opponent);
+                    player.addOponent(opponent);
+                    opponent.addOponent(player);
+                }
+                String gameURL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
+                response.redirect(gameURL);
+                return null;
+            }
         }
 
         response.redirect(WebServer.HOME_URL);

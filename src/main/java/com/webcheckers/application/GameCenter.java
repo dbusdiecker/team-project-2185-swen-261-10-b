@@ -25,6 +25,8 @@ public class GameCenter {
     public Integer createGame(Player redPlayer, Player whitePlayer){
         Integer gameID = lastGameID;
         CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
+        redPlayer.startGame();
+        whitePlayer.startGame();
         games.put(gameID,game);
         lastGameID++;
         return gameID;
@@ -60,6 +62,19 @@ public class GameCenter {
             CheckersGame game = games.get(id);
             if (game.hasPlayer(player) && !game.isGameOver()) {
                 return id;
+            }
+        }
+        return null;
+    }
+
+    public Integer getIDByOpponents(Player player1, Player player2){
+        for (Integer id: games.keySet()){
+            CheckersGame game = games.get(id);
+            if (game.hasPlayer(player1) && game.hasPlayer(player2) && !game.isGameOver()) {
+                return id;
+            }
+            if(game.isGameOver()){
+                endGame(id);
             }
         }
         return null;
