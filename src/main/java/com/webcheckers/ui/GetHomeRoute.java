@@ -66,6 +66,7 @@ public class GetHomeRoute implements Route {
 
         vm.put(PLAYER_ATTR, currentUser);
         vm.put("player_list", playerLobby.getOnlinePlayers()); // display online players to challenge
+        vm.put("game_list", gameCenter.getCurrentGames());
     } else {
       vm.put("num_online", playerLobby.getNumOnlinePlayers());
     }
