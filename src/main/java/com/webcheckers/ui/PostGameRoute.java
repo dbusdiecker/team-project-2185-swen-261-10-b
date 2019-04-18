@@ -3,11 +3,11 @@ package com.webcheckers.ui;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.Session;
+import com.webcheckers.util.Message;
+import spark.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class PostGameRoute  implements Route {
@@ -33,9 +33,21 @@ public class PostGameRoute  implements Route {
         Player player = httpSession.attribute("currentUser");
 
         if (opponent != null && player != null){
-            int gameId = gameCenter.createGame(player, opponent);
-            String gameURL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
-            response.redirect(gameURL);
+            if((player.getCurrentOpponents().size() < 5) && opponent.getCurrentOpponents().size() < 5) {
+                int gameId;
+                if (gameCenter.getIDByOpponents(player, opponent) != null) {
+                    gameId = gameCenter.getIDByOpponents(player, opponent);
+                } else {
+                    gameId = gameCenter.createGame(player, opponent);
+                    player.addOponent(opponent);
+                    opponent.addOponent(player);
+                }
+                String gameURL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
+                response.redirect(gameURL);
+                return null;
+            }
+            httpSession.attribute("message", Message.error("You or the other player already has 5 active games") );
+            response.redirect(WebServer.HOME_URL);
             return null;
         }
 

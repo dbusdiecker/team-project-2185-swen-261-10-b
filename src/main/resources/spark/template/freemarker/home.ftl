@@ -7,6 +7,22 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
+<#if currentUser??>
+  <div class="sidenav">
+    <h2>Current Games</h2>
+    <#if opponent_list??>
+      <#list opponent_list as player>
+        <#if currentUser != player>
+          <form action="/game" method="POST">
+            <input type="hidden" value="${player.name}" name="opponent">
+            <input type="submit" value="${player.name}">
+          </form>
+        </#if>
+       </#list>
+    </#if>
+  </div>
+</#if>
+
 <body>
 <div class="page">
 
@@ -63,11 +79,4 @@
 
 </div>
 </body>
-
-<#if currentUser??>
-  <div class="sidenav">
-    <h2>Current Games</h2>
-  </div>
-</#if>
-
 </html>

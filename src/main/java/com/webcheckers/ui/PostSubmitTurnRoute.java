@@ -118,7 +118,7 @@ public class PostSubmitTurnRoute implements Route {
             else{
                 name = game.getRedPlayer().getName();
             }
-            game.endGame(String.format(PIECES_CAPTURED_STRING, name));
+            game.endGame(String.format(PIECES_CAPTURED_STRING, name),name);
         }
         if(!jumpChecker.movePossible()){
             String loser;
