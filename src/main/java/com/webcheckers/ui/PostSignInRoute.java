@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class PostSignInRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
-    private static final Message ERROR_MSG = Message.error("Username is invalid or already in use.");
+    public static final Message ERROR_MSG = Message.error("Username is invalid or already in use.");
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
 
