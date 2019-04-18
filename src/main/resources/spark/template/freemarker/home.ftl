@@ -37,8 +37,9 @@
       </#if>
       <h2>Spectate A Game</h2>
       <#if game_list?has_content>
-          <#list game_list as game>
-              <form action="/spectator/game" method="POST">
+          <#list game_list as id, game>
+              <form action="/spectator/game" method="GET">
+                  <input type="hidden" value="${id}" name="gameID">
                   <input type="submit" value="${game.redPlayer.name} vs ${game.whitePlayer.name}">
               </form>
           </#list>
