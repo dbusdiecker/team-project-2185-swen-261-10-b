@@ -26,6 +26,7 @@ public class BoardViewTest {
     @Test
     public void ctor_redPlayer(){
         CuT = new BoardView(board, mockP1);
+
     }
 
 }

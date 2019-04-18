@@ -33,7 +33,7 @@ public class PostGameRoute  implements Route {
         Player player = httpSession.attribute("currentUser");
 
         if (opponent != null && player != null){
-            if((player.getCurrentOpponents().size() < 5) && opponent.getCurrentOpponents().size() < 5) {
+            if((player.canJoinNewGame()) && opponent.canJoinNewGame()) {
                 int gameId;
                 if (gameCenter.getIDByOpponents(player, opponent) != null) {
                     gameId = gameCenter.getIDByOpponents(player, opponent);
