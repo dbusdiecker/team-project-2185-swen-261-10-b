@@ -51,7 +51,6 @@ public class PostSpectatorCheckTurnRoute implements Route {
 
         CheckersGame clientGame = httpSession.attribute(GetSpectatorGameRoute.SPECTATOR_ATTR);
         if (clientGame != null) {
-            System.out.println("cg not null");
             String gameIDAsString = request.queryParams("gameID");
             Integer gameID = Integer.parseInt(gameIDAsString);
             CheckersGame serverGame = gameCenter.getGameByID(gameID);
@@ -59,7 +58,6 @@ public class PostSpectatorCheckTurnRoute implements Route {
 
 
             if (serverGame != null) {
-                System.out.println("sg not null");
                 if ( !clientGame.equals(serverGame)){
                     return gson.toJson(Message.info("true"));
                 }
