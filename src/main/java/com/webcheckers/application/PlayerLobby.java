@@ -19,16 +19,6 @@ public class PlayerLobby {
     }
 
     /**
-     * Checks if a player is free to play a game.
-     *
-     * @param username Username of player being checked.
-     * @return True if player is available for a game, false if they don't exist or are in a game.
-     */
-    public boolean playerAvailable(String username) {
-        return (!usernameAlreadyInUse(username));
-    }
-
-    /**
      * Checks if username is in use.
      *
      * @param username Username to check.

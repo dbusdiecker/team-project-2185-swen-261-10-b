@@ -3,6 +3,7 @@ package com.webcheckers.application;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -37,8 +38,16 @@ public class GameCenter {
     }
 
     public void resignAllGames(Player player){
+        ArrayList<Integer> keysToRemove = new ArrayList<Integer>();
         for (Integer id: games.keySet()){
             CheckersGame game = games.get(id);
+            Player opponent;
+            if(game.getRedPlayer() == player){
+                opponent = game.getWhitePlayer();
+            }
+            else{
+                opponent = game.getRedPlayer();
+            }
             if (game.hasPlayer(player)) {
                 if (game.whoseTurn() == CheckersGame.activeColor.RED){
                     if (game.getRedPlayer() == player){
@@ -48,12 +57,17 @@ public class GameCenter {
                 else if (game.getWhitePlayer() == player){
                     game.ChangeTurn();
                 }
-                game.endGame(player.getName() + " has resigned.");
+                game.endGame(player.getName() + " has resigned.",opponent.getName());
+                keysToRemove.add(id);
             }
+        }
+        for (Integer id:keysToRemove) {
+            endGame(id);
         }
     }
 
-
+/** Function OUT OF DATE!
+ *
     public Integer getIDByPlayer(Player player){
         // This is operating under the assumption that
         // a player is only in one game.
@@ -66,7 +80,7 @@ public class GameCenter {
         }
         return null;
     }
-
+**/
     public Integer getIDByOpponents(Player player1, Player player2){
         for (Integer id: games.keySet()){
             CheckersGame game = games.get(id);
