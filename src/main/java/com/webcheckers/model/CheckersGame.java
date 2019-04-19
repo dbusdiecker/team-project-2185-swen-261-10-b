@@ -111,6 +111,8 @@ public class CheckersGame {
      * @param winner name of the player who won
      */
     public void endGame(String gameOverMessage, String winner) {
+        whitePlayer.removeOpponent(redPlayer);
+        redPlayer.removeOpponent(whitePlayer);
         if(winner.equals(whitePlayer.getName())){
             whitePlayer.endGame(true);
             redPlayer.endGame(false);
@@ -119,8 +121,6 @@ public class CheckersGame {
             whitePlayer.endGame(false);
             redPlayer.endGame(true);
         }
-        whitePlayer.removeOpponent(redPlayer);
-        redPlayer.removeOpponent(whitePlayer);
         modeOptionsAsJSON.put("isGameOver", true);
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }
