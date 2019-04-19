@@ -1,10 +1,7 @@
 package com.webcheckers.application;
 
 import com.webcheckers.Piece;
-import com.webcheckers.model.CheckersGame;
-import com.webcheckers.model.ModelPiece;
-import com.webcheckers.model.ModelSpace;
-import com.webcheckers.model.Move;
+import com.webcheckers.model.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
@@ -23,6 +20,8 @@ public class MoveValidationTest {
     private final static int VALID_END_CELL = 3;
     private final static int INVALID_END_ROW = 6;
     private final static int INVALID_END_CELL = 3;
+    private final static int VALID_KJUMP_END_ROW = 2;
+    private final static int VALID_KJUMP_END_CELL = 1;
 
     /**
      * Test that the main constructor works without failure.
@@ -66,7 +65,79 @@ public class MoveValidationTest {
      */
     @Test
     public void test_valid_normal_jump(){
-        Move move = mock(Move.class);
+        Position start = new Position(START_ROW, START_CELL);
+        Position end = new Position(START_ROW + 2, START_CELL + 2);
+        Move move = new Move(start, end);
+        Board board = mock(Board.class);
+        CheckersGame game = mock(CheckersGame.class);
+        MoveValidation CuT = new MoveValidation(move, game);
+        ModelSpace spaces[][] = new ModelSpace[8][8];
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                spaces[row][col] = mock(ModelSpace.class);
+            }
+        }
+
+        ModelPiece movingPiece = mock(ModelPiece.class);
+        when(movingPiece.getColor()).thenReturn(Piece.color.WHITE);
+        when(movingPiece.getType()).thenReturn(Piece.type.SINGLE);
+        ModelPiece sittingPiece = mock(ModelPiece.class);
+        when(sittingPiece.getColor()).thenReturn(Piece.color.RED);
+
+        when(spaces[START_ROW][START_CELL].isHasPiece()).thenReturn(true);
+        when(spaces[START_ROW][START_CELL].getPiece()).thenReturn(movingPiece);
+        when(spaces[START_ROW][START_CELL - 1].isHasPiece()).thenReturn(false);
+        when(spaces[VALID_END_ROW][VALID_END_CELL].isHasPiece()).thenReturn(true);
+        when(spaces[VALID_END_ROW][VALID_END_CELL].getPiece()).thenReturn(sittingPiece);
+        when(spaces[VALID_END_ROW + 1][VALID_END_CELL + 1].isHasPiece()).thenReturn(false);
+        assertTrue(CuT.checkNormalJump(spaces,START_ROW,START_CELL));
+
+        when(spaces[VALID_END_ROW - 1][VALID_END_CELL + 1].isHasPiece()).thenReturn(false);
+        when(spaces[START_ROW - 1][START_CELL - 1].isHasPiece()).thenReturn(false);
+        assertTrue(CuT.checkNormalJump(spaces,VALID_END_ROW,VALID_END_CELL));
+        CuT.movePiece(board);
+    }
+
+    @Test
+    public void test_valid_king_jump_fwd(){
+        Position start = new Position(START_ROW, START_CELL);
+        Position end = new Position(START_ROW - 2, START_CELL - 2);
+        Move move = new Move(start, end);
+        Board board = mock(Board.class);
+        CheckersGame game = mock(CheckersGame.class);
+        MoveValidation CuT = new MoveValidation(move, game);
+        ModelSpace spaces[][] = new ModelSpace[8][8];
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                spaces[row][col] = mock(ModelSpace.class);
+            }
+        }
+
+        ModelPiece movingPiece = mock(ModelPiece.class);
+        when(movingPiece.getColor()).thenReturn(Piece.color.WHITE);
+        when(movingPiece.getType()).thenReturn(Piece.type.KING);
+        ModelPiece sittingPiece = mock(ModelPiece.class);
+        when(sittingPiece.getColor()).thenReturn(Piece.color.RED);
+
+        when(spaces[START_ROW][START_CELL].isHasPiece()).thenReturn(true);
+        when(spaces[START_ROW][START_CELL].getPiece()).thenReturn(movingPiece);
+        when(spaces[START_ROW][START_CELL + 1].isHasPiece()).thenReturn(false);
+        when(spaces[VALID_KJUMP_END_ROW][VALID_KJUMP_END_CELL].isHasPiece()).thenReturn(true);
+        when(spaces[VALID_KJUMP_END_ROW][VALID_KJUMP_END_CELL].getPiece()).thenReturn(sittingPiece);
+        when(spaces[VALID_KJUMP_END_ROW - 1][VALID_KJUMP_END_CELL - 1].isHasPiece()).thenReturn(false);
+        assertTrue(CuT.checkKingJump(spaces,START_ROW,START_CELL));
+        when(spaces[VALID_KJUMP_END_ROW + 1][VALID_KJUMP_END_CELL - 1].isHasPiece()).thenReturn(false);
+        when(spaces[START_ROW + 1][START_CELL + 1].isHasPiece()).thenReturn(false);
+        assertTrue(CuT.checkKingJump(spaces,VALID_KJUMP_END_ROW,VALID_KJUMP_END_CELL));
+        CuT.movePiece(board);
+    }
+
+    @Test
+    public void test_valid_king_jump_bkwd(){
+        Position start = new Position(START_ROW, START_CELL);
+        Position end = new Position(START_ROW + 2, START_CELL + 2);
+        Move move = new Move(start, end);
+        Board board = mock(Board.class);
         CheckersGame game = mock(CheckersGame.class);
         MoveValidation CuT = new MoveValidation(move, game);
         ModelSpace spaces[][] = new ModelSpace[8][8];
@@ -87,11 +158,12 @@ public class MoveValidationTest {
         when(spaces[VALID_END_ROW][VALID_END_CELL].isHasPiece()).thenReturn(true);
         when(spaces[VALID_END_ROW][VALID_END_CELL].getPiece()).thenReturn(sittingPiece);
         when(spaces[VALID_END_ROW + 1][VALID_END_CELL + 1].isHasPiece()).thenReturn(false);
-        assertTrue(CuT.checkNormalJump(spaces,START_ROW,START_CELL));
+        assertTrue(CuT.checkKingJump(spaces,START_ROW,START_CELL));
 
         when(spaces[VALID_END_ROW - 1][VALID_END_CELL + 1].isHasPiece()).thenReturn(false);
         when(spaces[START_ROW - 1][START_CELL - 1].isHasPiece()).thenReturn(false);
-        assertTrue(CuT.checkNormalJump(spaces,VALID_END_ROW,VALID_END_CELL));
+        assertTrue(CuT.checkKingJump(spaces,VALID_END_ROW,VALID_END_CELL));
+        CuT.movePiece(board);
     }
 
     /**

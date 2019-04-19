@@ -7,6 +7,22 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
+<#if currentUser??>
+  <div class="sidenav">
+    <h2>Current Games</h2>
+    <#if opponent_list??>
+      <#list opponent_list as player>
+        <#if currentUser != player>
+          <form action="/game" method="POST">
+            <input type="hidden" value="${player.name}" name="opponent">
+            <input type="submit" value="${player.name}">
+          </form>
+        </#if>
+       </#list>
+    </#if>
+  </div>
+</#if>
+
 <body>
 <div class="page">
 
@@ -22,16 +38,29 @@
 
 
     <#if currentUser??>
-      <#if player_list??>
-
+      <h2>Start A Game</h2>
+      <#if (player_list?size == 1)>
+        <body>No players are currently online.</body>
+        <#else>
           <#list player_list as player>
-              <#if currentUser != player>
+            <#if currentUser != player>
               <form action="/game" method="POST">
-                  <input type="hidden" value="${player.name}" name="opponent">
-                  <input type="submit" value="${player.name}">
+                <input type="hidden" value="${player.name}" name="opponent">
+                <input type="submit" value="${player.name}">
               </form>
-              </#if>
+            </#if>
           </#list>
+      </#if>
+      <h2>Spectate A Game</h2>
+      <#if game_list?has_content>
+          <#list game_list as id, game>
+              <form action="/spectator/game" method="GET">
+                  <input type="hidden" value="${id}" name="gameID">
+                  <input type="submit" value="${game.redPlayer.name} vs ${game.whitePlayer.name}, ${(game.whitePlayer.winRate + game.redPlayer.winRate)/2}% average win rate">
+              </form>
+          </#list>
+          <#else>
+            <body>No games are currently active.</body>
       </#if>
       <#else>
         <p>
@@ -50,5 +79,4 @@
 
 </div>
 </body>
-
 </html>

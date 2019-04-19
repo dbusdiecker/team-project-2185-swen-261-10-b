@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -58,23 +58,29 @@ public class GameCenterTest {
      * Test to ensure you can get the correct id is returned by the getIDByPlayer method
      */
     @Test
-    public void getIdByPlayerTest(){
+    public void get_id_by_opponents_test(){
         Integer g1 = CuT.createGame(mockP1, mockP2);
         Integer g2 = CuT.createGame(mockP3, mockP4);
-        assertEquals(g1, CuT.getIDByPlayer(mockP1));
-        assertEquals(g1, CuT.getIDByPlayer(mockP2));
-        assertEquals(g2, CuT.getIDByPlayer(mockP3));
-        assertEquals(g2, CuT.getIDByPlayer(mockP4));
+        assertEquals(g1, CuT.getIDByOpponents(mockP1,mockP2));
+        assertEquals(g2, CuT.getIDByOpponents(mockP3,mockP4));
     }
 
-    /**
-     * Test for ending a game
-     *
-     * NOTE: Not currently implemented due to current status of game end
-     */
-    /*
-    @Test
-    public void endGameTest(){
 
-    }*/
+    @Test
+    public void resign_all_games_test(){
+
+        mockP1 = new Player("test");
+        mockP2 = new Player("test2");
+        mockP3 = new Player("test3");
+        mockP4 = new Player("test4");
+
+        Integer g1 = CuT.createGame(mockP1,mockP2);
+        Integer g2 = CuT.createGame(mockP1, mockP4);
+        Integer g3 = CuT.createGame(mockP3,mockP1);
+
+        CuT.resignAllGames(mockP1);
+
+        assertTrue(mockP1.getCurrentOpponents().isEmpty());
+
+    }
 }

@@ -49,7 +49,22 @@ public class PostResignRoute implements Route {
         final Session httpSession = request.session();
         Player player = httpSession.attribute("currentUser");
 
-        game.endGame(player.getName() + " has resigned.");
+        Player opponent;
+        if(player == game.getRedPlayer()){
+            opponent = game.getWhitePlayer();
+        }
+        else{
+            opponent = game.getRedPlayer();
+        }
+        if (game.whoseTurn() == CheckersGame.activeColor.RED){
+            if (game.getRedPlayer() == player){
+                game.ChangeTurn();
+            }
+        }
+        else if (game.getWhitePlayer() == player){
+            game.ChangeTurn();
+        }
+        game.endGame(player.getName() + " has resigned.", opponent.getName());
 
         return gson.toJson(Message.info(player.getName() + " resigned"));
     }

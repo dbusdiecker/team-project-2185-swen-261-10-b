@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -79,5 +81,17 @@ public class MoveTest {
     public void test_correct_end(){
         final Move CuT = new Move(startPos, endPos);
         assertEquals(endPos,CuT.getEnd());
+    }
+
+    @Test
+    public void test_jump_detection(){
+        final Move CuT = new Move(startPos, endPos);
+        assertFalse(CuT.isJumpMove());
+        Position endPos2 = mock(Position.class);
+        when(endPos2.getRow()).thenReturn(END_ROW);
+        when(endPos2.getCell()).thenReturn(6);
+        when(endPos2.toString()).thenReturn("row: " + END_ROW + " cell: " + END_CELL);
+        final Move CuT2 = new Move (startPos, endPos2);
+        assertTrue(CuT2.isJumpMove());
     }
 }

@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
@@ -16,35 +17,25 @@ import java.util.logging.Logger;
 /**
  * The UI Controller to GET the game page
  */
-public class GetGameRoute implements Route {
-    private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
+public class GetSpectatorGameRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(GetSpectatorGameRoute.class.getName());
     private final TemplateEngine templateEngine;
     private final GameCenter gameCenter;
     private final Gson gson;
-    private static final Message GAME_CREATION_ERROR_MSG = Message.error("Game Creation Error: Cannot create a game with a player that is currently in a game.");
 
-    public enum viewMode {
-        PLAY,
-        SPECTATOR,
-        REPLAY
-    }
 
-    public static Message getGAME_CREATION_ERROR_MSG() {
-        return GAME_CREATION_ERROR_MSG;
-    }
+    public static final String SPECTATOR_ATTR = "spectatorGame";
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code GET /game} HTTP requests.
      *
-     * @param gameCenter gameCenter to hold games
-     * @param gson Gson to handle JSON objects
      * @param templateEngine The HTML template rendering engine.
      */
-    public GetGameRoute(final GameCenter gameCenter, final Gson gson, final TemplateEngine templateEngine) {
+    public GetSpectatorGameRoute(final GameCenter gameCenter, final Gson gson, final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         this.gameCenter = Objects.requireNonNull(gameCenter, "gameCenter is required.");
         this.gson = Objects.requireNonNull(gson, "gson is required");
-        LOG.config("GetGameRoute is initialized.");
+        LOG.config("GetSpectatorGameRoute is initialized.");
     }
 
     /**
@@ -56,7 +47,7 @@ public class GetGameRoute implements Route {
      * @return the rendered HTML for the Game page
      */
     public Object handle(Request request, Response response) {
-        LOG.finer("GetGameRoute is invoked.");
+        LOG.finer("GetSpectatorGameRoute is invoked.");
         //
         Map<String, Object> vm = new HashMap<>();
 
@@ -66,32 +57,29 @@ public class GetGameRoute implements Route {
             Integer gameID = Integer.parseInt(gameIDAsString);
             CheckersGame game = gameCenter.getGameByID(gameID);
 
-            if (game != null) {
-
+            if (game != null){
                 final Session httpSession = request.session();
                 Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
 
+                if (thisPlayer != null){
+                    CheckersGame clientGame = new CheckersGame(game.getRedPlayer(), game.getRedPlayer());
+                    Board clientBoard = new Board( game.getBoard() );
+                    clientGame.setBoard(clientBoard);
 
-                    if (thisPlayer != null) {
-                        if (game.hasPlayer(thisPlayer)) {
-                            vm.put("title", "Let's Play Checkers!");
-                            vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
-                            vm.put("viewMode", viewMode.PLAY);
-                            vm.put("modeOptionsAsJSON", gson.toJson(game.getOptions()));
-                            vm.put("redPlayer", game.getRedPlayer());
-                            vm.put("whitePlayer", game.getWhitePlayer());
-                            vm.put("activeColor", game.whoseTurn());
-                            vm.put("opponent_list", thisPlayer.getCurrentOpponents());
+                    httpSession.attribute(SPECTATOR_ATTR, clientGame);
 
-                            // Look into removing the chaining here.
-                            vm.put("board", game.getBoard().getBoardView(thisPlayer));
+                    vm.put("title", "Let's Play Checkers!");
+                    vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
+                    vm.put("modeOptionsAsJSON", gson.toJson(game.getOptions()));
+                    vm.put("redPlayer", game.getRedPlayer());
+                    vm.put("whitePlayer",game.getWhitePlayer());
+                    vm.put("activeColor", game.whoseTurn());
+                    vm.put("viewMode", GetGameRoute.viewMode.SPECTATOR);
+                    vm.put("board", game.getBoard().getBoardView(game.getRedPlayer()));
 
-                            return templateEngine.render(new ModelAndView(vm, "game.ftl"));
-                        }
-                    }
-
+                    return templateEngine.render(new ModelAndView(vm, "game.ftl"));
+                }
             }
-
         }
 
         response.redirect(WebServer.HOME_URL);

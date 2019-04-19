@@ -3,13 +3,16 @@ package com.webcheckers.ui;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.Session;
+import com.webcheckers.util.Message;
+import spark.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * The UI controller to Post a game
+ */
 public class PostGameRoute  implements Route {
 
     private static final Logger LOG = Logger.getLogger(PostGameRoute.class.getName());
@@ -17,12 +20,26 @@ public class PostGameRoute  implements Route {
     private final PlayerLobby playerLobby;
     private final GameCenter gameCenter;
 
+    /**
+     * Create a new PostGameRoute
+     *
+     * @param playerLobby playerLobby to handle players
+     * @param gameCenter gameCenter to hold games
+     */
     public PostGameRoute(PlayerLobby playerLobby, GameCenter gameCenter){
         this.playerLobby = playerLobby;
         this.gameCenter = gameCenter;
         LOG.config("PostGameRoute is initialized.");
     }
 
+    /**
+     * Handle when a player gets a game
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return null
+     */
     public Object handle(Request request, Response response){
         LOG.finer("PostGameRoute is invoked.");
 
@@ -32,8 +49,21 @@ public class PostGameRoute  implements Route {
         final Session httpSession = request.session();
         Player player = httpSession.attribute("currentUser");
 
-        if (opponent != null && player != null && !opponent.isInGame()){
-            int gameId = gameCenter.createGame(player, opponent);
+        if (opponent != null && player != null) {
+
+            int gameId;
+            if (gameCenter.getIDByOpponents(player, opponent) != null) {
+                gameId = gameCenter.getIDByOpponents(player, opponent);
+            } else {
+                if ((player.getCurrentOpponents().size() >= 5) || opponent.getCurrentOpponents().size() >= 5) {
+                    httpSession.attribute("message", Message.error("You or the other player already has 5 active games"));
+                    response.redirect(WebServer.HOME_URL);
+                    return null;
+                }
+                gameId = gameCenter.createGame(player, opponent);
+                player.addOponent(opponent);
+                opponent.addOponent(player);
+            }
             String gameURL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
             response.redirect(gameURL);
             return null;
