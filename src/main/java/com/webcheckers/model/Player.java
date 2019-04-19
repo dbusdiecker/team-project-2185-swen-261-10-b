@@ -82,7 +82,7 @@ public class Player {
         if(won){
             wins++;
         }
-        winRate = ((wins/totalGames)*100);
+        winRate = ((wins/totalGames-activeGames)*100);
     }
 
     /**

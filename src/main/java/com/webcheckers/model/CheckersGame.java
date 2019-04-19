@@ -79,6 +79,8 @@ public class CheckersGame {
         modeOptionsAsJSON = new HashMap<>(2);
         activeTurnColor = activeColor.RED;
         boardStates = new Stack<>();
+        redPlayer.startGame();
+        whitePlayer.startGame();
 
     }
 
