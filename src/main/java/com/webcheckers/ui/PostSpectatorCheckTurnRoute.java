@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import static com.webcheckers.model.CheckersGame.*;
 
 /**
- * The UI Controller to POST check turn for the player
+ * The UI Controller to POST check turn for the spectator
  */
 public class PostSpectatorCheckTurnRoute implements Route {
 
@@ -36,12 +36,12 @@ public class PostSpectatorCheckTurnRoute implements Route {
     }
 
     /**
-     * Check to see if it is the player's turn
+     * Check to see if the turn has changed
      *
      * @param request The HTTP request.
      * @param response The HTTP response.
      *
-     * @return Message saying true if it is the players turn; Message saying false otherwise
+     * @return Message saying true if turn has changed; Message saying false otherwise
      */
     @Override
     public Object handle(Request request, Response response){
