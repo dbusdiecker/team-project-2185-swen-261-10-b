@@ -166,6 +166,7 @@ public class Board {
      *
      * @return string with a P where there is a piece and a space otherwise
      */
+    /*
     public String toString(){
         String result = "";
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -180,7 +181,7 @@ public class Board {
             result += "\n";
         }
         return result;
-    }
+    }*/
 
     @Override
     public boolean equals(Object obj) {
