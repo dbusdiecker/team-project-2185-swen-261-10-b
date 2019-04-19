@@ -28,8 +28,10 @@ public class GetHomeRoute implements Route {
   private final PlayerLobby playerLobby;
 
   /**
-   * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
+   * Create the Spark Route (UI controller) to handle all {@code GET /game} HTTP requests.
    *
+   * @param playerLobby playerLobby to handle players
+   * @param gameCenter gameCenter to hold games
    * @param templateEngine The HTML template rendering engine.
    */
   public GetHomeRoute(final PlayerLobby playerLobby, final GameCenter gameCenter, final TemplateEngine templateEngine) {
@@ -57,14 +59,6 @@ public class GetHomeRoute implements Route {
     final Session httpSession = request.session();
     final Player currentUser = httpSession.attribute(PLAYER_ATTR);
     if( currentUser != null){
-        //Integer gameId = gameCenter.getIDByPlayer(currentUser);
-        /*
-        if (gameId != null){
-            String URL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
-            response.redirect(URL);
-            return null;
-        }
-        */
         vm.put("opponent_list", currentUser.getCurrentOpponents());
 
         vm.put(PLAYER_ATTR, currentUser);

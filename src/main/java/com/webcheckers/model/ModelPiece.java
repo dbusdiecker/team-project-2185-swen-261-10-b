@@ -56,4 +56,18 @@ public class ModelPiece implements Piece{
     public Piece.color getColor(){
         return color;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof  ModelPiece){
+            ModelPiece that = (ModelPiece) obj;
+            return  this.getColor().equals(that.getColor()) && this.getType().equals(that.getType());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 48;
+    }
 }

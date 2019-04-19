@@ -82,4 +82,35 @@ public class ModelSpace implements Space {
     public ModelPiece getPiece(){
         return piece;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof  ModelSpace){
+            ModelSpace that = (ModelSpace) obj;
+
+            ModelPiece thisPiece = this.getPiece();
+            ModelPiece thatPiece = that.getPiece();
+            if(thisPiece == null){
+                if (thatPiece != null) //thisPiece is null thatPiece isn't, return false
+                    return false;
+            } else {
+                if (thatPiece == null) { //thatPiece is null thisPiece isn't, return false
+                    return false;
+                } else {
+                    if (!thisPiece.equals(thatPiece)){ //Both spaces have pieces, check if they are equal
+                        return false;
+                    }
+                }
+            }
+
+
+            return this.getColor().equals(that.getColor());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 789998212;
+    }
 }

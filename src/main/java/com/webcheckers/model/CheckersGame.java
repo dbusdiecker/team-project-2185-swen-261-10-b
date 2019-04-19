@@ -88,10 +88,12 @@ public class CheckersGame {
      */
     public void ChangeTurn() {
         if (activeTurnColor == activeColor.RED) {
+            redPlayer.changeOpponentPriority(whitePlayer);
             whitePlayer.changeOpponentPriority(redPlayer);
             activeTurnColor = activeColor.WHITE;
         } else {
             redPlayer.changeOpponentPriority(whitePlayer);
+            whitePlayer.changeOpponentPriority(redPlayer);
             activeTurnColor = activeColor.RED;
         }
     }
@@ -100,6 +102,11 @@ public class CheckersGame {
         return modeOptionsAsJSON;
     }
 
+    /**
+     * End a game between two players
+     * @param gameOverMessage message to be shown to the players
+     * @param winner name of the player who won
+     */
     public void endGame(String gameOverMessage, String winner) {
         if(winner.equals(whitePlayer.getName())){
             whitePlayer.endGame(true);
@@ -119,4 +126,17 @@ public class CheckersGame {
         return (modeOptionsAsJSON.containsKey("isGameOver") && modeOptionsAsJSON.get("isGameOver").equals(true));
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CheckersGame){
+            CheckersGame other = (CheckersGame) obj;
+            return this.getBoard().equals(other.getBoard());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return redPlayer.hashCode() + whitePlayer.hashCode() + 143;
+    }
 }

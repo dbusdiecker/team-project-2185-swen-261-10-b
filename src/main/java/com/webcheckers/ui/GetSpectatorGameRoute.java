@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Board;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
@@ -21,6 +22,9 @@ public class GetSpectatorGameRoute implements Route {
     private final TemplateEngine templateEngine;
     private final GameCenter gameCenter;
     private final Gson gson;
+
+
+    public static final String SPECTATOR_ATTR = "spectatorGame";
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code GET /game} HTTP requests.
@@ -58,6 +62,12 @@ public class GetSpectatorGameRoute implements Route {
                 Player thisPlayer = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
 
                 if (thisPlayer != null){
+                    CheckersGame clientGame = new CheckersGame(game.getRedPlayer(), game.getRedPlayer());
+                    Board clientBoard = new Board( game.getBoard() );
+                    clientGame.setBoard(clientBoard);
+
+                    httpSession.attribute(SPECTATOR_ATTR, clientGame);
+
                     vm.put("title", "Let's Play Checkers!");
                     vm.put(GetHomeRoute.PLAYER_ATTR, thisPlayer);
                     vm.put("modeOptionsAsJSON", gson.toJson(game.getOptions()));
