@@ -32,67 +32,94 @@ public class GameCenter {
         return gameID;
     }
 
+    /**
+     * Gets a game with the given id
+     *
+     * @param gameID id of game being looked for
+     *
+     * @return CheckersGame with the given id
+     */
     public CheckersGame getGameByID(Integer gameID){
         return games.get(gameID);
     }
 
+    /**
+     * Resign all currently active games with the given player in it
+     *
+     * @param player player who's games are being resigned
+     */
     public void resignAllGames(Player player){
-        ArrayList<Integer> keysToRemove = new ArrayList<Integer>();
-        for (Integer id: games.keySet()){
-            CheckersGame game = games.get(id);
-            Player opponent;
-            if(game.getRedPlayer() == player){
-                opponent = game.getWhitePlayer();
-            }
-            else{
-                opponent = game.getRedPlayer();
-            }
-            if (game.hasPlayer(player)) {
-                if (game.whoseTurn() == CheckersGame.activeColor.RED){
-                    if (game.getRedPlayer() == player){
-                        game.ChangeTurn();
+        synchronized (games){
+            for (Integer id: games.keySet()){
+                CheckersGame game = games.get(id);
+                if (game.hasPlayer(player)) {
+                    String opponent = "";
+                    if (game.whoseTurn() == CheckersGame.activeColor.RED){
+                        if (game.getRedPlayer() == player){
+                            game.ChangeTurn();
+                            opponent = game.getWhitePlayer().getName();
+                        }
                     }
+                    else if (game.getWhitePlayer() == player){
+                        game.ChangeTurn();
+                        opponent = game.getRedPlayer().getName();
+                    }
+                    game.endGame(player.getName() + " has resigned.", opponent );
                 }
-                else if (game.getWhitePlayer() == player){
-                    game.ChangeTurn();
-                }
-                game.endGame(player.getName() + " has resigned.",opponent.getName());
-                keysToRemove.add(id);
+                game.endGame(player.getName() + " has resigned.", "");
             }
-        }
-        for (Integer id:keysToRemove) {
-            endGame(id);
         }
     }
 
-/** Function OUT OF DATE!
- *
+
+    /**
+     * Get the id of a game with the given player
+     *
+     * @param player player whose game is being looked for
+     *
+     * @return id of game if it exist; null otherwise
+     */
     public Integer getIDByPlayer(Player player){
         // This is operating under the assumption that
         // a player is only in one game.
 
-        for (Integer id: games.keySet()){
-            CheckersGame game = games.get(id);
-            if (game.hasPlayer(player) && !game.isGameOver()) {
-                return id;
+        synchronized (games) {
+            for (Integer id: games.keySet()){
+                CheckersGame game = games.get(id);
+                if (game.hasPlayer(player) && !game.isGameOver()) {
+                    return id;
+                }
             }
+            return null;
         }
-        return null;
-    }
-**/
-    public Integer getIDByOpponents(Player player1, Player player2){
-        for (Integer id: games.keySet()){
-            CheckersGame game = games.get(id);
-            if (game.hasPlayer(player1) && game.hasPlayer(player2) && !game.isGameOver()) {
-                return id;
-            }
-            if(game.isGameOver()){
-                endGame(id);
-            }
-        }
-        return null;
     }
 
+
+    /**
+     * Get the id of a game with the given players
+     *
+     * @param player1 first player in game
+     * @param player2 second player in game
+     *
+     * @return gameid if there is a game; null otherwise
+     */
+    public Integer getIDByOpponents(Player player1, Player player2){
+        synchronized (games) {
+            for (Integer id: games.keySet()){
+                CheckersGame game = games.get(id);
+                if (game.hasPlayer(player1) && game.hasPlayer(player2) && !game.isGameOver()) {
+                    return id;
+                }
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Gets all currently active games
+     *
+     * @return HashMap of all active games
+     */
     public HashMap<Integer, CheckersGame> getCurrentGames() {
         HashMap<Integer, CheckersGame> currentGames = new HashMap<>();
         Iterator<Map.Entry<Integer, CheckersGame>> cgit = games.entrySet().iterator();

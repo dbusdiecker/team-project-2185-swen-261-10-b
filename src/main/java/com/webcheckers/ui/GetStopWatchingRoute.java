@@ -8,6 +8,9 @@ import spark.Session;
 
 import java.util.logging.Logger;
 
+/**
+ * The UI controller for a spectator to GET stop watching a game
+ */
 public class GetStopWatchingRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetSpectatorGameRoute.class.getName());
 
