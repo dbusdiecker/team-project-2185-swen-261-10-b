@@ -136,6 +136,12 @@ their username while they play.
 > * PostSignInRoute: Checks to see if a username desired by a player 
 is already claimed, or if it is invalid.
 
+> * GetStopWatchingRoute: Cleans up after the spectator after they finish spectating a game
+
+> * GetSpectatorGameRoute: Displays a game for the spectator to watch.
+
+> * PostSpectatorCheckTurnRoute: Checks to see if the spectated game has changed its state so the spectator may refresh the board.
+
 > * PostSignOutRoute: Signs a player out, allowing another user to claim their username.
  
 > * PostGameRoute: Creates a game between two Players after
@@ -199,19 +205,18 @@ or if it currently has a piece.
 > lowercase, and method names being a mix of snake case and camel case such as `CheckersGame_creation_red()`._
 
 ## Testing
-> _This section will provide information about the testing performed
-> and the results of the testing._
+> _The tests were often run through manually first then unit/integration tests were written after. One example may be
+> the deadlock endgame scenario. A large list of moves was run through manually, when it would make more sense to create 
+> tests that stepped though all of the moves programmatically. Our methodology of testing the functionality manually then
+> writing the unit tests is the opposite of test-driven development. It would be better to specify what should happen
+> in given scenarios, so that the code is written to match these specifications._
 
 ### Acceptance Testing
-> _Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+> _All MVP stories pass their acceptance tests. The spectator story enhancement does not sort by
+> win rate, as was requested by the client. However, the winrate is displayed. The win percentage
+> individual players is used to calculate this percentage, but their individual win rates are not displayed by themselves._
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those._
+> _We didn't have a unit testing strategy. The code coverage of the code base achieved through
+> our unit testing was 69%. There weren't coverage targets, it was just decided that ~70% was good enough,
+> as long as it worked._
