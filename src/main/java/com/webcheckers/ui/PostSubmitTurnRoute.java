@@ -96,13 +96,16 @@ public class PostSubmitTurnRoute implements Route {
         }
         if(!jumpChecker.movePossible()){
             String loser;
+            String winner;
             if (activeColor == com.webcheckers.Piece.color.WHITE){
                 loser = game.getWhitePlayer().getName();
+                winner = game.getRedPlayer().getName();
             }
             else{
                 loser = game.getRedPlayer().getName();
+                winner = game.getWhitePlayer().getName();
             }
-            game.endGame(loser + " cannot make a move");
+            game.endGame(loser + " cannot make a move", winner);
         }
         game.ChangeTurn();
         game.setBoard(game.boardStates.pop());
@@ -122,13 +125,16 @@ public class PostSubmitTurnRoute implements Route {
         }
         if(!jumpChecker.movePossible()){
             String loser;
+            String winner;
             if (activeColor == com.webcheckers.Piece.color.WHITE){
                 loser = game.getWhitePlayer().getName();
+                winner = game.getRedPlayer().getName();
             }
             else{
                 loser = game.getRedPlayer().getName();
+                winner = game.getWhitePlayer().getName();
             }
-            game.endGame(loser + " cannot make a move");
+            game.endGame(loser + " cannot make a move", winner);
         }
 
         return gson.toJson(Message.info("Submit successful"));

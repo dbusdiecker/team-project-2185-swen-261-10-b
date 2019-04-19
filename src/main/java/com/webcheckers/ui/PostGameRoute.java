@@ -32,22 +32,23 @@ public class PostGameRoute  implements Route {
         final Session httpSession = request.session();
         Player player = httpSession.attribute("currentUser");
 
-        if (opponent != null && player != null){
-            if((player.getCurrentOpponents().size() < 5) && opponent.getCurrentOpponents().size() < 5) {
-                int gameId;
-                if (gameCenter.getIDByOpponents(player, opponent) != null) {
-                    gameId = gameCenter.getIDByOpponents(player, opponent);
-                } else {
-                    gameId = gameCenter.createGame(player, opponent);
-                    player.addOponent(opponent);
-                    opponent.addOponent(player);
+        if (opponent != null && player != null) {
+
+            int gameId;
+            if (gameCenter.getIDByOpponents(player, opponent) != null) {
+                gameId = gameCenter.getIDByOpponents(player, opponent);
+            } else {
+                if ((player.getCurrentOpponents().size() >= 5) || opponent.getCurrentOpponents().size() >= 5) {
+                    httpSession.attribute("message", Message.error("You or the other player already has 5 active games"));
+                    response.redirect(WebServer.HOME_URL);
+                    return null;
                 }
-                String gameURL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
-                response.redirect(gameURL);
-                return null;
+                gameId = gameCenter.createGame(player, opponent);
+                player.addOponent(opponent);
+                opponent.addOponent(player);
             }
-            httpSession.attribute("message", Message.error("You or the other player already has 5 active games") );
-            response.redirect(WebServer.HOME_URL);
+            String gameURL = String.format(WebServer.GAME_WITH_ID_URL, gameId);
+            response.redirect(gameURL);
             return null;
         }
 

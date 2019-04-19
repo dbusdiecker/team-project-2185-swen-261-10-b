@@ -40,15 +40,18 @@ public class GameCenter {
         for (Integer id: games.keySet()){
             CheckersGame game = games.get(id);
             if (game.hasPlayer(player)) {
+                String opponent = "";
                 if (game.whoseTurn() == CheckersGame.activeColor.RED){
                     if (game.getRedPlayer() == player){
                         game.ChangeTurn();
+                        opponent = game.getWhitePlayer().getName();
                     }
                 }
                 else if (game.getWhitePlayer() == player){
                     game.ChangeTurn();
+                    opponent = game.getRedPlayer().getName();
                 }
-                game.endGame(player.getName() + " has resigned.");
+                game.endGame(player.getName() + " has resigned.", opponent );
             }
         }
     }
@@ -62,6 +65,28 @@ public class GameCenter {
             CheckersGame game = games.get(id);
             if (game.hasPlayer(player) && !game.isGameOver()) {
                 return id;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Get the id of a game with the given players
+     *
+     * @param player1 first player in game
+     * @param player2 second player in game
+     *
+     * @return gameid if there is a game; null otherwise
+     */
+    public Integer getIDByOpponents(Player player1, Player player2){
+        for (Integer id: games.keySet()){
+            CheckersGame game = games.get(id);
+            if (game.hasPlayer(player1) && game.hasPlayer(player2) && !game.isGameOver()) {
+                return id;
+            }
+            if(game.isGameOver()){
+                endGame(id);
             }
         }
         return null;
