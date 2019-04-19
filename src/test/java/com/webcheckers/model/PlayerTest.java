@@ -46,7 +46,7 @@ public class PlayerTest {
         assertSame(CuT3, CuT.getCurrentOpponents().get(1));
         CuT.removeOpponent(CuT2);
         CuT.endGame(true);
-        assertEquals(50.0, CuT.getWinRate());
+        assertEquals(100.0, CuT.getWinRate());
         assertEquals(1, CuT.getCurrentOpponents().size());
         CuT.endGame(false);
         CuT.removeOpponent(CuT3);
