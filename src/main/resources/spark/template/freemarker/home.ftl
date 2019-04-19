@@ -56,7 +56,7 @@
           <#list game_list as id, game>
               <form action="/spectator/game" method="GET">
                   <input type="hidden" value="${id}" name="gameID">
-                  <input type="submit" value="${game.redPlayer.name} vs ${game.whitePlayer.name}">
+                  <input type="submit" value="${game.redPlayer.name} vs ${game.whitePlayer.name}, ${(game.whitePlayer.winRate + game.redPlayer.winRate)/2}% average win rate">
               </form>
           </#list>
           <#else>
