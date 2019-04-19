@@ -20,40 +20,43 @@ public class GameCenter {
 
     }
 
-    public void endGame(Integer gameID){
-        games.remove(gameID);
-    }
-
     public Integer createGame(Player redPlayer, Player whitePlayer){
-        Integer gameID = lastGameID;
-        CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
-        games.put(gameID,game);
-        lastGameID++;
-        return gameID;
+        synchronized (games) {
+            Integer gameID = lastGameID;
+            CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
+            games.put(gameID,game);
+            lastGameID++;
+            return gameID;
+        }
     }
 
     public CheckersGame getGameByID(Integer gameID){
-        return games.get(gameID);
+        synchronized (games){
+            return games.get(gameID);
+        }
     }
 
     public void resignAllGames(Player player){
-        for (Integer id: games.keySet()){
-            CheckersGame game = games.get(id);
-            if (game.hasPlayer(player)) {
-                String opponent = "";
-                if (game.whoseTurn() == CheckersGame.activeColor.RED){
-                    if (game.getRedPlayer() == player){
-                        game.ChangeTurn();
-                        opponent = game.getWhitePlayer().getName();
+        synchronized (games){
+            for (Integer id: games.keySet()){
+                CheckersGame game = games.get(id);
+                if (game.hasPlayer(player)) {
+                    String opponent = "";
+                    if (game.whoseTurn() == CheckersGame.activeColor.RED){
+                        if (game.getRedPlayer() == player){
+                            game.ChangeTurn();
+                            opponent = game.getWhitePlayer().getName();
+                        }
                     }
+                    else if (game.getWhitePlayer() == player){
+                        game.ChangeTurn();
+                        opponent = game.getRedPlayer().getName();
+                    }
+                    game.endGame(player.getName() + " has resigned.", opponent );
                 }
-                else if (game.getWhitePlayer() == player){
-                    game.ChangeTurn();
-                    opponent = game.getRedPlayer().getName();
-                }
-                game.endGame(player.getName() + " has resigned.", opponent );
             }
         }
+
     }
 
 
@@ -61,13 +64,15 @@ public class GameCenter {
         // This is operating under the assumption that
         // a player is only in one game.
 
-        for (Integer id: games.keySet()){
-            CheckersGame game = games.get(id);
-            if (game.hasPlayer(player) && !game.isGameOver()) {
-                return id;
+        synchronized (games) {
+            for (Integer id: games.keySet()){
+                CheckersGame game = games.get(id);
+                if (game.hasPlayer(player) && !game.isGameOver()) {
+                    return id;
+                }
             }
+            return null;
         }
-        return null;
     }
 
 
@@ -80,30 +85,29 @@ public class GameCenter {
      * @return gameid if there is a game; null otherwise
      */
     public Integer getIDByOpponents(Player player1, Player player2){
-        for (Integer id: games.keySet()){
-            CheckersGame game = games.get(id);
-            if (game.hasPlayer(player1) && game.hasPlayer(player2) && !game.isGameOver()) {
-                return id;
+        synchronized (games) {
+            for (Integer id: games.keySet()){
+                CheckersGame game = games.get(id);
+                if (game.hasPlayer(player1) && game.hasPlayer(player2) && !game.isGameOver()) {
+                    return id;
+                }
             }
-            if(game.isGameOver()){
-                endGame(id);
-            }
+            return null;
         }
-        return null;
     }
 
     public HashMap<Integer, CheckersGame> getCurrentGames() {
-        HashMap<Integer, CheckersGame> currentGames = games;
-        Iterator<HashMap.Entry<Integer, CheckersGame>> it = currentGames.entrySet().iterator();
+        synchronized (games) {
+            HashMap<Integer, CheckersGame> currentGames = new HashMap<>();
 
-        while (it.hasNext()) {
-            Map.Entry<Integer, CheckersGame> entry = it.next();
+            for (Integer key: games.keySet()){
+                CheckersGame game = games.get(key);
+                if (!game.isGameOver()){
+                    currentGames.put(key, game);
+                }
 
-            // Remove entry if key is null or equals 0.
-            if (entry.getValue().isGameOver()) {
-                currentGames.remove(entry.getKey());
             }
+            return currentGames;
         }
-        return currentGames;
     }
 }
