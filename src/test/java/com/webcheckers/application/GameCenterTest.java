@@ -65,20 +65,6 @@ public class GameCenterTest {
         assertEquals(g2, CuT.getIDByOpponents(mockP3,mockP4));
     }
 
-    /**
-     * Test for ending a game
-     *
-     *
-     */
-    @Test
-    public void end_game_test(){
-        Integer g1 = CuT.createGame(mockP1,mockP2);
-        Integer g2 = CuT.createGame(mockP3, mockP4);
-        CuT.endGame(g1);
-
-        assertNull(CuT.getGameByID(g1));
-        assertNotNull(CuT.getGameByID(g2));
-    }
 
     @Test
     public void resign_all_games_test(){
@@ -93,10 +79,6 @@ public class GameCenterTest {
         Integer g3 = CuT.createGame(mockP3,mockP1);
 
         CuT.resignAllGames(mockP1);
-
-        assertNull(CuT.getGameByID(g1));
-        assertNull(CuT.getGameByID(g2));
-        assertNull(CuT.getGameByID(g3));
 
         assertTrue(mockP1.getCurrentOpponents().isEmpty());
 

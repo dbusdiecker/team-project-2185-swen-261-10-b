@@ -124,15 +124,15 @@ public class PostSubmitTurnRoute implements Route {
             game.endGame(String.format(PIECES_CAPTURED_STRING, name),name);
         }
         if(!jumpChecker.movePossible()){
-            String loser;
             String winner;
+            String loser;
             if (activeColor == com.webcheckers.Piece.color.WHITE){
-                loser = game.getWhitePlayer().getName();
-                winner = game.getRedPlayer().getName();
+                winner = game.getWhitePlayer().getName();
+                loser = game.getRedPlayer().getName();
             }
             else{
-                loser = game.getRedPlayer().getName();
-                winner = game.getWhitePlayer().getName();
+                winner = game.getRedPlayer().getName();
+                loser = game.getWhitePlayer().getName();
             }
             game.endGame(loser + " cannot make a move", winner);
         }
