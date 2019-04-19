@@ -53,74 +53,77 @@ public class PostSubmitTurnRoute implements Route {
         String gameIDAsString = request.queryParams("gameID");
         Integer gameID = Integer.parseInt(gameIDAsString);
         CheckersGame game = gameCenter.getGameByID(gameID);
-        String moveAsJson = request.queryParams("actionData");
-        Move move = gson.fromJson(moveAsJson, Move.class);
-        MoveValidation jumpChecker = new MoveValidation(move, game);
-        int startNum = game.getBoard().numberOfPieces();
-        int endNum = game.boardStates.peek().numberOfPieces();
-        Piece.color activeColor = com.webcheckers.Piece.color.WHITE;
-        if(game.whoseTurn().equals(CheckersGame.activeColor.RED)){
-            activeColor = com.webcheckers.Piece.color.RED;
-        }
-        ModelSpace prevSpaces[][] = game.boardStates.peek().getSpaces();
-        ModelSpace currSpaces[][] = game.getBoard().getSpaces();
-        ModelPiece piece;
-        boolean check = false;
-        if (jumpChecker.jumpPossible() && (endNum < startNum)){
-            for (int row = 0; row < 8; row++){
-                for (int col = 0; col < 8; col++){
-                    if (!currSpaces[row][col].isHasPiece() &&
-                            prevSpaces[row][col].isHasPiece() &&
-                            prevSpaces[row][col].getPiece().getColor().equals(activeColor)){
-                        piece = prevSpaces[row][col].getPiece();
-                        if (piece.getType() == com.webcheckers.Piece.type.SINGLE){
-                            if(jumpChecker.checkNormalJump(prevSpaces, row, col)){
-                                return gson.toJson(ADDITIONAL_JUMP_POSSIBLE);
+
+        if(!game.isGameOver()) {
+            String moveAsJson = request.queryParams("actionData");
+            Move move = gson.fromJson(moveAsJson, Move.class);
+            MoveValidation jumpChecker = new MoveValidation(move, game);
+            int startNum = game.getBoard().numberOfPieces();
+            int endNum = game.boardStates.peek().numberOfPieces();
+            Piece.color activeColor = com.webcheckers.Piece.color.WHITE;
+            if(game.whoseTurn().equals(CheckersGame.activeColor.RED)){
+                activeColor = com.webcheckers.Piece.color.RED;
+            }
+            ModelSpace prevSpaces[][] = game.boardStates.peek().getSpaces();
+            ModelSpace currSpaces[][] = game.getBoard().getSpaces();
+            ModelPiece piece;
+            boolean check = false;
+            if (jumpChecker.jumpPossible() && (endNum < startNum)){
+                for (int row = 0; row < 8; row++){
+                    for (int col = 0; col < 8; col++){
+                        if (!currSpaces[row][col].isHasPiece() &&
+                                prevSpaces[row][col].isHasPiece() &&
+                                prevSpaces[row][col].getPiece().getColor().equals(activeColor)){
+                            piece = prevSpaces[row][col].getPiece();
+                            if (piece.getType() == com.webcheckers.Piece.type.SINGLE){
+                                if(jumpChecker.checkNormalJump(prevSpaces, row, col)){
+                                    return gson.toJson(ADDITIONAL_JUMP_POSSIBLE);
+                                }
+                                check = true;
+                                break;
                             }
-                            check = true;
-                            break;
-                        }
-                        else{
-                            if (jumpChecker.checkKingJump(prevSpaces, row, col)){
-                                return gson.toJson(ADDITIONAL_JUMP_POSSIBLE);
+                            else{
+                                if (jumpChecker.checkKingJump(prevSpaces, row, col)){
+                                    return gson.toJson(ADDITIONAL_JUMP_POSSIBLE);
+                                }
+                                check = true;
+                                break;
                             }
-                            check = true;
-                            break;
                         }
                     }
+                    if (check){
+                        break;
+                    }
                 }
-                if (check){
-                    break;
+            }
+            game.ChangeTurn();
+            game.setBoard(game.boardStates.pop());
+            while(!game.boardStates.empty()){
+                game.boardStates.pop();
+            }
+            String name;
+            if(!jumpChecker.playerHasPieces(CheckersGame.activeColor.RED) ||
+                    !jumpChecker.playerHasPieces(CheckersGame.activeColor.WHITE)){
+                if (activeColor == com.webcheckers.Piece.color.WHITE){
+                    name = game.getWhitePlayer().getName();
                 }
+                else{
+                    name = game.getRedPlayer().getName();
+                }
+                game.endGame(String.format(PIECES_CAPTURED_STRING, name),name);
+            } else if(!jumpChecker.movePossible()){
+                String winner;
+                String loser;
+                if (activeColor == com.webcheckers.Piece.color.WHITE){
+                    winner = game.getWhitePlayer().getName();
+                    loser = game.getRedPlayer().getName();
+                }
+                else{
+                    winner = game.getRedPlayer().getName();
+                    loser = game.getWhitePlayer().getName();
+                }
+                game.endGame(loser + " cannot make a move", winner);
             }
-        }
-        game.ChangeTurn();
-        game.setBoard(game.boardStates.pop());
-        while(!game.boardStates.empty()){
-            game.boardStates.pop();
-        }
-        String name;
-        if(!jumpChecker.playerHasPieces(CheckersGame.activeColor.RED) ||
-                !jumpChecker.playerHasPieces(CheckersGame.activeColor.WHITE)){
-            if (activeColor == com.webcheckers.Piece.color.WHITE){
-                name = game.getWhitePlayer().getName();
-            }
-            else{
-                name = game.getRedPlayer().getName();
-            }
-            game.endGame(String.format(PIECES_CAPTURED_STRING, name),name);
-        } else if(!jumpChecker.movePossible()){
-            String winner;
-            String loser;
-            if (activeColor == com.webcheckers.Piece.color.WHITE){
-                winner = game.getWhitePlayer().getName();
-                loser = game.getRedPlayer().getName();
-            }
-            else{
-                winner = game.getRedPlayer().getName();
-                loser = game.getWhitePlayer().getName();
-            }
-            game.endGame(loser + " cannot make a move", winner);
         }
 
         return gson.toJson(Message.info("Submit successful"));
