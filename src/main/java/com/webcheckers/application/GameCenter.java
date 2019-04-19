@@ -123,10 +123,6 @@ public class GameCenter {
     public HashMap<Integer, CheckersGame> getCurrentGames() {
         HashMap<Integer, CheckersGame> currentGames = new HashMap<>();
         Iterator<Map.Entry<Integer, CheckersGame>> cgit = games.entrySet().iterator();
-        GameCompare sorter = new GameCompare();
-
-        // Switches key and value because tree map sorts by key and we want to sort by CheckersGame
-//        TreeMap<CheckersGame, Integer> sorted = new TreeMap<CheckersGame, Integer>(sorter);
 
         while (cgit.hasNext()) {
             Map.Entry<Integer, CheckersGame> entry = cgit.next();
@@ -136,19 +132,6 @@ public class GameCenter {
                 currentGames.put(entry.getKey(), entry.getValue());
             }
         }
-
-//        while (cgit.hasNext()) {
-//            Map.Entry<Integer, CheckersGame> entry = cgit.next();
-//
-//            sorted.put(entry.getValue(), entry.getKey());
-//        }
-//
-//        for (Map.Entry<CheckersGame,Integer> entry : sorted.entrySet()) {
-//            // Remove entry if key is null or equals 0.
-//            if (!entry.getKey().isGameOver()) {
-//                currentGames.put(entry.getValue(), entry.getKey());
-//            }
-//        }
         return currentGames;
     }
 }
