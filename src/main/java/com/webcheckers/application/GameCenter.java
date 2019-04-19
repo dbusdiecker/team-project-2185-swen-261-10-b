@@ -3,13 +3,9 @@ package com.webcheckers.application;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
-/**
- * Class to handle all the games
- */
+
 public class GameCenter {
 
     private HashMap<Integer,CheckersGame> games;
@@ -22,22 +18,18 @@ public class GameCenter {
 
     }
 
-    /**
-     * Create a new ChekcersGame
-     *
-     * @param redPlayer player to control the red pieces
-     * @param whitePlayer player to control the white pieces
-     *
-     * @return id of created game
-     */
+    public void endGame(Integer gameID){
+        games.remove(gameID);
+    }
+
     public Integer createGame(Player redPlayer, Player whitePlayer){
-        synchronized (games) {
-            Integer gameID = lastGameID;
-            CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
-            games.put(gameID,game);
-            lastGameID++;
-            return gameID;
-        }
+        Integer gameID = lastGameID;
+        CheckersGame game = new CheckersGame(redPlayer,whitePlayer);
+        redPlayer.startGame();
+        whitePlayer.startGame();
+        games.put(gameID,game);
+        lastGameID++;
+        return gameID;
     }
 
     /**
@@ -48,9 +40,7 @@ public class GameCenter {
      * @return CheckersGame with the given id
      */
     public CheckersGame getGameByID(Integer gameID){
-        synchronized (games){
-            return games.get(gameID);
-        }
+        return games.get(gameID);
     }
 
     /**
@@ -76,9 +66,9 @@ public class GameCenter {
                     }
                     game.endGame(player.getName() + " has resigned.", opponent );
                 }
+                game.endGame(player.getName() + " has resigned.", "");
             }
         }
-
     }
 
 
@@ -131,17 +121,39 @@ public class GameCenter {
      * @return HashMap of all active games
      */
     public HashMap<Integer, CheckersGame> getCurrentGames() {
-        synchronized (games) {
-            HashMap<Integer, CheckersGame> currentGames = new HashMap<>();
+        HashMap<Integer, CheckersGame> currentGames = new HashMap<>();
+        Iterator<Map.Entry<Integer, CheckersGame>> cgit = games.entrySet().iterator();
+        GameCompare sorter = new GameCompare();
 
-            for (Integer key: games.keySet()){
-                CheckersGame game = games.get(key);
-                if (!game.isGameOver()){
-                    currentGames.put(key, game);
-                }
+        // Switches key and value because tree map sorts by key and we want to sort by CheckersGame
+        TreeMap<CheckersGame, Integer> sorted = new TreeMap<CheckersGame, Integer>(sorter);
 
-            }
-            return currentGames;
+        while (cgit.hasNext()) {
+            Map.Entry<Integer, CheckersGame> entry = cgit.next();
+
+            sorted.put(entry.getValue(), entry.getKey());
         }
+
+        Iterator<Map.Entry<CheckersGame, Integer>> treeit = sorted.entrySet().iterator();
+
+        while (treeit.hasNext()) {
+            Map.Entry<CheckersGame, Integer> entry = treeit.next();
+
+            // Remove entry if key is null or equals 0.
+            if (!entry.getKey().isGameOver()) {
+                currentGames.put(entry.getValue(), entry.getKey());
+            }
+        }
+        return currentGames;
+    }
+}
+
+class GameCompare implements Comparator<CheckersGame> {
+    @Override
+    public int compare(CheckersGame g1, CheckersGame g2) {
+        double g1avg = (g1.getWhitePlayer().getWinRate() + g1.getRedPlayer().getWinRate()) / 2;
+        double g2avg = (g2.getWhitePlayer().getWinRate() + g2.getRedPlayer().getWinRate()) / 2;
+        Double diff = g1avg - g2avg;
+        return diff.intValue();
     }
 }
