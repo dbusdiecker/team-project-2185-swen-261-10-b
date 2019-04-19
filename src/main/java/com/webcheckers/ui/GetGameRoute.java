@@ -36,6 +36,8 @@ public class GetGameRoute implements Route {
     /**
      * Create the Spark Route (UI controller) to handle all {@code GET /game} HTTP requests.
      *
+     * @param gameCenter gameCenter to hold games
+     * @param gson Gson to handle JSON objects
      * @param templateEngine The HTML template rendering engine.
      */
     public GetGameRoute(final GameCenter gameCenter, final Gson gson, final TemplateEngine templateEngine) {

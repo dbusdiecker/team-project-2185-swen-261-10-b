@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * The UI controller to Post a game
+ */
 public class PostGameRoute  implements Route {
 
     private static final Logger LOG = Logger.getLogger(PostGameRoute.class.getName());
@@ -17,12 +20,26 @@ public class PostGameRoute  implements Route {
     private final PlayerLobby playerLobby;
     private final GameCenter gameCenter;
 
+    /**
+     * Create a new PostGameRoute
+     *
+     * @param playerLobby playerLobby to handle players
+     * @param gameCenter gameCenter to hold games
+     */
     public PostGameRoute(PlayerLobby playerLobby, GameCenter gameCenter){
         this.playerLobby = playerLobby;
         this.gameCenter = gameCenter;
         LOG.config("PostGameRoute is initialized.");
     }
 
+    /**
+     * Handle when a player gets a game
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     *
+     * @return null
+     */
     public Object handle(Request request, Response response){
         LOG.finer("PostGameRoute is invoked.");
 
