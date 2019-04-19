@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 import com.webcheckers.Piece;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -71,17 +72,7 @@ public class CheckersGame {
      *
      * @param red         Player controlling the red pieces
      * @param white       Player controlling the white pieces
-     * @param currentUser Current view of the game
      */
-    public CheckersGame(Player red, Player white, Player currentUser) {
-        redPlayer = red;
-        whitePlayer = white;
-        modeOptionsAsJSON = new HashMap<>(2);
-        this.board = new Board(redPlayer, whitePlayer);
-        activeTurnColor = activeColor.RED;
-        boardStates = new Stack<>();
-    }
-
     public CheckersGame(Player red, Player white) {
         redPlayer = red;
         whitePlayer = white;
@@ -98,8 +89,10 @@ public class CheckersGame {
      */
     public void ChangeTurn() {
         if (activeTurnColor == activeColor.RED) {
+            whitePlayer.changeOpponentPriority(redPlayer);
             activeTurnColor = activeColor.WHITE;
         } else {
+            redPlayer.changeOpponentPriority(whitePlayer);
             activeTurnColor = activeColor.RED;
         }
     }
@@ -108,7 +101,17 @@ public class CheckersGame {
         return modeOptionsAsJSON;
     }
 
-    public void endGame(String gameOverMessage) {
+    public void endGame(String gameOverMessage, String winner) {
+        if(winner.equals(whitePlayer.getName())){
+            whitePlayer.endGame(true);
+            redPlayer.endGame(false);
+        }
+        else{
+            whitePlayer.endGame(false);
+            redPlayer.endGame(true);
+        }
+        whitePlayer.removeOpponent(redPlayer);
+        redPlayer.removeOpponent(whitePlayer);
         modeOptionsAsJSON.put("isGameOver", true);
         modeOptionsAsJSON.put("gameOverMessage", gameOverMessage);
     }

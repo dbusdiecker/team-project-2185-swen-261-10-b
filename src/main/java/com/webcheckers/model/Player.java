@@ -1,15 +1,20 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Object for a single player
  */
 public class Player {
 
     private String name;
-    private boolean inGame;
+    private int activeGames;
     private double wins;
     private double totalGames;
-    private double winRate = ((wins/totalGames)*100);
+    private double winRate;
+    private List<Player> currentOpponents = new ArrayList<>();
+    private static int MAX_GAMES = 5;
 
     /**
      * Create a new player
@@ -18,7 +23,8 @@ public class Player {
      */
     public Player(String name){
         this.name = name;
-        this.inGame = false;
+        this.activeGames = 0;
+        this.winRate = 0;
     }
 
     /**
@@ -29,21 +35,55 @@ public class Player {
         return name;
     }
 
+
+    public double getWinRate(){
+        return winRate;
+    }
+
+    public boolean canJoinNewGame(){
+        return(activeGames < MAX_GAMES);
+    }
+
+    public List<Player> getCurrentOpponents(){
+        return currentOpponents;
+    }
+
+    public void addOponent(Player opponent){
+        currentOpponents.add(opponent);
+    }
+
+    public void removeOpponent(Player opponent){
+        currentOpponents.remove(opponent);
+    }
+
     /**
+     * Puts the given opponent at the end of the current opponents list
      *
-     * @return this.inGame
+     * @param opponent opponent to be removed
      */
-    public boolean isInGame() {return inGame;}
+    public void changeOpponentPriority(Player opponent){
+        currentOpponents.remove(opponent);
+        currentOpponents.add(currentOpponents.size(), opponent);
+    }
 
     /**
      * Set inGame to true
      */
-    public void startGame(){inGame = true;}
+    public void startGame(){
+        activeGames++;
+        totalGames++;
+    }
 
     /**
      * Set inGame to false
      */
-    public void endGame(){inGame = false;}
+    public void endGame(boolean won){
+        activeGames--;
+        if(won){
+            wins++;
+        }
+        winRate = ((wins/totalGames)*100);
+    }
 
     /**
      * Determine if two players are equal

@@ -166,6 +166,7 @@ public class Board {
      *
      * @return string with a P where there is a piece and a space otherwise
      */
+    /*
     public String toString(){
         String result = "";
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -180,28 +181,5 @@ public class Board {
             result += "\n";
         }
         return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Board){
-            Board that = (Board) obj;
-            ModelSpace[][] mySpaces = this.spaces;
-            ModelSpace[][] otherSpaces = that.getSpaces();
-            for (int row = 0; row < BOARD_SIZE; row++) {
-                for (int col = 0; col < BOARD_SIZE; col++) {
-                    if (!mySpaces[row][col].equals(otherSpaces[row][col])){  //If one space does not equal another space
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return whitePlayer.hashCode() + 1539;
-    }
+    }*/
 }
